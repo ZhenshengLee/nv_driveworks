@@ -1,0 +1,475 @@
+{
+  "title": "DW Application Descriptor",
+  "description": "The descriptor of a DriveWorks application. The keys in JSON should appear in the same order as the properties are documented in the schema.",
+  "required": [
+    "name",
+    "logSpec",
+    "subcomponents",
+    "processes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "comment": {
+      "description": "An optional description of the application",
+      "type": "string"
+    },
+    "name": {
+      "description": "The unique name of the application",
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+    },
+    "logSpec": {
+      "description": "The log specification for the application. For details about the possible values and their format see apps/roadrunner-2.0/logger/README.",
+      "type": "string"
+    },
+    "parameters": {
+      "description": "The parameters which are exposed as command line arguments of the application. The order is user defined.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?$": {
+          "description": "The key is the name of the parameter (in camelCase) which must be unique within the collection of parameters in this application. The value describes the parameter itself.",
+          "$ref": "#/$defs/parameter"
+        }
+      }
+    },
+    "sensorLayouts": {
+      "description": "The (relative) path of the .sensors.json file",
+      "type": "string",
+      "pattern": "^.+\\.sensors\\.json$"
+    },
+    "subcomponents": {
+      "description": "The subcomponents. The order should be alphabetical.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-zA-Z0-9]*$": {
+          "description": "The key is the name of the component instance (in camelCase() which must be unique within the collection of subcomponents in this application. The value describes the component instance itself.",
+          "$ref": "#/$defs/subcomponent"
+        }
+      }
+    },
+    "connections": {
+      "description": "The connections. The order should be alphabetical based on the source and the connection parameter names.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/connection"
+      }
+    },
+    "namedParameterSets": {
+      "description": "The key is the fully qualified name of the subcomponent (in the form of 1 or multiple 'subcomponentInstanceName' separated by dots). An empty key matches all subcomponents.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*)?": {
+          "description": "The names of parameter value sets to be applied to all nodes under the subcomponent as default in the order they are specified (parameter values from later sets overwrite parameter values from previous sets).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "namedWCETSets": {
+      "description": "The key is the fully qualified name of the subcomponent (in the form of 1 or multiple 'subcomponentInstanceName' separated by dots). An empty key matches all subcomponents.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^([a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*)?": {
+          "description": "The names of WCET sets to be applied to all nodes under the subcomponent in the order they are specified (parameWCETslues from later sets overwrite WCETs from previous sets).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "states": {
+      "description": "The key is unique name matching the state name from SSM, value object that contains a STM schedule identifier.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_]*": {
+          "description": "STM schedule identifier.",
+          "type": "object",
+          "required": [
+            "stmScheduleKey"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "stmScheduleKey": {
+              "type": "string",
+              "pattern": "^[a-z][a-zA-Z0-9_]*"
+            },
+            "default": {
+              "description": "The flag if this SSM state should be selected by default (only one state should have this set).",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "stmSchedules": {
+      "description": "The key is a STM schedule identifier, value is the STM schedule. If none of the processes uses STM this key is optional.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-zA-Z0-9_]*": {
+          "description": "The information needed to define the STM schedule.",
+          "type": "object",
+          "required": [
+            "hyperepochs"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "wcet": {
+              "description": "DEPRECATED! The (relative) path of the .yaml file. This YAML is a temporary workaround as the .node-wcets.json is not ready yet and currently all wcets of RR passes are specified by this file (we are going to manage the WCET info along with each node descriptor, by then this entry will be removed). The key is the name of the each pass of a process. The naming rule of the key is to separate the process and pass with a full stop. The value is the corresponding wcet of the pass.",
+              "type": "string",
+              "pattern": "^.+\\.yaml$"
+            },
+            "hyperepochs": {
+              "description": "The hyperepochs. The order should be alphabetical.",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-z][a-zA-Z0-9_]*$": {
+                  "description": "The key is the name of the hyperepoch (in camelCase) which must be unique within the collection of hyperepochs in this schedule. The value describes the hyperepoch itself.",
+                  "type": "object",
+                  "required": [
+                    "epochs"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "period": {
+                      "description": "The period length of the hyperepoch (in nanoseconds). If not set the maximum of all contained epochs is used (their 'period' multiplied with their 'frames').",
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "epochs": {
+                      "description": "The epochs. The order should be alphabetical.",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "patternProperties": {
+                        "^[a-z][a-zA-Z0-9_]*$": {
+                          "description": "The key is the name of the epoch (in camelCase) which must be unique within the hyperepoch. The value describes the epoch itself.",
+                          "type": "object",
+                          "required": [
+                            "period",
+                            "passes"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "period": {
+                              "description": "The period length of the epoch (in nanoseconds)",
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "frames": {
+                              "description": "The number of times the epoch is scheduled per hyperepoch (default: 1)",
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "passes": {
+                              "description": "2-Dimension array of passes. Position in array determines the Phase when pipeline execution is enabled. (0 - Unchanged, 1 - Phase1, 2 - Phase2 and so on) If user specifies Phase1 and Phase2 passes, then list of 0-Unchanged should be empty.",
+                              "type": "array",
+                              "items": {
+                                "description": "The fully qualified names of passes. Refering to a component implicitly refers to all recursive passes. The order should be alphabetical.",
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*(\\.[A-Z][A-Z0-9_]*)?$"
+                                },
+                                "uniqueItems": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "resources": {
+                      "description": "The resource names usable by the hyperepoch with optionally enumerating passes for a specific affinity. The order should be alphabetical.",
+                      "type": "object",
+                      "additionalProperties": false,
+                      "patternProperties": {
+                        "^([a-zA-Z][a-zA-Z0-9_]*\\.)*[a-zA-Z][a-zA-Z0-9_:]*$": {
+                          "description": "The key is the resource name which may be prefixed by a machine name separate by a dot. The machine name must match the runOn attribute of a process which runs components also part of this hyperepoch. Omitting the machine name is only valid if the process doesn't specify a runOn attribute. The value contains an array of fully qualified passes which should have affinity to this resource. The order of the passes should be alphabetical.",
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*(\\.[A-Z][A-Z0-9_]*)?$"
+                          },
+                          "uniqueItems": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "passDependencies": {
+              "description": "The additional inter pass dependencies. The order should be alphabetical.",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^([a-z][a-zA-Z0-9]*\\.)+[A-Z][A-Z0-9_]*": {
+                  "description": "The key is the fully qualified name of the pass (in the form of 1 or multiple 'subcomponentInstanceName.' followed by the pass name 'PASS_NAME'). The value contains an array of passes which the key pass depends on.",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^([a-z][a-zA-Z0-9]*\\.)+[A-Z][A-Z0-9_]*$"
+                  },
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "stmExternalRunnables": {
+      "description": "Additional runnables marked as EXTERN in the STM schedule",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_]*": {
+          "description": "The key is the runnable name. The value contains the WCET and optional pass dependencies.",
+          "type": "object",
+          "required": [
+            "processorTypes",
+            "wcet"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "processorTypes": {
+              "description": "The processor types used by the pass (support is limited to a single processor type atm)",
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "enum": [
+                  "CPU",
+                  "GPU"
+                ]
+              }
+            },
+            "wcet": {
+              "description": "The WCET in nanoseconds",
+              "type": "integer",
+              "minimum": 0
+            },
+            "passDependencies": {
+              "description": "The array of passes the runnable depends on (in the form of 1 or multiple 'subcomponentInstanceName.' followed by the pass name 'PASS_NAME').",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^([a-z][a-zA-Z0-9]*\\.)+[A-Z][A-Z0-9_]*$"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "processes": {
+      "description": "The processes. The order is user defined.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9_]*$": {
+          "description": "The key is the name of the process (in snake_case) which must be unique within the collection of processes. The value describes the process itself.",
+          "type": "object",
+          "required": [
+            "executable"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "executable": {
+              "description": "The name of the executable",
+              "type": "string",
+              "minLength": 1
+            },
+            "argv": {
+              "description": "The command line arguments passed to the executable",
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9_-]+$": {
+                  "description": "The key is one command line argument. The value is not used (if it is the boolean value true), a second argument (if it is a string), multiple additional arguments (if it is an array of strings).",
+                  "anyOf": [
+                    {
+                      "type": "boolean",
+                      "const": true
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "string"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "runOn": {
+              "description": "The machine identifier the process should run on (default: same machine the application is invoked on)",
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+            },
+            "logSpec": {
+              "description": "The log specification for this process (if supported by the executable). If not specified, the logSpec specified for the application is used as a default (in that case the application should not use 'file:' with a hard coded path)",
+              "type": "string"
+            },
+            "subcomponents": {
+              "description": "The subcomponent names which should be run in this process (if supported by the executable). This can be either a fully quallified node name or a fully qualified graphlet name which implies that all nodes recursively under that graphlet should be selected.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    },
+    "extraInfo": {
+      "description": "DEPRECATED! The (relative) path of the additional .json file. This extraInfo JSON is a temporary workaround as the loader code depends on this, and we need to cleanup this after RR migration. The key is the parameters and configurations which are required by the loader code. The value is an object which corresponds to the various unique attributes of the key.",
+      "type": "string",
+      "pattern": "^.+\\.json$"
+    }
+  },
+  "$defs": {
+    "parameter": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "The C++ type name of the parameter",
+          "type": "string",
+          "minLength": 1
+        },
+        "array": {
+          "description": "The array size if this is an array of parameter values (default: a single-value parameter)",
+          "type": "integer",
+          "minimum": 1
+        },
+        "default": {
+          "description": "The default value (default: none)",
+          "type": [
+            "array",
+            "boolean",
+            "number",
+            "string"
+          ],
+          "items": {
+            "type": [
+              "boolean",
+              "number",
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "subcomponent": {
+      "type": "object",
+      "required": [
+        "componentType"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "componentType": {
+          "description": "The (relative) path of a component ending in .node.json / .graphlet.json. During the transition from GDL the second extension might also be prefixed with 'gdl-'.",
+          "type": "string",
+          "pattern": "^.+\\.(gdl-)?(node|graphlet)\\.json$"
+        },
+        "parameters": {
+          "description": "The parameters passed to the subcomponent. The order should be alphabetical.",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^([a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?|\\*)$": {
+              "description": "The key is the name of the parameter and must match a parameter declared in the descriptor of the referenced component. The parameter value can either be of primitive type or an homongeneous array of a primitive type. A string value as well as string values in an array are subject to substition. The string can be either the literal value or a placeholder referencing a parameter of this application. The placeholder must have the form of '$paramName' or if the application parameter is an array and only a single value should be passed '$paramName[N]' where N is an index within the array. To pass a literal '$' character it needs to be escaped using another '$' character. As a wildcard the key can be the string '*'. The corresponding value must be '$*'. If it is present all parameters of the application are passed to the component if it has a parameter with a matching name. Additional explicit parameter can be present beside the wildcard and override the application parameter values.",
+              "type": [
+                "array",
+                "boolean",
+                "number",
+                "string"
+              ],
+              "items": {
+                "type": [
+                  "boolean",
+                  "number",
+                  "string"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "connection": {
+      "type": "object",
+      "required": [
+        "src",
+        "dests"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "src": {
+          "description": "The name of an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an empty string is provided, it means the connection is an INBOUND connection and the src comes outside of the DAG.",
+          "type": "string",
+          "pattern": "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$"
+        },
+        "dests": {
+          "description": "The collection of ports receiving the data",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$": {
+              "description": "The key is the name of an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical. If an empty string is provided, it means the connection is an OUTBOUND connection and the dest goes outside of the DAG.",
+              "type": [
+                "object"
+              ],
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-z][a-zA-Z0-9_-]*$": {
+                  "description": "The key is the name of the parameter and the value can either be any primitive type",
+                  "type": [
+                    "boolean",
+                    "number",
+                    "string"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "params": {
+          "description": "Parameters for multicast connections. The order should be alphabetical.",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-z][a-zA-Z0-9_-]*$": {
+              "description": "The key is the name of the parameter and the value can any primitive type",
+              "type": [
+                "boolean",
+                "number",
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

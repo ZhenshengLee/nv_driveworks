@@ -1,0 +1,33 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/schedule.schema.json",
+    "title": "DriveWorks Node parameter value sets Descriptor",
+    "description": "The descriptor of sets of parameter values for DriveWorks nodes. The order of sets should be alphabetical.",
+    "type": "object",
+    "additionalProperties": false,
+    "patternProperties": {
+        "^([a-ZA-Z][a-zA-Z0-9_]*|\\*)$": {
+            "description": "The key is the set identifier. The value contains a mapping from parameter names to parameter values. The order of parameter names should be alphabetical.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^([a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?|\\*)$": {
+                    "description": "The key is the parameter name from the node. The value is the parameter value which must match the type of the parameter defined in the node descriptor.",
+                    "type": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "string"
+                    ],
+                    "items": {
+                        "type": [
+                            "boolean",
+                            "number",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,241 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/graphlet.schema.json",
+    "title": "DW Graphlet Descriptor",
+    "description": "The descriptor of a DriveWorks graphlet. The keys in JSON should appear in the same order as the properties are documented in the schema.",
+    "type": "object",
+    "required": [
+        "name",
+        "inputPorts",
+        "outputPorts",
+        "parameters",
+        "subcomponents",
+        "connections"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "comment": {
+            "description": "An optional description of the graphlet",
+            "type": "string"
+        },
+        "name": {
+            "description": "The unique name of the graphlet",
+            "type": "string",
+            "pattern": "^([a-z][a-z_]*::)*[a-zA-Z][a-zA-Z0-9_]*$"
+        },
+        "inputPorts": {
+            "description": "The input ports. The order is user defined.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[A-Z][A-Z0-9_]*$": {
+                    "description": "The key is the name of the input port (in MACRO_CASE) which must be unique within the collection of input ports in this graphlet. The value describes the port itself.",
+                    "$ref": "#/$defs/port"
+                }
+            }
+        },
+        "outputPorts": {
+            "description": "The output ports. The order is user defined.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[A-Z][A-Z0-9_]*$": {
+                    "description": "The key is the name of the output port (in MACRO_CASE) which must be unique within the collection of output ports in this graphlet. The value describes the port itself.",
+                    "$ref": "#/$defs/port"
+                }
+            }
+        },
+        "parameters": {
+            "description": "The parameters. The order is user defined.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?$": {
+                    "description": "The key is the name of the parameter (in camelCase) which must be unique within the collection of parameters in this node. The value describes the parameter itself.",
+                    "$ref": "#/$defs/parameter"
+                }
+            }
+        },
+        "subcomponents": {
+            "description": "The subcomponents. The order should be alphabetical.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9]*$": {
+                    "description": "The key is the name of the component instance (in camelCase() which must be unique within the collection of subcomponents in this node. The value describes the component instance itself.",
+                    "$ref": "#/$defs/subcomponent"
+                }
+            }
+        },
+        "connections": {
+            "description": "The connections. The order should be alphabetical based on the source and the connection parameter names.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/connection"
+            }
+        }
+    },
+    "$defs": {
+        "port": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "description": "The C++ type name of the data",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "array": {
+                    "description": "The array size if this is an array of ports (default: a single non-array port)",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "bindingRequired": {
+                    "description": "The flag if the port must be bound (default: false)",
+                    "type": "boolean"
+                },
+                "comment": {
+                    "description": "Any text describing the port (default: empty string)",
+                    "type": "string"
+                }
+            }
+        },
+        "parameter": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "description": "The C++ type name of the parameter",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "array": {
+                    "description": "The array size if this is an array of parameter values (default: a single-value parameter)",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "default": {
+                    "description": "The default value (default: none)",
+                    "type": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "string"
+                    ],
+                    "items": {
+                        "type": [
+                            "boolean",
+                            "number",
+                            "string"
+                        ]
+                    }
+                },
+                "comment": {
+                    "description": "Any text describing the parameter (default: empty string)",
+                    "type": "string"
+                }
+            }
+        },
+        "subcomponent": {
+            "type": "object",
+            "required": [
+                "componentType"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "componentType": {
+                    "description": "The (relative) path of a component ending in .node.json / .graphlet.json. During the transition from GDL the second extension might also be prefixed with 'gdl-'.",
+                    "type": "string",
+                    "pattern": "^.+\\.(gdl-)?(node|graphlet)\\.json$"
+                },
+                "parameters": {
+                    "description": "The parameters passed to the subcomponent. The order should be alphabetical.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^([a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?|\\*)$": {
+                            "description": "The key is the name of the parameter and must match a parameter declared in the descriptor of the referenced component. The parameter value can either be of primitive type or an homongeneous array of a primitive type. A string value as well as string values in an array are subject to substition. The string can be either the literal value or a placeholder referencing a parameter of this graphlet. The placeholder must have the form of '$paramName' or if the graphlet parameter is an array and only a single value should be passed '$paramName[N]' where N is an index within the array. To pass a literal '$' character it needs to be escaped using another '$' character. As a wildcard the key can be the string '*'. The corresponding value must be '$*'. If it is present all parameters of the graphlet are passed to the component if it has a parameter with a matching name. Additional explicit parameter can be present beside the wildcard and override the graphlet parameter values.",
+                            "type": [
+                                "array",
+                                "boolean",
+                                "number",
+                                "string"
+                            ],
+                            "items": {
+                                "type": [
+                                    "boolean",
+                                    "number",
+                                    "string"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "comment": {
+                    "description": "Any text describing the subcomponent (default: empty string)",
+                    "type": "string"
+                }
+            }
+        },
+        "connection": {
+            "type": "object",
+            "required": [
+                "src",
+                "dests"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "description": "The name of the input port of the graphlet or an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an empty string is provided, it means the connection is an INBOUND connection and the src comes outside of the DAG.",
+                    "type": "string",
+                    "pattern": "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$"
+                },
+                "dests": {
+                    "description": "The collection of ports receiving the data",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$": {
+                            "description": "The key is the name of the output port of the graphlet or an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical. If an empty string is provided, it means the connection is an OUTBOUND connection and the dest goes outside of the DAG.",
+                            "type": [
+                                "object"
+                            ],
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-z][a-zA-Z0-9_-]*$": {
+                                    "description": "The key is the name of the parameter and the value can either be any primitive type",
+                                    "type": [
+                                        "boolean",
+                                        "number",
+                                        "string"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "params": {
+                    "description": "Parameters for multicast connections. The order should be alphabetical.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^[a-z][a-zA-Z0-9_-]*$": {
+                            "description": "The key is the name of the parameter and the value can any primitive type",
+                            "type": [
+                                "boolean",
+                                "number",
+                                "string"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
