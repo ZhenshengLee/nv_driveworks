@@ -1,0 +1,4 @@
+<map id="dw::framework::ContextParameterProvider" name="dw::framework::ContextParameterProvider">
+<area shape="rect" id="node1" title="A parameter provider for the dwContextHandle_t." alt="" coords="5,95,251,136"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ITypeBasedParameterProviderChild.html" title="The additional interface a ParameterProvider can implement so it can be registered at a TypeBasedPara..." alt="" coords="27,5,229,47"/>
+</map>

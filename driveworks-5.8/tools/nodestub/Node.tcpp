@@ -1,0 +1,82 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA CORPORATION & AFFILIATES. No third party distribution is allowed unless
+// expressly authorized by NVIDIA. Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA CORPORATION & AFFILIATES products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA CORPORATION & AFFILIATES.
+//
+// SPDX-FileCopyright 2022 Copyright (c) 2022 {{ datetime.date.today().year }} NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+//
+// NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+// property and proprietary rights in and to this material, related
+// documentation and any modifications thereto. Any use, reproduction,
+// disclosure or distribution of this material and related documentation
+// without an express license agreement from NVIDIA CORPORATION or
+// its affiliates is strictly prohibited.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+{% set class_name = json["name"].split("::")[-1] %}
+#include "./{{ class_name }}Impl.hpp"
+
+#include "./{{ class_name }}.hpp"
+
+#include <dwcgf/parameter/ParameterProvider.hpp>
+
+{% for ns in json["name"].split("::")[:-1] %}
+namespace {{ ns }}
+{
+{% endfor %}
+
+std::unique_ptr<{{ class_name }}>
+{{ class_name }}::create(dw::framework::ParameterProvider& provider)
+{
+    // for custom logic use the following:
+    // auto constructorArguments = dw::framework::createConstructorArguments<{{ class_name }}>();
+    // YourFirstArgumentType& params = std::get<0>(constructorArguments);
+    // params.xxx = provider.getRequired(...);
+    // dw::framework::populateParameters<{{ class_name }}>(constructorArguments, provider);
+    // return dw::framework::makeUniqueFromTuple<{{ class_name }}>(std::move(constructorArguments));
+
+    return dw::framework::create<{{ class_name }}>(provider);
+}
+
+{% if base_class == "dw::framework::ExceptionSafeSensorNode" %}
+{{ class_name }}::{{ class_name }}(const char* sensorName, dwConstRigHandle_t rigHandle,
+                                   const dwSALHandle_t sal, const dwContextHandle_t ctx)
+    : {{ base_class }}(std::make_unique<{{ class_name }}Impl>(sensorName, rigHandle, sal, ctx))
+{
+}
+
+{{ class_name }}::{{ class_name }}(const dwSensorParams& params,
+                                   const dwSALHandle_t sal, const dwContextHandle_t ctx)
+    : {{ base_class }}(std::make_unique<{{ class_name }}Impl>(params, sal, ctx))
+{
+}
+{% else %}
+{{ class_name }}::{{ class_name }}(const dwContextHandle_t ctx)
+    : {{ base_class }}(std::make_unique<{{ class_name }}Impl>(ctx))
+{
+}
+{% endif %}
+
+{% for ns in json["name"].split("::")[:-1] | reverse %}
+} // namespace {{ ns }}
+{% endfor %}
+
+#include <dwcgf/node/NodeFactory.hpp>
+
+DW_REGISTER_NODE({{ json["name"] }})
+

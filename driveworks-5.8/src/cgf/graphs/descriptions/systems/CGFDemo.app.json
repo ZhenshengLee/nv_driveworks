@@ -1,0 +1,338 @@
+{
+    "name": "CGFDemoApp",
+    "logSpec": "file/rfc5424:{{logpath}}/{{appname}}.log",
+    "parameters": {
+        "instanceIDs": {
+            "type": "string",
+            "default": "./CGFDemoInstanceIDs.json"
+        }
+    },
+    "sensorLayouts": "./CGFDemoSensorLayout.sensors.json",
+    "subcomponents": {
+        "cgfDemo": {
+            "componentType": "../graphlets/CGFDemo.graphlet.json",
+            "parameters": {}
+        }
+    },
+    "connections": [],
+    "states": {
+        "STANDARD": {
+            "stmScheduleKey": "standardSchedule",
+            "default": true
+        },
+        "SLOW": {
+            "stmScheduleKey": "slowSchedule"
+        }
+    },
+    "stmSchedules": {
+        "standardSchedule": {
+            "wcet" : "./CGFDemo_wcet.yaml",
+            "hyperepochs": {
+                "cameraHyperepoch": {
+                    "period": 33000000,
+                    "epochs": {
+                        "renderEpoch": {
+                            "period": 33000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "cgfDemo.arender"
+                                ]
+                            ]
+                        },
+                        "cameraEpoch": {
+                            "period": 33000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "cgfDemo.cameraEpochSync",
+                                    "cgfDemo.cameraPipeline0",
+                                    "cgfDemo.cameraPipeline1",
+                                    "cgfDemo.cameraPipeline2",
+                                    "cgfDemo.cameraPipeline3",
+                                    "cgfDemo.selfCalibration"
+                                ]
+                            ]
+                        },
+                        "radarDopplerMotionEpoch": {
+                            "period": 33000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "cgfDemo.radarDopplerMotion"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU0": [],
+                        "machine0.CPU1": [],
+                        "machine0.CPU2": [],
+                        "machine0.CPU3": [],
+                        "machine0.dGPU": [],
+                        "camera_master.CUDA_STREAM0:dGPU": [],
+                        "camera_master.CUDA_MUTEX_LOCK": [],
+                        "camera_pipeline0.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline0.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.arender.renderingNode",
+                            "cgfDemo.cameraPipeline0.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline0.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline1.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline1.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline1.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline1.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline2.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline2.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline2.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline2.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline3.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline3.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline3.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline3.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ]
+                    }
+                },
+                "imuHyperepoch": {
+                    "epochs": {
+                        "imuEpoch": {
+                            "period": 10000000,
+                            "passes": [
+                                [
+                                    "cgfDemo.imuCanEpochSync",
+                                    "cgfDemo.imuSensor",
+                                    "cgfDemo.vehicleStateConsumer",
+                                    "cgfDemo.egomotion"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU4": []
+                    }
+                },
+                "radarHyperepoch": {
+                    "epochs": {
+                        "radarEpoch": {
+                            "period": 5000000,
+                            "passes": [
+                                [
+                                    "cgfDemo.radarEpochSync",
+                                    "cgfDemo.radarSensor0",
+                                    "cgfDemo.radarSensor1",
+                                    "cgfDemo.radarSensor2",
+                                    "cgfDemo.radarSensor3",
+                                    "cgfDemo.radarSensor4"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU5": []
+                    }
+                }
+            }
+        },
+        "slowSchedule": {
+            "wcet" : "./CGFDemo_wcet.yaml",
+            "hyperepochs": {
+                "cameraHyperepoch": {
+                    "period": 330000000,
+                    "epochs": {
+                        "renderEpoch": {
+                            "period": 330000000,
+                            "frames": 1,
+                            "passes": [[
+                                "cgfDemo.arender"
+                            ]
+                            ]
+                        },
+                        "cameraEpoch": {
+                            "period": 330000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "cgfDemo.cameraEpochSync",
+                                    "cgfDemo.cameraPipeline0",
+                                    "cgfDemo.cameraPipeline1",
+                                    "cgfDemo.cameraPipeline2",
+                                    "cgfDemo.cameraPipeline3",
+                                    "cgfDemo.selfCalibration"
+                                ]
+                            ]
+                        },
+                        "radarDopplerMotionEpoch": {
+                            "period": 330000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "cgfDemo.radarDopplerMotion"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU0": [],
+                        "machine0.CPU1": [],
+                        "machine0.CPU2": [],
+                        "machine0.CPU3": [],
+                        "machine0.dGPU": [],
+                        "camera_master.CUDA_STREAM0:dGPU": [],
+                        "camera_master.CUDA_MUTEX_LOCK": [],
+                        "camera_pipeline0.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline0.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.arender.renderingNode",
+                            "cgfDemo.cameraPipeline0.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline0.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline1.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline1.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline1.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline1.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline2.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline2.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline2.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline2.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ],
+                        "camera_pipeline3.CUDA_STREAM0:dGPU": [],
+                        "camera_pipeline3.CUDA_MUTEX_LOCK": [
+                            "cgfDemo.cameraPipeline3.cameraSensor.cameraNode.PASS_RAW_OUTPUT_CPU_SYNC",
+                            "cgfDemo.cameraPipeline3.cameraSensor.cameraNode.PASS_PROCESSED_OUTPUT_CPU_SYNC"
+                        ]
+                    }
+                },
+                "imuHyperepoch": {
+                    "epochs": {
+                        "imuEpoch": {
+                            "period": 100000000,
+                            "passes": [
+                                [
+                                    "cgfDemo.imuCanEpochSync",
+                                    "cgfDemo.imuSensor",
+                                    "cgfDemo.vehicleStateConsumer",
+                                    "cgfDemo.egomotion"
+                                ]
+                            ]
+
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU4": []
+                    }
+                },
+                "radarHyperepoch": {
+                    "epochs": {
+                        "radarEpoch": {
+                            "period": 50000000,
+                            "passes": [
+                                [
+                                    "cgfDemo.radarEpochSync",
+                                    "cgfDemo.radarSensor0",
+                                    "cgfDemo.radarSensor1",
+                                    "cgfDemo.radarSensor2",
+                                    "cgfDemo.radarSensor3",
+                                    "cgfDemo.radarSensor4"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU5": []
+                    }
+                }
+            }
+        }
+    },
+    "processes": {
+        "ssm": {
+            "runOn": "machine0",
+            "executable": "vanillassm",
+            "logSpec": "file:{{logpath}}/{{appname}}.log"
+        },
+        "schedule_manager": {
+            "runOn": "machine0",
+            "executable": "ScheduleManager",
+            "argv": {
+                "--enableScheduleSwitching": "true",
+                "--scheduleManagerHostIP": "127.0.0.1",
+                "--scheduleManagerHostPort": "40100",
+                "--scheduleManagerNumClients": "5"
+            }
+        },
+        "sensor_sync_server": {
+            "runOn": "machine0",
+            "executable": "sensor_sync_server",
+            "logSpec": "file:{{logpath}}/{{appname}}.log",
+            "argv": {
+                "--syncServerHostPort": "40001",
+                "--cameraGroup": "0",
+                "--radarGroup": "0",
+                "--imuGpsCanGroup": "0"
+            }
+        },
+        "stm_master": {
+            "runOn": "machine0",
+            "executable": "stm_master",
+            "logSpec": "file:{{logpath}}/{{appname}}.log",
+            "argv": {
+                "--allow-unregistered-runnables": true,
+                "--timeout-us": "60000000",
+                "--soc": "TegraA",
+                "-v": true,
+                "-m": true
+            }
+        },
+        "camera_pipeline0": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "cgfDemo.cameraPipeline0",
+                "cgfDemo.arender"
+            ]
+        },
+        "camera_pipeline1": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "cgfDemo.cameraPipeline1"
+            ]
+        },
+        "camera_pipeline2": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "cgfDemo.cameraPipeline2"
+            ]
+        },
+        "camera_pipeline3": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "cgfDemo.cameraPipeline3"
+            ]
+        },
+        "camera_master": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "cgfDemo.selfCalibration",
+                "cgfDemo.radarSensor0",
+                "cgfDemo.radarSensor1",
+                "cgfDemo.radarSensor2",
+                "cgfDemo.radarSensor3",
+                "cgfDemo.radarSensor4",
+                "cgfDemo.radarDopplerMotion",
+                "cgfDemo.imuSensor",
+                "cgfDemo.vehicleStateConsumer",
+                "cgfDemo.egomotion",
+                "cgfDemo.cameraEpochSync",
+                "cgfDemo.radarEpochSync",
+                "cgfDemo.imuCanEpochSync"
+            ]
+        }
+    },
+    "extraInfo": "./CGFDemoExtraInfo.json"
+}

@@ -1,0 +1,13 @@
+<map id="dw::framework::dwBaseDrainerTemplate&lt; ProcessedDataType, ReadProcessedDataFunc, DataSourceType &gt;" name="dw::framework::dwBaseDrainerTemplate&lt; ProcessedDataType, ReadProcessedDataFunc, DataSourceType &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="5,164,320,220"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="617,31,889,102"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="588,275,919,331"/>
+<area shape="rect" id="node10" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="943,115,1288,186"/>
+<area shape="rect" id="node11" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="951,205,1279,261"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1dwChannelDrainerTemplate.html" title=" " alt="" coords="1312,38,1567,109"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1dwChannelDrainerTemplate.html" title=" " alt="" coords="1793,111,2092,182"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1dwVehicleStateChannelDrainer.html" title=" " alt="" coords="2141,126,2335,167"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1dwSensorDrainerTemplate.html" title=" " alt="" coords="1320,272,1559,328"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1dwSensorDrainerTemplate.html" title=" " alt="" coords="1823,233,2062,289"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1dwVehicleStateDrainer.html" title=" " alt="" coords="2141,241,2335,282"/>
+</map>

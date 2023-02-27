@@ -1,0 +1,7 @@
+<map id="dw::framework::IContainsPreShutdownAction" name="dw::framework::IContainsPreShutdownAction">
+<area shape="rect" id="node1" title=" " alt="" coords="5,90,193,131"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1dwGlobalEgomotionNode.html" title="This node computes the global vehicle state and motion over time using signals from GPS and relative ..." alt="" coords="241,5,533,32"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1dwRelativeEgomotionIMUNode.html" title="This node computes the vehicle state and relative motion over time using signals from IMU and wheelsp..." alt="" coords="287,57,487,98"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1dwRelativeEgomotionIMUNodeImpl.html" title=" " alt="" coords="287,122,487,163"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1dwRigNode.html" title="dwRigNode receives extrinsic calibrations from sensors in the system, and maintains that state to upd..." alt="" coords="287,188,488,215"/>
+</map>

@@ -1,0 +1,106 @@
+{
+  "StateMachine": [
+    {
+      "name": "SSM",
+      "ipaddress"  : "127.0.0.1",
+      "states": ["Standby", "NormalOperation", "Degrade", "UrgentOperation"],
+      "transitions": [
+        {"from":"Standby",          "to":["NormalOperation"]},
+        {"from":"NormalOperation",  "to":["Degrade","UrgentOperation"]},
+        {"from":"Degrade",          "to":["UrgentOperation"]},
+        {"from":"UrgentOperation",  "to":["Standby"]}
+      ],
+      "startState": "Standby",
+      "head" : "true",
+      "hasClone" : "true"
+    },
+    {
+      "name": "SM2",
+      "overrideInit" : "false",
+      "ipaddress"  : "127.0.0.1",
+      "states": ["A2", "B2", "C2", "D2"],
+      "transitions": [
+        {"from":"A2",   "to":["B2"]},
+        {"from":"B2",   "to":["C2"]},
+        {"from":"C2",   "to":["D2"]},
+        {"from":"D2",   "to":["A2"]}
+      ],
+      "startState": "A2"
+    },
+    {
+      "name": "SM22",
+      "overrideInit" : "false",
+      "ipaddress"  : "127.0.0.1",
+      "states": ["A22", "B22", "C22", "D22"],
+      "transitions": [
+        {"from":"A22", "to":["B22"]},
+        {"from":"B22", "to":["C22"]},
+        {"from":"C22", "to":["D22"]},
+        {"from":"D22", "to":["A22"]}
+      ],
+      "startState": "A22"
+    },
+    {
+      "name": "SM1",
+      "overrideInit" : "false",
+      "ipaddress"  : "127.0.0.1",
+      "states": ["A1", "B1", "C1", "D1"],
+      "transitions": [
+        {"from":"A1", "to":["B1"]},
+        {"from":"B1", "to":["C1"]},
+        {"from":"C1", "to":["D1"]},
+        {"from":"D1", "to":["A1"]}
+      ],
+      "startState": "A1"
+    }
+  ],
+  "Hierarchy": [
+    {
+    "parent": "SSM",
+    "childMapping": [
+      {
+        "parentState":"Standby",
+        "children": ["SM1"]
+      },
+      {
+        "parentState":"NormalOperation",
+        "children": ["SM2"]
+      },
+      {
+        "parentState":"Degrade",
+        "children": ["SM1"]
+      },
+      {
+        "parentState":"UrgentOperation",
+        "children": ["SM2"]
+      }
+    ]
+  },
+  {
+    "parent": "SM2",
+    "childMapping": [
+      {
+        "parentState":"A2",
+        "children": ["SM22"]
+      },
+      {
+        "parentState":"B2",
+        "children": ["SM22"]
+      },
+      {
+        "parentState":"C2",
+        "children": ["SM22"]
+      },
+      {
+        "parentState":"D2",
+        "children": ["SM22"]
+      }
+    ]
+  }  ],
+  "HierarchialTransitions": [ ],
+  "Notifications": [],
+  "SwcList" : [],
+  "SwcIgnoreFile" : "/tmp/ignore_swc_list.txt",
+  "SwcListFile" : "/tmp/swc_list.txt",
+  "SwcDebug": true
+}

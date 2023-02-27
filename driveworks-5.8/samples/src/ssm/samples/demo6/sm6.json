@@ -1,0 +1,23 @@
+{
+  "StateMachine": [
+    {
+      "name": "SSM",
+      "ipaddress"  : "127.0.0.1",
+      "states": ["Standby", "NormalOperation", "Degrade", "UrgentOperation"],
+      "transitions": [
+        {"from":"Standby",          "to":["NormalOperation"]},
+        {"from":"NormalOperation",  "to":["Degrade"]},
+        {"from":"Degrade",          "to":["UrgentOperation"]},
+        {"from":"UrgentOperation",  "to":["Standby"]}
+      ],
+      "startState": "Standby",
+      "head" : "true",
+      "hasClone" : "true"
+    }
+  ],
+  "Hierarchy": [],
+  "HierarchialTransitions": [ ],
+  "Notifications": [],
+  "SwcList" : [{"name": "genericClone", "ipaddress": "127.0.0.1"}]
+}
+

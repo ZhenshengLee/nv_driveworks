@@ -1,0 +1,269 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA CORPORATION & AFFILIATES. No third party distribution is allowed unless
+// expressly authorized by NVIDIA. Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA CORPORATION & AFFILIATES products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA CORPORATION & AFFILIATES.
+//
+// SPDX-FileCopyrightText: Copyright (c) 2019-2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+//
+// NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+// property and proprietary rights in and to this material, related
+// documentation and any modifications thereto. Any use, reproduction,
+// disclosure or distribution of this material and related documentation
+// without an express license agreement from NVIDIA CORPORATION or
+// its affiliates is strictly prohibited.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef DW_FRAMEWORK_RELATIVE_EGOMOTION_IMU_NODE_HPP_
+#define DW_FRAMEWORK_RELATIVE_EGOMOTION_IMU_NODE_HPP_
+
+#include <dwcgf/node/Node.hpp>
+#include <dwcgf/parameter/ParameterDescriptor.hpp>
+#include <dwcgf/parameter/SemanticParameterTypes.hpp>
+#include <dwcgf/pass/PassDescriptor.hpp>
+#include <dwcgf/port/Port.hpp>
+#include <dwcgf/port/PortDescriptor.hpp>
+#include <dwcgf/pass/Pass.hpp>
+#include <dwcgf/channel/Channel.hpp>
+#include <dwframework/dwnodes/common/SensorCommonTypes.hpp>
+#include <dwframework/dwnodes/common/SelfCalibrationTypes.hpp>
+/* Need to include the appropriate ChannelPacketTypes.hpp since port initialization requires
+   the parameter_trait overrides. Otherwise, it will be considered as a packet of generic type. */
+#include <dwframework/dwnodes/common/ChannelPacketTypes.hpp>
+
+#include <dw/egomotion/Egomotion.h>
+#include <dw/roadcast/base_types/RoadCastPacketTypes.hpp>
+
+namespace dw
+{
+namespace framework
+{
+
+struct dwRelativeEgomotionIMUNodeInitParams
+{
+    dwConstRigHandle_t rigHandle;
+    const char* imuSensorName;
+    const char* vehicleSensorName;
+
+    dwMotionModel motionModel;
+    bool estimateInitialOrientation;
+    bool automaticUpdate;
+    bool enableSuspension;
+    uint32_t historySize;
+    dwEgomotionSpeedMeasurementType speedMeasurementType;
+    dwEgomotionLinearAccelerationFilterParams linearAccelerationFilterParameters;
+};
+
+template <>
+struct EnumDescription<dwMotionModel>
+{
+    static constexpr auto get()
+    {
+        return describeEnumeratorCollection<dwMotionModel>(
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_ODOMETRY),
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_IMU_ODOMETRY));
+    }
+};
+
+template <>
+struct EnumDescription<dwEgomotionSpeedMeasurementType>
+{
+    static constexpr auto get()
+    {
+        return describeEnumeratorCollection<dwEgomotionSpeedMeasurementType>(
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_FRONT_SPEED),
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_REAR_SPEED),
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_REAR_WHEEL_SPEED));
+    }
+};
+
+template <>
+struct EnumDescription<dwEgomotionLinearAccelerationFilterMode>
+{
+    static constexpr auto get()
+    {
+        return describeEnumeratorCollection<dwEgomotionLinearAccelerationFilterMode>(
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_ACC_FILTER_NO_FILTERING),
+            DW_DESCRIBE_C_ENUMERATOR(DW_EGOMOTION_ACC_FILTER_SIMPLE));
+    }
+};
+
+/**
+* @brief This node computes the vehicle state and relative motion over time using signals from IMU and wheelspeed sensors.
+*
+* The user has the option to use a odometry-only model as well, where IMU is not used anymore.
+*
+* Input modalities
+* - IMU
+* - Wheelspeeds
+* - Steering
+*
+* Output signals
+* - Egomotion state
+*
+* @ingroup dwnodes
+**/
+class dwRelativeEgomotionIMUNode : public ExceptionSafeProcessNode, public IAsyncResetable, public IContainsPreShutdownAction
+{
+public:
+    static constexpr auto describeInputPorts()
+    {
+        return describePortCollection(
+            DW_DESCRIBE_PORT(dwIMUFrame, "IMU_FRAME"_sv),
+            DW_DESCRIBE_PORT(dwVehicleIOState, "VEHICLE_STATE"_sv),
+            DW_DESCRIBE_PORT(dwVehicleIOSafetyState, "VEHICLE_SAFETY_STATE"_sv),
+            DW_DESCRIBE_PORT(dwVehicleIONonSafetyState, "VEHICLE_NON_SAFETY_STATE"_sv),
+            DW_DESCRIBE_PORT(dwVehicleIOActuationFeedback, "VEHICLE_ACTUATION_FEEDBACK"_sv),
+            DW_DESCRIBE_PORT(dwSensorNodeProperties, "IMU_EXTRINSICS"_sv),
+            DW_DESCRIBE_PORT(dwCalibratedWheelRadii, "WHEEL_RADII"_sv));
+    };
+    static constexpr auto describeOutputPorts()
+    {
+        return describePortCollection(
+            DW_DESCRIBE_PORT(dwEgomotionStateHandle_t, "EGOMOTION_STATE"_sv),
+            DW_DESCRIBE_PORT(void*, "MODULE_HANDLE"_sv),
+            DW_DESCRIBE_PORT(dwTransformation3fPayload, "TRANSFORMATION_PAYLOAD"_sv),
+            DW_DESCRIBE_PORT(dwEgomotionResultPayload, "EGOMOTION_RESULT_PAYLOAD"_sv),
+            DW_DESCRIBE_PORT(dwCalibratedIMUIntrinsics, "IMU_INTRINSICS"_sv));
+    };
+    static constexpr auto describePasses()
+    {
+        return describePassCollection(
+            describePass("SETUP"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("ADD_IMU"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("ADD_ODOMETRY"_sv, DW_PROCESSOR_TYPE_CPU),
+            // TODO(abuehler): AVT-1162
+            // describePass("ADD_VEHICLE_STATE"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("UPDATE_IMU_EXTRINSICS"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("UPDATE_WHEEL_RADII"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("SEND_STATE"_sv, DW_PROCESSOR_TYPE_CPU),
+            describePass("TEARDOWN"_sv, DW_PROCESSOR_TYPE_CPU));
+    };
+
+    static std::unique_ptr<dwRelativeEgomotionIMUNode> create(ParameterProvider& provider);
+
+    dwStatus setAsyncReset() override
+    {
+        return Exception::guardWithReturn([&]() {
+            auto asyncResetNode = dynamic_cast<IAsyncResetable*>(m_impl.get());
+            if (asyncResetNode != nullptr)
+            {
+                return asyncResetNode->setAsyncReset();
+            }
+            return DW_FAILURE;
+        });
+    }
+
+    dwStatus executeAsyncReset() override
+    {
+        return Exception::guardWithReturn([&]() {
+            auto asyncResetNode = dynamic_cast<IAsyncResetable*>(m_impl.get());
+            if (asyncResetNode != nullptr)
+            {
+                return asyncResetNode->executeAsyncReset();
+            }
+            return DW_FAILURE;
+        });
+    }
+
+    dwStatus preShutdown() override
+    {
+        auto* preShutdownNode = dynamic_cast<IContainsPreShutdownAction*>(m_impl.get());
+        if (preShutdownNode)
+        {
+            return preShutdownNode->preShutdown();
+        }
+        return DW_NOT_SUPPORTED;
+    }
+
+    static constexpr auto describeParameters()
+    {
+        return describeConstructorArguments<dwRelativeEgomotionIMUNodeInitParams, dwContextHandle_t>(
+            describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwConstRigHandle_t,
+                    &dwRelativeEgomotionIMUNodeInitParams::rigHandle),
+                DW_DESCRIBE_UNNAMED_PARAMETER_WITH_SEMANTIC(
+                    const char*,
+                    semantic_parameter_types::ImuName,
+                    &dwRelativeEgomotionIMUNodeInitParams::imuSensorName),
+                DW_DESCRIBE_UNNAMED_PARAMETER_WITH_SEMANTIC(
+                    const char*,
+                    semantic_parameter_types::VehicleSensorName,
+                    &dwRelativeEgomotionIMUNodeInitParams::vehicleSensorName),
+                DW_DESCRIBE_PARAMETER(
+                    dwMotionModel,
+                    "motionModel"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::motionModel),
+                DW_DESCRIBE_PARAMETER(
+                    bool,
+                    "estimateInitialOrientation"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::estimateInitialOrientation),
+                DW_DESCRIBE_PARAMETER(
+                    bool,
+                    "automaticUpdate"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::automaticUpdate),
+                DW_DESCRIBE_PARAMETER(
+                    bool,
+                    "enableSuspension"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::enableSuspension),
+                DW_DESCRIBE_PARAMETER(
+                    uint32_t,
+                    "historySize"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::historySize),
+                DW_DESCRIBE_PARAMETER(
+                    dwEgomotionSpeedMeasurementType,
+                    "speedMeasurementType"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::speedMeasurementType),
+                // when params.motionModel is DW_EGOMOTION_ODOMETRY following filter parameters take no effect.
+                DW_DESCRIBE_PARAMETER(
+                    dwEgomotionLinearAccelerationFilterMode,
+                    "linearAccelerationFilterMode"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::mode),
+                DW_DESCRIBE_PARAMETER(
+                    float32_t,
+                    "linearAccelerationFilterTimeConst"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::accelerationFilterTimeConst),
+                DW_DESCRIBE_PARAMETER(
+                    float32_t,
+                    "linearAccelerationFilterProcessNoiseStdevSpeed"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::processNoiseStdevSpeed),
+                DW_DESCRIBE_PARAMETER(
+                    float32_t,
+                    "linearAccelerationFilterProcessNoiseStdevAcceleration"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::processNoiseStdevAcceleration),
+                DW_DESCRIBE_PARAMETER(
+                    float32_t,
+                    "linearAccelerationFilterMeasurementNoiseStdevSpeed"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::measurementNoiseStdevSpeed),
+                DW_DESCRIBE_PARAMETER(
+                    float32_t,
+                    "linearAccelerationFilterMeasurementNoiseStdevAcceleration"_sv,
+                    &dwRelativeEgomotionIMUNodeInitParams::linearAccelerationFilterParameters, &dwEgomotionLinearAccelerationFilterParams::measurementNoiseStdevAcceleration)),
+            describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwContextHandle_t)));
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    dwRelativeEgomotionIMUNode(const dwRelativeEgomotionIMUNodeInitParams& params,
+                               const dwContextHandle_t ctx);
+};
+} // namespace framework
+} // namespace dw
+
+#endif //DW_FRAMEWORK_RELATIVE_EGOMOTION_IMU_NODE_HPP_

@@ -1,0 +1,675 @@
+/*
+ * Copyright (c) 2022 NVIDIA Corporation.  All rights reserved.
+ *
+ * NVIDIA Corporation and its licensors retain all intellectual property
+ * and proprietary rights in and to this software, related documentation
+ * and any modifications thereto.  Any use, reproduction, disclosure or
+ * distribution of this software and related documentation without an express
+ * license agreement from NVIDIA Corporation is strictly prohibited.
+ */
+
+@font-face {
+    font-family: 'DINWebPro';
+    src: url(https://developer.nvidia.com/sites/all/themes/devzone_base/fonts/DINWebPro.eot);
+    src: url(https://developer.nvidia.com/sites/all/themes/devzone_base/fonts/DINWebPro.woff) format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+
+body, table, div, p, dl {
+    font-family: DINWebPro,Roboto,Trebuchet MS,Arial,sans-serif;
+    font-size: 14px;
+}
+
+/* @group Heading Levels */
+
+/* Use NVIDIA Green 2 for H1-H3 headings */
+h1, h2, h3 {
+    color: #004831
+}
+
+
+/* Use NVIDIA Green 2 for H1-H3 headings */
+h1.groupheader {
+    font-size: 100%;
+    color: #004831
+}
+
+.title {
+    font-size: 215%;
+}
+
+/* Use NVIDIA Green 2 for H1-H3 headings */
+h2.groupheader {
+    font-size: 120%;
+    color: #004831
+}
+
+/* Use NVIDIA Green 2 for H1-H3 headings */
+h3.groupheader {
+    font-size: 100%;
+    color: #004831
+}
+
+/* Use NVIDIA Green for highlighting and glow */
+h1.glow, h2.glow, h3.glow, h4.glow, h5.glow, h6.glow {
+    text-shadow: 0 0 15px #76B900;
+}
+
+code {
+    font-family:'Courier New';
+    font-size:  90%;
+}
+
+/* @end */
+
+/* @group Link Styling */
+
+/* The corporate template's link color, close to NV Green 2 */
+a {
+    color: #006445;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+/* The corporate template's link color, close to NV Green 2 */
+a:link {
+    color: #006445
+}
+
+/* The corporate template's link color, close to NV Green 2 */
+a:visited {
+    color: #006445
+}
+
+/* Monochromatic version of NV Green 2. */
+.contents a:visited {
+    color: #80a499;
+}
+
+/* The corporate template's link color, close to NV Green 2 */
+a:link:active {
+     color: #006445
+}
+
+/* The corporate template's link color, close to NV Green 2 */
+a.el {
+    color: #006445;
+    font-size:13px;
+}
+
+/* The corporate template's link color, close to NV Green 2 */
+a.elRef {
+    color: #006445;
+}
+
+/* Use NVIDIA Green for hover */
+a:hover {
+    color: #76B900;
+    text-decoration: underline;
+}
+
+/* Use NVIDIA Green for hover */
+a:visited:hover {
+    color: #76B900
+}
+
+/* @end */
+
+/* Powdery blue/grey followed by almost washed out white of the same. */
+pre.fragment {
+    font-size: 85%;
+    width: 69%;
+}
+
+div.fragment {
+    padding: 4px 6px;
+    width: 70%;
+}
+
+div.line {
+    font-size: 90%;
+}
+
+/* Use NVIDIA Green for highlight and glow */
+div.line.glow {
+    background-color: #76B900;
+    box-shadow: 0 0 10px #76B900;
+}
+
+
+span.lineno {
+    background-color: #000;
+}
+
+span.lineno a {
+    background-color: #000;
+}
+
+/* Gradient from light grey through black to dark, slate grey */
+div.ah {
+    background-image: -moz-linear-gradient(center top, #eee 0%, #444 40%, #000);
+}
+
+body {
+    line-height:1.36;
+}
+
+/* @group Code Colorization */
+
+/* Forest green */
+span.keyword {
+    color: #008000
+}
+
+/* Burgandy */
+span.comment {
+    color: #77b900
+}
+
+/* brighter blue */
+span.stringliteral {
+    color: #A5D8DD
+}
+
+/* @end */
+
+/* NVIDIA pale table header green */
+hr {
+    border-top: 3px solid #DDEEBF;
+}
+
+/* @group Member Descriptions */
+
+/* Use NVIDIA Green for highlight and glow */
+.memberdecls td.glow, .fieldtable tr.glow {
+    background-color: #76B900;
+    box-shadow: 0 0 15px #76B900;
+}
+/* Very faded slate blue */
+.mdescLeft, .mdescRight,
+.memItemLeft, .memItemRight,
+.memTemplItemLeft, .memTemplItemRight, .memTemplParams {
+    background-color: transparent;
+}
+
+.memSeparator {
+    border-bottom: none;
+}
+
+/* @end */
+
+/* @group Member Details */
+
+/* Styles for detailed member documentation */
+
+/* Use NVIDIA Green for highlight and glow */
+.memitem.glow {
+    box-shadow: 0 0 15px #76B900;
+}
+
+.memname {
+    font-weight: bold;
+}
+
+/* Even darker version of the light-bluish grey */
+.memproto, dl.reflist dt {
+    border-top: 1px solid #757575;
+    border-left: 1px solid #757575;
+    border-right: 1px solid #757575;
+    background: #e6e6e6;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+}
+
+/* Even darker version of the light-bluish grey */
+.memdoc, dl.reflist dd {
+    border-bottom: 1px solid #757575;
+    border-left: 1px solid #757575;
+    border-right: 1px solid #757575;
+}
+
+/* Black */
+.paramname {
+    color: #000000;
+}
+
+span.mlabel {
+    font-size: 58%;
+}
+
+/* @end */
+
+/* these are for tree view inside a (index) page */
+
+div.directory {
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.directory tr.even {
+    background: transparent;
+}
+
+.directory .levels {
+    font-size: 75%;
+}
+
+.arrow {
+    color: #868686;
+}
+
+.icon {
+    font-family: Trebuchet MS, Arial, Roboto;
+    font-size: 100%;
+    background-color: #333;
+}
+
+.iconfopen {
+    background-image:url('ftv2folderopen.png');
+}
+
+.iconfclosed {
+    background-image:url('ftv2folderclosed.png');
+}
+
+.icondoc {
+    background-image:url('ftv2doc_grey.png');
+}
+
+table.directory {
+    font-family: Trebuchet MS, Arial, Roboto,sans-serif;
+    font-size: 100%;
+}
+
+/* @end */
+
+table.doxtable {
+    table-layout: auto;
+    width: 70%;
+}
+
+table.doxtable td, table.doxtable th {
+    border: 1px solid #7F7F7F;
+    padding: 6px;
+}
+
+table.doxtable th:first-child
+{
+    width: 30%;
+}
+
+/* NVIDIA pale green table header */
+table.doxtable th {
+    background-color: #DDEEBF;
+    color: black;
+}
+
+/* Even darker version of the light-bluish grey */
+table.fieldtable {
+    border: 1px solid #f5f5f5;
+}
+
+/* Even darker version of the light-bluish grey */
+.fieldtable td.fieldtype, .fieldtable td.fieldname {
+    border-right: 1px solid #cacaca;
+    border-bottom: 1px solid #cacaca;
+}
+
+/* Even darker version of the light-bluish grey */
+.fieldtable td.fielddoc {
+    border-bottom: 1px solid #757575;
+}
+
+/* Light bluish grey, another variant */
+.fieldtable th {
+    background: #e6e6e6;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+
+.tabsearch {
+    font-size: 108%;
+}
+
+.navpath {
+    margin-top: 4px;
+}
+
+.navpath ul
+{
+    font-size: 92%;
+    background: #f5f5f5;
+    border:solid 1px #cacaca;
+    color: #9e9e9e;
+}
+
+.navpath li.navelem a
+{
+    font-family: Trebuchet MS, Arial, Roboto,sans-serif;
+    text-decoration: none;
+}
+
+/* NVIDIA green for hover */
+.navpath li.navelem a:hover
+{
+    color: #76B900;
+}
+
+.navpath li.footer
+{
+    color: #9e9e9e;
+    font-size: 67%;
+}
+
+div.summary
+{
+    font-size: 67%;
+}
+
+div.ingroups
+{
+    font-size: 67%;
+}
+
+div.header
+{
+    background: #fff;
+    margin:  6px 0 0 0;
+    border-bottom: 1px solid #cacaca;
+}
+
+/* NV Green 2 for "Note" paragraphs */
+dl.note
+{
+    border-color: #004831;
+}
+
+/* NVIDIA Green for "Attention" paragraphs*/
+dl.attention
+{
+    border-color: #76B900;
+}
+
+/* International orange (web) for "Warning" */
+dl.warning
+{
+    border-color: #FFA500;
+}
+
+/* NVIDIA Green */
+dl.pre, dl.post, dl.invariant
+{
+    border-color: #76B900;
+}
+
+#projectalign
+{
+    text-align: right;
+}
+
+#projectname
+{
+    font: 150% Trebuchet MS, Arial, Roboto,sans-serif;
+}
+
+#projectbrief
+{
+    font: 100% Trebuchet MS, Arial, Roboto,sans-serif;
+}
+
+#projectnumber
+{
+    font: 50% Trebuchet MS, Arial, Roboto,sans-serif;
+    padding-right: 1em;
+}
+#projectnumber::before {
+    content: '\A';
+    white-space: pre;
+}
+
+#titlearea
+{
+    border-bottom: 1px solid #616161; /* hybrid */
+    background-color: #fff; /* light theme */
+    background-color: #000; /* dark theme */
+    background-color: #222; /* hybrid */
+    color: #000; /* light theme */
+    color: #fff; /* hybrid */
+}
+
+#titlearea table
+{
+    width: 99%;
+}
+
+#titlearea h2, #titlearea h3, #titlearea h5 {
+    color: #000; /* light theme */
+    color: #fff; /* dark theme */
+}
+
+div.toc {
+    background-color: #F2F2F2;
+    margin: 0 20px 10px 10px;
+}
+
+div.toc h3 {
+    font: bold 12px/1.2 Arial,Roboto,sans-serif;
+    color: #000;
+}
+
+#powerTip div {
+    font: 12px/16px Trebuchet MS, Arial, Roboto,sans-serif;
+}
+
+/* Fixing Menu bars */
+/*** Addresses newer Doxygen version ***/
+
+#main-nav {
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.8);
+  transition: all .5s;
+  font-weight: normal;
+}
+
+#main-nav .sm-dox, #main-nav .sm-dox a{
+  background: #fff;
+  color: #000;
+  font-weight: normal;
+  font-family: DINWebPro;
+}
+
+#main-nav .sm-dox a:hover{
+  color: #fff;
+  background: #616161;
+  font-weight: normal;
+  text-shadow: none;
+}
+
+/*** top nav styles ***/
+#navrow2, #navrow3, #navrow4 {
+    display: none;
+}
+
+#navrow1, #navrow2 {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.8);
+    transition: all .5s;
+}
+
+#navrow1.tabs, #navrow1.tabs2, #navrow1.tabs3,
+#navrow1 .tablist li, #navrow1 .tablist a,
+#navrow2.tabs, #navrow2.tabs2, #navrow2.tabs3,
+#navrow .tablist li, #navrow2 .tablist a,
+#navrow3.tabs, #navrow3.tabs2, #navrow3.tabs3,
+#navrow3 .tablist li, #navrow3 .tablist a,
+#navrow4.tabs, #navrow4.tabs2, #navrow4.tabs3,
+#navrow4 .tablist li, #navrow4 .tablist a {
+    background: #333;
+    background: #1a1a1a;
+    background: #000;
+    background: #fff;
+    color: #9e9e9e;
+    color: #cacaca;
+    color: #eee;
+    color: #000;
+}
+
+/* nav hover */
+#navrow1 .tablist a:hover,
+#navrow2 .tablist a:hover,
+#navrow3 .tablist a:hover,
+#navrow4 .tablist a:hover {
+    color: #76B900; /* NVIDIA light green */
+}
+
+#navrow1 .tablist a {
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: transparent;
+}
+
+/* selected nav */
+#navrow1 .tablist li.current a,
+#navrow2 .tablist li.current a,
+#navrow3 .tablist li.current a,
+#navrow4 .tablist li.current a {
+    /*color: #76b900;*/
+    color: #000;
+    font-weight: bold;
+}
+
+#navrow1 .tablist li.current a {
+    border-bottom-color: #76b900;
+}
+
+.tablist a {
+    font-weight: normal;
+}
+
+#navrow1 .tablist a,
+#navrow2 .tablist a {
+    text-shadow: none;
+}
+
+.tabs {
+    font-size: 14px;
+}
+/*** header styles ***/
+#titlearea h3, #titlearea h5 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+#projectlogo {
+    text-align: left;
+    vertical-align: middle;
+}
+#projectlogo img {
+    height: 100px;
+    width: 280px;
+}
+#nv-logo {
+    background-image: url("./NVIDIA_Logo_H_ForScreen_ForLightBG.png");
+    background-image: url("./NVIDIA_Logo_H_ForScreen_ForDarkBG.png");
+    background-size: 280px;
+    display: inline-block;
+    height: 35px;
+    width: 280px;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+}
+
+/*** side nav styles ***/
+
+/* side nav items */
+#side-nav {
+    padding-top: 4px;
+    width: 265px;
+}
+#side-nav #nav-tree {
+    background: #fff;
+}
+
+#nav-tree a {
+    background: #fff;
+    color: #9b9b9b;
+    color: #404040;
+    width: 265px;
+}
+
+#nav-tree .label a {
+  padding-top: 0;
+}
+
+/* side nav items selected */
+#nav-tree .selected {
+    background: #616161;
+}
+#nav-tree .selected a {
+    background: #616161;
+    color: #fff;
+}
+/* splitter bar */
+#side-nav .ui-resizable-e {
+    background: #9b9b9b; /* IE */
+    background: linear-gradient(-90deg, #9b9b9b, #eee);
+    width: 4px;
+}
+
+#nav-tree div.item img[src="arrowdown.png"]{
+   content:url("./grey_arrow_down.png")
+}
+#nav-tree div.item img[src="arrowdown.png"] {
+   content:url("./grey_arrow_last_down.png");
+}
+#nav-tree div.item img[src="arrowright.png"] {
+   content:url("./grey_arrow_right.png");
+}
+#nav-tree div.item img[src="arrowright.png"] {
+   content:url("./grey_arrow_last_right.png");
+}
+#nav-tree #nav-sync img[src="sync_on.png"] {
+   content:url(./sync_on_grey.png);
+}
+#nav-tree #nav-sync img[src="sync_off.png"] {
+   content:url(./sync_off_grey.png);
+}
+
+/* doesn't work */
+#nav-tree .item > :first-child,
+.children_ul .item {
+    font-weight: bold;
+}
+
+.tabs, .title, #nav-tree .label, table.directory {
+    font-family: DINWebPro,Roboto,Trebuchet MS,Arial,sans-serif;
+}
+
+/* code fragment background */
+div.fragment {
+    background-color: #000;
+    color: #B9BDB5;
+    opacity: .9;
+    width:70%;
+}
+
+div.image img{
+    max-width: 100%;
+}
+
+.section-internal:not(:empty) {
+    background-color: #f8f8f8;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='45px' width='150px' font-family='DINWebPro,Roboto,Trebuchet MS,Arial,sans-serif' font-size='14'><text transform='translate(2, 35) rotate(-15)' fill='rgb(0,72,49,0.5)'>internal section</text><text transform='translate(25, 43) rotate(-15)' fill='rgb(0,72,49,0.5)'>not in released docs</text></svg>");
+    background-repeat: no-repeat;
+    background-position: right top;
+    min-height: 3em;
+}
+.section-internal:not(:empty) + .section-internal:not(:empty) {
+    background-image: none;
+    min-height: 0;
+}
+
+.section-internal dl.section {
+    margin-top: 0;
+    padding-top: 14px;
+}

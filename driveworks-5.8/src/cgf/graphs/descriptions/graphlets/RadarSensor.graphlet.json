@@ -1,0 +1,64 @@
+{
+    "name": "RadarSensor",
+    "inputPorts": {
+        "VIRTUAL_SYNC_TIME": {
+            "type": "dwTime_t"
+        },
+        "SENSOR_EXTRINSICS": {
+            "type": "dwCalibratedExtrinsics"
+        }
+    },
+    "outputPorts": {
+        "SENSOR_PROPERTIES": {
+            "type": "dwSensorNodeProperties"
+        },
+        "RADAR_PROCESSED_DATA": {
+            "type": "dwRadarScan"
+        },
+        "RADAR_TIMESTAMP": {
+            "type": "dwSensorTsAndID"
+        },
+        "NEXT_RADAR_TIMESTAMP": {
+            "type": "dwTime_t"
+        }
+    },
+    "parameters": {
+        "sensorId": { "type": "size_t", "default": 7 },
+        "sensorAffinityMask": { "type": "int32_t", "default": 1 },
+        "sensorThreadPriority": { "type": "int32_t", "default": 99 }
+    },
+    "subcomponents": {
+        "radarNode": {
+            "componentType": "../../../../../src/dwframework/dwnodes/sensors/dwradarnode/dwRadarNode.node.json",
+            "parameters": {
+                "sensorId": "$sensorId"
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "radarNode.SENSOR_PROPERTIES",
+            "dests": {"SENSOR_PROPERTIES": {}}
+        },
+        {
+            "src": "radarNode.PROCESSED_DATA",
+            "dests": {"RADAR_PROCESSED_DATA": {}}
+        },
+        {
+            "src": "radarNode.TIMESTAMP",
+            "dests": {"RADAR_TIMESTAMP": {}}
+        },
+        {
+            "src": "radarNode.NEXT_TIMESTAMP",
+            "dests": {"NEXT_RADAR_TIMESTAMP": {}}
+        },
+        {
+            "src": "VIRTUAL_SYNC_TIME",
+            "dests": {"radarNode.VIRTUAL_SYNC_TIME": {}}
+        },
+        {
+            "src": "SENSOR_EXTRINSICS",
+            "dests": {"radarNode.SENSOR_EXTRINSICS": {}}
+        }
+    ]
+}

@@ -1,0 +1,131 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA CORPORATION & AFFILIATES. No third party distribution is allowed unless
+// expressly authorized by NVIDIA. Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA CORPORATION & AFFILIATES products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA CORPORATION & AFFILIATES.
+//
+// SPDX-FileCopyright 2022 Copyright (c) 2022 {{ datetime.date.today().year }} NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+//
+// NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+// property and proprietary rights in and to this material, related
+// documentation and any modifications thereto. Any use, reproduction,
+// disclosure or distribution of this material and related documentation
+// without an express license agreement from NVIDIA CORPORATION or
+// its affiliates is strictly prohibited.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+{% set header_guard = json["name"].upper().replace("::", "_") + "IMPL_HPP_" %}
+#ifndef {{ header_guard }}
+#define {{ header_guard }}
+
+{% set class_name = json["name"].split("::")[-1] %}
+#include <dwcgf/node/SimpleNodeT.hpp>
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+#include <dwframework/dwnodes/sensors/dwsensornode/impl/dwSensorNodeImpl.hpp>
+{% endif %}
+
+#include "./{{ class_name }}.hpp"
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+
+{%     for datatype_include in datatype_includes | sort %}
+#include <{{ datatype_include }}>
+{%     endfor %}
+{% endif %}
+
+{% for ns in json["name"].split("::")[:-1] %}
+namespace {{ ns }}
+{
+{% endfor %}
+
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+struct DummyData
+{
+    dwTime_t timestamp_us;
+};
+dwStatus dummyName_readFrame(DummyData*, dwTime_t, dwSensorHandle_t);
+namespace dummyNamespace
+{
+struct ReadProcessedData
+{
+    DummyData m_nextFrame{};
+
+    dwStatus readNextData(dwTime_t inTimeout_us, dwSensorHandle_t hsensor)
+    {
+        return dummyName_readFrame(&m_nextFrame, inTimeout_us, hsensor);
+    }
+
+    dwStatus getNextDataTimestamp(dwTime_t& outTimestamp)
+    {
+        outTimestamp = m_nextFrame.timestamp_us;
+        return DW_SUCCESS;
+    }
+
+    dwStatus getNextData(DummyData* out, dwSensorHandle_t)
+    {
+        *out = m_nextFrame;
+        return DW_SUCCESS;
+    }
+
+    dwStatus reset()
+    {
+        return DW_SUCCESS;
+    }
+};
+} // namespace dummyNamespace
+
+class {{ class_name }}Impl : public {{ base_class }}<{{ class_name }}, DummyData, dummyNamespace::ReadProcessedData>
+{% else %}
+class {{ class_name }}Impl : public {{ base_class }}<{{ class_name }}>
+{% endif %}
+{
+public:
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+    using Base = {{ base_class }}<DummyData, dummyNamespace::ReadProcessedData, NodeT>;
+
+{% endif %}
+    static constexpr char LOG_TAG[] = "{{ class_name }}";
+
+    // Initialization and destruction
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+    {{ class_name }}Impl(const char* sensorName, dwConstRigHandle_t rigHandle,
+                         const dwSALHandle_t sal, const dwContextHandle_t ctx);
+    {{ class_name }}Impl(const dwSensorParams& params,
+                         const dwSALHandle_t sal, const dwContextHandle_t ctx);
+{% else %}
+    {{ class_name }}Impl(const dwContextHandle_t ctx);
+{% endif %}
+    ~{{ class_name }}Impl() override;
+
+    void initInputPorts();
+    void initOutputPorts();
+    void registerPasses();
+
+private:
+    // Pass methods
+{% for p in json["passes"] %}
+{%     if p["name"] not in ("SETUP", "TEARDOWN") %}
+    dwStatus {{ toLowerCamelCase(p["name"]) }}Pass();
+{%     endif %}
+{% endfor %}
+};
+
+{% for ns in json["name"].split("::")[:-1] | reverse %}
+} // namespace {{ ns }}
+{% endfor %}
+
+#endif // {{ header_guard }}
+

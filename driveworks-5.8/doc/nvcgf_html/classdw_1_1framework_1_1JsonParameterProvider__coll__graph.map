@@ -1,0 +1,4 @@
+<map id="dw::framework::JsonParameterProvider" name="dw::framework::JsonParameterProvider">
+<area shape="rect" id="node1" title="A parameter provider which retrieves parameter values from JSON data." alt="" coords="5,95,227,136"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ITypeBasedParameterProviderChild.html" title="The additional interface a ParameterProvider can implement so it can be registered at a TypeBasedPara..." alt="" coords="15,5,217,47"/>
+</map>

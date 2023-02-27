@@ -1,0 +1,20 @@
+{
+    "rigFileName": "rig.json",
+    "rigOutputFileName": "rig.json",
+    "calibrationOutputFileName": "out_calibration.json",
+    "masterCameraIndex": "1",
+    "imageParams": {
+        "imageWidth0": "960",
+        "imageHeight0": "604",
+        "imageFov0": "ISP_120FOV",
+        "imageWidth1": "960",
+        "imageHeight1": "604",
+        "imageFov1": "ISP_60FOV",
+        "imageWidth2": "960",
+        "imageHeight2": "604",
+        "imageFov2": "ISP_60FOV",
+        "imageWidth3": "960",
+        "imageHeight3": "604",
+        "imageFov3": "ISP_120FOV"
+    }
+}

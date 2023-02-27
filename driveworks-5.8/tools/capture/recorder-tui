@@ -1,0 +1,1750 @@
+#!/usr/bin/env python3
+
+################################################################################
+#
+# Notice
+# ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS"
+# NVIDIA MAKES NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+# OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED
+# WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR
+# PURPOSE.
+#
+# NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences
+# of use of such information or for any infringement of patents or other rights
+# of third parties that may result from its use. No license is granted by
+# implication or otherwise under any patent or patent rights of NVIDIA
+# CORPORATION & AFFILIATES. No third party distribution is allowed unless
+# expressly authorized by NVIDIA. Details are subject to change without notice.
+# This code supersedes and replaces all information previously supplied. NVIDIA
+# CORPORATION & AFFILIATES products are not authorized for use as critical
+# components in life support devices or systems without express written approval
+# of NVIDIA CORPORATION & AFFILIATES.
+#
+# SPDX-FileCopyrightText: Copyright (c) 2018-2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+#
+# NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+# property and proprietary rights in and to this material, related documentation
+# and any modifications thereto. Any use, reproduction, disclosure or
+# distribution of this material and related documentation without an express
+# license agreement from NVIDIA CORPORATION or its affiliates is strictly
+# prohibited.
+#
+################################################################################
+
+#
+#  Block Diagram of Recorder-tui and its backend process
+#
+#                                                                               +--------------------------------------------------------+
+#                       Local                                                   |  remote 1                                              |
+# +---------------------------------------------------------+                   |                                                        |
+# |                                                         |                   |  +-------------------+                                 |
+# |                       +------------------------------+  |  ssh pipe stdout  |  |                   |      stdout      +-----------+  |
+# |  +-----------------+  |                              +----------------------------------------------------------------+           |  |
+# |  |                 |  |    +----------------+        +----------------------------------------------------------------+  recorder |  |
+# |  |       QT        |  | no |                |        |  |  stderr           |  |   tui --backend | |      stderr      |           |  |
+# |  |                 <-------+ !istty(stdout) |  tui   |  |                   |  |                 | |                  +-----------+  |
+# |  | (Collect all    |  |    |                |        |  |  ssh pipe stdout  |  |                 | |                                 |
+# |  |  Msgs, prints   |  |    +----------------+        +--------------+       |  +-------------------+                                 |
+# |  |  stdout;(PIPE)) |  |             |yes             +------------+ |       |                    |                                   |
+# |  |                 |  |             |                |  | stderr  | |       |                    |                                   |
+# |  +-----------------+  +------------------------------+  |         | |       |                    |stdout      +-------------------+  |
+# |                                     |                   |         | |       |                    |            |                   |  |
+# |                                     |                   |         | |       |                    +------------> /tmp/recorder.log |  |
+# |                              +------v------+            |         | |       |                                 |                   |  |
+# |                              |             |            |         | |       |                                 +-------------------+  |
+# |                              |  terminator |            |         | |       |                                                        |
+# |                              |  Pretty     |            |         | |       +--------------------------------------------------------+
+# |                              |             |            |         | |
+# |                              +-------------+            |         | |            X      X            X     X          X   X
+# |                                                         |         | |
+# +---------------------------------------------------------+         | |            X      X            X     X          X   X
+#                                                                     | |
+#                                                                     | |            X      X            X     X          X   X
+#                                                                     | |
+#                                                                     | |       +--------------------------------------------------------+
+#                                                                     | |       |  remote n                                              |
+#                                                                     | |       |                                                        |
+#                                                                     | |       |  +-------------------+                                 |
+#                                                                     | |       |  |                   |      stdout      +-----------+  |
+#                                                                     | +-------------------------------------------------+           |  |
+#                                                                     +---------------------------------------------------+  recorder |  |
+#                                                                               |  |   tui --backend | |      stderr      |           |  |
+#                                                                               |  |                 | |                  +-----------+  |
+#                                                                               |  |                 | |                                 |
+#                                                                               |  +-------------------+                                 |
+#                                                                               |                    |                                   |
+#                                                                               |                    |                                   |
+#                                                                               |                    |stdout      +-------------------+  |
+#                                                                               |                    |            |                   |  |
+#                                                                               |                    +------------> /tmp/recorder.log |  |
+#                                                                               |                                 |                   |  |
+#                                                                               |                                 +-------------------+  |
+#                                                                               |                                                        |
+#                                                                               +--------------------------------------------------------+
+#
+#
+#
+
+
+from urllib.parse import urlparse
+from functools import partial
+import os, sys, subprocess, stat, threading, argparse
+import pty, time, datetime, json, copy, socket, struct
+import signal, glob, shutil, select, uuid
+from collections import OrderedDict
+
+print = partial(print, flush=True)
+
+parser = argparse.ArgumentParser(
+    description="recorder-tui: recorder text interface")
+
+parser.add_argument(
+    "rig", help="rig directory or rig file path. "
+    "if rig name is in <ip-address>.json form, it will be considered for a distributed, over-the-network recording")
+parser.add_argument("--bbr", action="store_true",
+                    help="run recorder in black box recording mode")
+parser.add_argument("--rsa-key", default="/home/nvidia/.ssh/recorder-aiinfra.pem",
+                    help="path to rsa key used to encrypted randomly generated recording encryption key")
+
+# skip asking for information such as "route id" during initialization
+parser.add_argument("--skip-init-input", action="store_true", help=argparse.SUPPRESS)
+
+# skip checking for mount directories, should only be used for testing
+# and should specify recording destination in rig file
+parser.add_argument("--no-mount-check", action="store_true", help=argparse.SUPPRESS)
+
+# start recording to storage without any input.
+parser.add_argument("--non-interaction", action="store_true", help=argparse.SUPPRESS)
+
+# don't use sudo internally.
+parser.add_argument("--no-sudo", action="store_true", help=argparse.SUPPRESS)
+
+# specify the remote driveworks path.
+parser.add_argument("--remote-dw-path", default="", help=argparse.SUPPRESS)
+
+command_group = parser.add_mutually_exclusive_group()
+command_group.add_argument("--disable-encryption", action="store_true",
+                           help="disable recording file encryption")
+command_group.add_argument("--enable-encryption", action="store_true",
+                           help="enable recording file encryption")
+
+parser.add_argument("--backend", action="store_true", help=argparse.SUPPRESS)
+parser.add_argument("--aes-key", help=argparse.SUPPRESS)
+parser.add_argument("--aes-key-encrypted", help=argparse.SUPPRESS)
+parser.add_argument("--rsa-key-md5", help=argparse.SUPPRESS)
+
+parser.add_argument("--log-dir-path", default="/tmp",
+                    help="path to directory for storing recorder logs")
+
+parser.add_argument("--tag", default="NONE",
+    help="Tag for this recording, should be one the tags from tags.txt")
+
+parser.add_argument("--route", help="Enter the valid route(ex: 1234): ")
+parser.add_argument("--lane-id", help="Enter the lane value(ex: 1): ")
+parser.add_argument("--login-id", help="Enter the login-id: ")
+parser.add_argument("--description", default="", help="Enter a description(optional): ")
+
+cmdargs, unknown = parser.parse_known_args()
+
+if not cmdargs.enable_encryption and not cmdargs.disable_encryption:
+    cmdargs.disable_encryption = True
+
+print("running recorder-tui with arguments: " + str(cmdargs))
+
+def dwIsInstalled(runPath, defDir):
+    if cmdargs.remote_dw_path:
+        return True
+    if runPath.startswith(defDir):
+        return True
+    else:
+        return False
+
+myPath      = os.path.realpath(sys.argv[0])
+thisDir     = os.path.dirname(myPath)
+dwDir       = os.path.realpath(thisDir + "/../..")
+dwDefDir    = "/usr/local/driveworks"
+noInteraction = cmdargs.non_interaction
+buildInfoPaths = ["/rfs/build_info.txt", "/etc/build_info.txt", "/usr/local/build_info.txt"]
+buildInfoOverlayPaths = ["/etc/build_info_*.txt"]
+
+#if os.geteuid() == 0:
+if cmdargs.no_sudo:
+    useSudo = ''
+else:
+    useSudo = 'sudo'
+
+sys.path.insert(0, thisDir + "/scripts/")
+import recorder_utils as utils
+import BBR
+
+# metadata arg validation
+if cmdargs.skip_init_input and not noInteraction:
+    errorMsg = ""
+    flag = False
+    if cmdargs.route and not cmdargs.route.isdigit():
+        errorMsg = "Route should be a number."
+        flag = True
+    if cmdargs.lane_id and not cmdargs.lane_id.isdigit():
+        errorMsg = errorMsg + "Lane should be a number."
+        flag = True
+    if cmdargs.lane_id and len(cmdargs.lane_id) != 1:
+        errorMsg = errorMsg + "Lane id should be a single digit."
+        flag = True
+    if cmdargs.login_id and len(cmdargs.login_id.strip().split(" ")) < 2:
+        errorMsg = errorMsg + "Please enter proper login id."
+        flag = True
+    if flag:
+        print("Recording metadata provided by args must be valid: " + errorMsg)
+        sys.exit(1)
+
+# if driveworks in not installed on target
+# rsync dw image to /home/nvidia/dw-recorder
+
+if dwIsInstalled(dwDir, dwDefDir):
+    dwRemoteDir = dwDir
+else:
+    dwRemoteDir = "/home/nvidia/dw-recorder"
+
+if cmdargs.remote_dw_path:
+    dwRemoteDir = cmdargs.remote_dw_path
+
+# If no_interaction is set, we skip the init input.
+if noInteraction:
+    cmdargs.skip_init_input = True
+
+awePath     = "/tools/capture/recorder-tui"
+solPath     = "/tools/capture/recorder"
+virtualConverter = "/tools/capture/scripts/rig-virtual-converter"
+rigReserializer = "/tools/sensors/rig_json2json"
+sensorInitializer = "/tools/sensors/sensor_initializer"
+tmpDir      = os.path.join(cmdargs.log_dir_path, "recorder")
+dwInfoPath = "/tools/dw_info/dw_info"
+
+supportedShs = ["recorder-platform-setup.sh", "recorder-pre-start.sh", "recorder-post-stop.sh", "recorder-platform-cleanup.sh"]
+
+supportedTags = [ "NONE" ]
+
+def getBasePath(url):
+    if url.scheme == 'local':
+        base = dwDir
+    else: base = dwRemoteDir
+    return base
+
+def toUrl(s):
+    s = os.path.basename(s).split(".json")[0]
+
+    ip_addr = s
+    rig_name = s
+
+    #Extract IP from the rig file which is named as "IP_rigConfiguration.json"
+    if s.find('_') > -1:
+        if len(s.split("_")[0].split('.')) == 4:
+            rig_name = s.split("_")[1]
+            ip_addr = s.split("_")[0]
+
+    fields = ip_addr.split("@")
+    if len(fields) > 1:
+        ip_addr = fields[1]
+
+    if ip_addr.replace(".", "", 3).isnumeric() and (not utils.checkLocalIP(ip_addr)):
+        scheme = "ssh"
+    else:
+        scheme = "local"
+
+    url = urlparse(scheme + "://" + ip_addr + "/" + rig_name)
+    if not url.username: url = urlparse(scheme + "://nvidia:nvidia@" + ip_addr + "/" + rig_name)
+    return url
+
+def rigNameFromUrl(url):
+    if url.path.find("/") > -1:
+        return url.path.split("/")[1]
+    else:
+        return ""
+
+### Code that runs recorder (executed on the target)
+
+mnts = []
+usermnt = []
+rig = ""
+recordings = []
+rigPrefix = "Rig: "
+rigName = ""
+backendIndex = ""
+auxFiles = dict()
+auxFile = dict()
+recordingStartTime = 0
+
+def eraseMount(m):
+    for f in [m + "/" + f for f in os.listdir(m)]:
+        if os.path.isfile(f) or os.path.islink(f): os.unlink(f)
+        else: shutil.rmtree(f)
+
+def selectNewMount(usermnt, rigmnt, automnt):
+    # Select the mount based on priority
+    # usermnt (command line) > rigmnt > automnt
+    mount = []
+    if usermnt:
+        mount = usermnt
+    elif rigmnt:
+        mount = rigmnt
+    elif automnt:
+        mount = automnt
+
+    if utils.hasMinimumSpace(mount):
+        return mount
+    else:
+        sys.stdout.write(rigPrefix + "recorder-tui: no-space\n")
+        sys.stdout.flush()
+        return []
+
+def checkRollover(rigmnt, usermnt):
+    # Rollover can only occur if usrmnt or rigmnt
+    # are not present
+    return int(not (usermnt or rigmnt))
+
+def needSwitchMounts(infos, usermnt, rigmnt, recordings):
+    global mnts
+    automnt = utils.getLargestMount(infos)
+    if not mnts or not recordings:
+        mnts = selectNewMount(usermnt, rigmnt, automnt)
+        return False
+
+    if not utils.hasMinimumSpace(mnts):
+        mnts = selectNewMount(usermnt, rigmnt, automnt)
+        return True
+    return False
+
+def storeSensorsInfo(out, sensorsInfo):
+    line = out.decode().strip().split()
+
+    if len(line) == 4 and line[2] == "NewSink:":
+        sensorsInfo.clear()
+
+    if not (len(line) == 6 and line[4] == "Bytes:"):
+        print(out.decode().strip())
+        return
+
+    rigUsed = line[1]
+    sensorName = line[3]
+    byte = int(line[5])
+
+    if sensorName not in sensorsInfo:
+        sensorsInfo[sensorName] = [0, 0, 0] # speed, size, time
+
+    prevSpeed = sensorsInfo[sensorName][0]
+    prevSize = sensorsInfo[sensorName][1]
+    prevTime = sensorsInfo[sensorName][2]
+
+    curTime = time.time()
+    if (curTime - prevTime) < 1:
+        print(out.decode().strip() + " Speed: " + str(prevSpeed))
+        return
+
+    curSize = byte
+    spd = abs(curSize - prevSize)/(curTime - prevTime) if prevTime != 0 else 0
+    alpha = 0.25
+    curSpeed = int(alpha * spd + (1 - alpha) * prevSpeed)
+
+    sensorsInfo[sensorName][0] = curSpeed
+    sensorsInfo[sensorName][1] = curSize
+    sensorsInfo[sensorName][2] = curTime
+
+    print(out.decode().strip() + " Speed: " + str(curSpeed))
+
+def printMountsInfo(infos, sensorsInfo, rig, rigmnt, usermnt):
+    global mnts
+    for mnt in mnts:
+        sys.stdout.write(rigPrefix + "CurrentMount: " + mnt + "\n")
+    # The recorder-qtgui app depends the following print to set
+    # its internal state to indicate no further disk space
+    if not mnts:
+        sys.stdout.write(rigPrefix + "CurrentMount: \n")
+
+    storage = mnts if mnts else [infos[0][0]]
+    rollover = checkRollover(rigmnt, usermnt)
+
+    # if rollover is occuring, send all the rigs and take the
+    # current speed for all rigs
+    for mnt in storage:
+        speed = 0
+        for sensorName in sensorsInfo.keys():
+            if len(storage) > 1:
+                if utils.getSensorStorage(rig, sensorName) == mnt:
+                    speed += sensorsInfo[sensorName][0]
+            else:
+                speed += sensorsInfo[sensorName][0]
+
+        for i in infos:
+            bytesAvail = max(i[2] - utils.minSpace, 0)  # tui cutoffs at min space
+
+            if rollover or i[0] == mnt:
+                if speed:
+                    sys.stdout.write(rigPrefix + "Mount: " + i[0] + \
+                                    " BytesTotal: " + str(i[1]) + \
+                                    " BytesAvail: " + str(bytesAvail) + \
+                                    " TimeAvail: " + str(int(bytesAvail/speed)) + "\n")
+
+    sys.stdout.write(rigPrefix + "Rollover: " + str(rollover) + "\n")
+    sys.stdout.write(rigPrefix + "EndOfMountsInfo\n")
+    sys.stdout.flush()
+
+def cleanupSolProc(*args, msg="signal received"):
+    global solProc
+    print(rigPrefix, "Error: recorder exited abnormally:", msg)
+    try:
+        solProc.kill()
+    except:
+        pass
+    solProc.wait(1)
+    os._exit(1)
+
+def startSol(rig, key):
+    global solPath
+    global solProc
+    url = toUrl(rig)
+
+    signal.signal(signal.SIGTERM, cleanupSolProc)
+    signal.signal(signal.SIGINT, cleanupSolProc)
+
+    os.environ["NVMEDIA_IPP_ICP_REL_PRIO"] = "20"
+    # WAR for HIL mode, where sim does not provide correct embedded lines.
+    # This spams ERROR prints from nvmedia, which bog down the input processing
+    # of recorder-tui
+    # TODO: refactor input processing loops and remove this hack
+    if "hil" in rig:
+        solProc = subprocess.Popen("%s %s %s | grep -v ERROR"
+                                   % (getBasePath(url) + solPath, rig, key), stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    else:
+        solProc = subprocess.Popen("%s %s %s"
+                                   % (getBasePath(url) + solPath, rig, key), stdin=subprocess.PIPE,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+
+
+def sendSolCmd(cmd):
+    global solProc
+    cmd = cmd + "\n"
+    try:
+        solProc.stdin.write(bytes(cmd, 'utf8'))
+        solProc.stdin.flush()
+    except:
+        cleanupSolProc(msg="cannot send cmd")
+
+def runLocal(url, cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE):
+    if cmd[0] == '':
+        cmd.pop(0)
+    p = subprocess.run(cmd, shell=isinstance(cmd, str),
+                       stdout=stdout, stderr=stderr)
+    if p.returncode:
+        print("ERROR @", url.hostname,
+              ": cmd: ", cmd,
+              " stdout: ", p.stdout,
+              " stderr: ", p.stderr)
+        exit(1)
+
+def stopSol(logFile):
+    global solProc
+    sendSolCmd("q")
+
+    rfds, _, _ = select.select([solProc.stderr], [], [], 20)
+    if rfds:
+        logFile.write(solProc.stderr.read())  #entire file(stderr) is read
+        logFile.flush()
+    logFile.close()
+    cmd = [useSudo, "rm", "-rf", tmpDir]
+    if cmd[0] == '':
+        cmd.pop(0)
+    subprocess.run(cmd, shell=isinstance(cmd, str),
+                   stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return solProc.wait(20)
+
+def getRigName(mntIndex):
+    global backendIndex
+    global rigName
+
+    return rigName + backendIndex + mntIndex
+
+def chopRigFiles(recording, rigName, mntIndex):
+    with open(recording + "/config/" + rig, 'r') as inf:
+        oldRig = json.load(inf)
+
+    newRig = copy.deepcopy(oldRig)
+    newRig["rig"]["sensors"] = []
+    storageMap = oldRig["rig"]["recorder_storage_map"]
+
+    for s in oldRig["rig"]["sensors"]:
+        sensorGrp = "0"
+        if s['name'] in storageMap:
+            sensorGrp = storageMap[s['name']]
+
+        if sensorGrp == mntIndex:
+            newRig["rig"]["sensors"].append(s)
+
+    newRigName = getRigName(mntIndex)
+
+    with open(recording + "/config/" + newRigName + ".json", 'w') as outf:
+        json.dump(newRig, outf, indent=4, sort_keys=True)
+
+    subprocess.call([dwDir + virtualConverter, recording + "/config/" + newRigName + ".json",
+                     recording + "/config/" + newRigName + "-virtual.json"])
+
+    # Delete old files
+    utils.removeFileIfPresent(recording + "/config/" + rig)
+    utils.removeFileIfPresent(recording + "/config/" + rigName + "-virtual.json")
+
+def copyRecordConfigFiles(recordings):
+    for i, recording in enumerate(recordings):
+        shutil.copytree(tmpDir, recording + "/config")
+        os.chmod(tmpDir, stat.S_IRWXU|stat.S_IRWXG|stat.S_IRWXO)
+        mntIndex = str(i)
+        # chop the rig file as per sensor recorded per disk
+        if len(recordings) > 1:
+            chopRigFiles(recording, rigName, mntIndex)
+        else:
+            originalVirtualRig = recording + "/config/" + rigName + "-virtual.json"
+            # Remove the virtual rigs that don't correspond to this 'recording'
+            for file in glob.glob(recording + "/config/*-virtual.json"):
+                if file != originalVirtualRig:
+                    os.remove(file)
+            os.rename(originalVirtualRig,
+                recording + "/config/" + getRigName(mntIndex) + "-virtual.json")
+
+        for file in glob.glob(recording + "/config/" + getRigName(mntIndex) + "-virtual*"):
+            shutil.copy(file, recording)
+
+def copyPostRecordLogs(recordings):
+    for recording in recordings:
+        for file in glob.glob(tmpDir + "/*.log"):
+            shutil.copy(file, recording + "/config")
+
+def initAuxFile():
+    global rigName
+
+    auxFile['route'] = "000"
+    auxFile['lane'] = "0"
+    auxFile['login-id'] = "Driver Unavailable"
+    auxFile['vin'] = utils.tryFetchVIN()
+    auxFile['configuration'] = rigName
+    auxFile['configuration-version'] = "0"
+    auxFile['peername'] = "None"
+    auxFile['peernames'] = "None"
+    auxFile['version'] = "1.6"
+    auxFile['mode'] = "continuous"
+    auxFile['description'] = "None"
+    auxFile['tag'] = cmdargs.tag
+
+def getRecordName(currentTime, uuid, mntIndex):
+    name = "dw_%s_" % (currentTime)
+    name += auxFile['vin'] + "_"
+    name += getRigName(mntIndex) + "_"
+    name += uuid
+    return name
+
+def createDirectory(mnt, auxFile, mntIndex, aesKey, aesKeyEncrypted, rsaKeyMd5):
+    global rigName
+    global backendIndex
+    recordName = getRecordName(currentTimeFileFormat, uuid, mntIndex)
+    recording = "%s/%s" % (mnt, recordName)
+
+    auxFile['id'] = recordName
+    auxFile['peername'] = backendIndex + mntIndex
+    auxFile['configuration'] = rigName
+
+    try:
+        os.makedirs(recording)
+    except Exception as e:
+        print("Could not make destination record directory: {}".format(e))
+        exit(1)
+
+    last_record_path = os.path.join(recording, "../last_record")
+    try:
+        os.unlink(last_record_path)
+    except IsADirectoryError:
+        # Rename folder named exactly like symlink we want to create
+        # (Maybe directory was manually created, or symlink was collapsed into
+        # a directory)
+        ts = time.strftime("%Y%m%d-%H%M%S")
+        renamed_path = last_record_path + "-AUTORENAMED_%s" % ts
+        os.rename(last_record_path, renamed_path)
+    except FileNotFoundError:
+        # Can ignore because we at least know we can create symlink safely
+        pass
+    os.symlink(os.path.basename(recording), last_record_path)
+    for aux in auxFiles:
+        with open(recording + "/" + aux, "w") as f:
+            auxString = auxFiles[aux].strip() + "\n"
+            if aesKey:
+                auxString = utils.encryptAES(aesKey, auxString)
+            f.write(auxString)
+
+    with open(recording + "/" + "aux_info", "w") as f:
+        auxString = ""
+        for aux in sorted(auxFile):
+            auxString += aux + ": " + auxFile[aux].strip() + "\n"
+        if aesKey:
+            auxString = utils.encryptAES(aesKey, auxString)
+        f.write(auxString)
+
+    if aesKeyEncrypted:
+        with open(recording + "/" + "key", "w") as f:
+            f.write(aesKeyEncrypted)
+
+    if rsaKeyMd5:
+        with open(recording + "/" + "rsakey.md5", "w") as f:
+            f.write(rsaKeyMd5)
+
+    utils.getVersionInfo(tmpDir, recording, dwDir + dwInfoPath, buildInfoPaths,
+            buildInfoOverlayPaths)
+
+    return recording
+
+def waitForSolSinkSwitch(url, rigPrefix, rigBaseName, sensorsInfo):
+    global solProc
+    ack = b'NewSink:'
+
+    count = 0
+    start = datetime.datetime.now()
+    while True:
+        inputs, _, _ = select.select([solProc.stdout], [], [], 0.1)
+        count += 1
+        for input in inputs:
+            line = input.readline()
+            print(bytes.decode(line))
+            if line.find(ack) != -1:
+                sensorsInfo.clear()
+                return
+        # 10 sec timeout
+        if datetime.timedelta(seconds=10) < (datetime.datetime.now() - start):
+            print("SOL recorder did not switch to new sink within timeout")
+            return
+
+def startRecord(currentTime, uuid, peerNames, mode, rig, aesKey, aesKeyEncrypted, rsaKeyMd5, sensorsInfo):
+    global mnts
+    global recordings
+    global tmpDir
+    if not mnts: return ""
+    prevRecPaths = " ".join(recordings)
+    copyPostRecordLogs(recordings)
+    recordings.clear()
+
+    # Update auxFile
+    auxFile['time'] = currentTime
+    auxFile['uuid'] = uuid
+    auxFile['root-uuid'] = uuid
+    auxFile['peernames'] = peerNames
+    auxFile['mode'] = mode
+
+    sendTelemetryPacket(uuid)
+
+    cmd = "sinks" if len(mnts) > 1 else "sink"
+    for mntIndex, mnt in enumerate(mnts):
+        mountrecording = createDirectory(mnt, auxFile, str(mntIndex), aesKey, aesKeyEncrypted, rsaKeyMd5)
+        cmd += " " + mountrecording
+        recordings.append(mountrecording)
+
+    copyRecordConfigFiles(recordings)
+
+    url = toUrl(rig)
+    # Pre-recording hook for the next session
+    preStartSh = next(filter(lambda x: x == supportedShs[1], os.listdir(tmpDir)), '')
+    if preStartSh:
+        recPaths = " ".join(recordings)
+        runLocal(url, [useSudo, tmpDir + "/" + os.path.basename(preStartSh), recPaths], None, None)
+
+    # Switch sink/s
+    sendSolCmd(cmd)
+
+    # Post-recording hook for the previous session
+    postStopSh = next(filter(lambda x: x == supportedShs[2], os.listdir(tmpDir)), '')
+    if postStopSh and prevRecPaths:
+        waitForSolSinkSwitch(url, rigPrefix, os.path.basename(rig), sensorsInfo)
+        runLocal(url, [useSudo, tmpDir + "/" + os.path.basename(postStopSh), prevRecPaths], None, None)
+
+def stopRecord(rig, sensorsInfo):
+    global recordings
+    global tmpDir
+    global usermnt
+    url = toUrl(rig)
+
+    recPaths = " ".join(recordings)
+    copyPostRecordLogs(recordings)
+    recordings.clear()
+
+    sendSolCmd("sink /dev/null")
+    usermnt = []
+
+    # Run any post recording hook only if we detect that the recorder app
+    # has stopped recording and we had at least one active sink
+    postStopSh = next(filter(lambda x: x == supportedShs[2], os.listdir(tmpDir)), '')
+    if postStopSh and recPaths:
+        waitForSolSinkSwitch(url, rigPrefix, os.path.basename(rig), sensorsInfo)
+        runLocal(url, [useSudo, tmpDir + "/" + os.path.basename(postStopSh), recPaths], None, None)
+
+def changeCameraParam(cmd, rigName):
+    rigs = list(filter(lambda x: x.endswith(".json"), os.listdir(tmpDir)))
+    for rig in rigs:
+        if rigName not in rig:
+            continue
+
+        with open(rig, 'r') as f:
+            rigFile = json.load(f, object_pairs_hook=OrderedDict)
+
+        for sensor in rigFile["rig"]["sensors"]:
+            if sensor["protocol"].split('.')[0] == "camera":
+                if rig.endswith("-virtual.json"):
+                    fileName = sensor["name"].replace(':', '_') + "." + cmd
+                    sensor["parameter"] = "video=" + fileName
+                    sensor["parameter"] += ",timestamp=" + fileName + ".timestamps"
+                else:
+                    prefix = sensor["parameter"].find(",format=")
+                    suffix = sensor["parameter"].find(",", prefix + 1)
+                    if suffix == -1:
+                        sensor["parameter"] = sensor["parameter"][:prefix] + ",format=" + cmd
+                    else:
+                        sensor["parameter"] = sensor["parameter"][:prefix] + ",format=" + cmd + sensor["parameter"][suffix:]
+        with open(rig, 'w') as f:
+            json.dump(rigFile, f, indent=4, sort_keys=False)
+
+
+def sendTelemetryPacket(uuid):
+    telemetryPort = 57894
+
+    # pack the auxmsg with deliemeter and length
+    packAuxcomMsg = lambda msg: struct.pack('<I', int('F4E5D6C9', base=16)) + struct.pack('<I', len(msg)) + msg
+
+    telemetryMsg = json.dumps({
+        'source': 'RECORDER',
+        'uuid': uuid
+    })
+
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socketConn:
+            socketConn.connect(("0.0.0.0", telemetryPort))
+            socketConn.sendall(packAuxcomMsg(bytearray(telemetryMsg, 'ascii')))
+    except:
+        pass
+
+if cmdargs.backend:
+    global solProc
+    rig = os.path.basename(cmdargs.rig)
+    sensorsInfo = {}
+    aesKey = ""
+    aesKeyEncrypted = ""
+    rsaKeyMd5 = ""
+    if not cmdargs.disable_encryption:
+        if not (cmdargs.aes_key and cmdargs.aes_key_encrypted and cmdargs.rsa_key_md5):
+            print("recorder-tui backend: encryption_enabled but no key available to store")
+            exit(1)
+        aesKey = cmdargs.aes_key
+        aesKeyEncrypted = cmdargs.aes_key_encrypted
+        rsaKeyMd5 = cmdargs.rsa_key_md5
+
+    rigName = os.path.basename(rig)
+    rigName = os.path.splitext(rigName)[0]
+
+    # if rigName starts with IP then check for Configure (IP_rigConfiguration)
+    # if Configure is present? rigName = rigConfiguration, otherwise rigName = default
+
+    if rigName.find('.') > -1:  # rigName = 10.100.3.4_testing
+        if rigName.find('_') > -1:
+            rigName = rigName.split("_")[1]  # rigName = testing
+        else:
+            rigName = "default"
+
+    rigPrefix += rig + " "
+
+    tmpDir = os.path.abspath(os.path.join(cmdargs.rig, os.pardir))
+    os.chdir(tmpDir)
+
+    initAuxFile()
+
+    startSol(rig=cmdargs.rig, key=aesKey)
+
+    logFileName = "recorder-" + rigName + ".log"
+
+    logFile = open(logFileName, "wb")
+
+    print(rigPrefix + "recorder-tui: started")
+
+    recordings = []
+
+    rigmnt = utils.getStoragePaths(rig)
+
+    uuid = ""
+    mode = "continuous"
+    peerNames = ""
+
+    whileBreak = False
+    lastPrintTime = time.time()
+
+    while not whileBreak:
+        rfds, _, _ = select.select([sys.stdin, solProc.stdout, solProc.stderr], [], [], 2)
+
+        timestamp = time.localtime()
+        currentTime = time.strftime("%Y_%m_%d_%H:%M:%S", timestamp)
+
+        # Adding a new variable with format suited for recorder directory name
+        currentTimeFileFormat = time.strftime(utils.TimeFormat, timestamp)
+
+        if not cmdargs.no_mount_check:
+            mntInfos = utils.getMountsInfo()
+            if needSwitchMounts(mntInfos, usermnt, rigmnt, recordings):
+                if mnts:
+                    startRecord(currentTime, uuid, peerNames, mode, rig, aesKey, aesKeyEncrypted, rsaKeyMd5, sensorsInfo)
+                else:
+                    stopRecord(rig, sensorsInfo)
+
+        for i in rfds:
+
+            if i is solProc.stdout:
+                storeSensorsInfo(i.readline(), sensorsInfo)
+
+            if i is solProc.stderr:
+                line = i.readline()
+                sys.stderr.write(line.decode("utf-8", errors="replace"))
+                sys.stderr.flush()
+                logFile.write(line)
+                logFile.flush()
+
+            if i is sys.stdin:
+                cmd = temp = ""
+                line = sys.stdin.readline().strip()
+
+                if line:
+                    [cmd, *temp] = line.split(' ', 1)
+
+                if cmd == "q":
+                    stopRecord(rig, sensorsInfo)
+                    whileBreak = True
+
+                elif cmd == "stop":
+                    stopRecord(rig, sensorsInfo)
+
+                elif cmd == "h264" or cmd == "lraw":
+                    changeCameraParam(cmd, os.path.splitext(rig)[0])
+                    sendSolCmd(cmd)
+
+                elif cmd == "start":
+                    temp = temp[0].split(' ')
+                    if len(temp) == 5:
+                        requestmnt, uuid, mode, peerNames, backendIndex = temp
+                        requestmnt = [requestmnt] if requestmnt else []
+                        if cmdargs.no_mount_check:
+                            mnt = []
+                            mnts = rigmnt
+                            if requestmnt:
+                                mnts = requestmnt
+                        elif requestmnt and utils.hasMinimumSpace(requestmnt):
+                            mnt = []
+                            usermnt = requestmnt
+                            needSwitchMounts(mntInfos, usermnt, rigmnt, recordings)
+
+                        startRecord(currentTime, uuid, peerNames, mode, rig, aesKey, aesKeyEncrypted, rsaKeyMd5, sensorsInfo)
+
+                elif cmd == "exec":
+                    args = temp
+                    if not args[0]:
+                        print("eval: argument expected")
+                    else:
+                        exec(args[0])
+
+        if (time.time() - lastPrintTime) > 2:
+            if not cmdargs.no_mount_check:
+                printMountsInfo(mntInfos, sensorsInfo, rig, rigmnt, usermnt)
+            sendSolCmd("")
+            lastPrintTime = time.time()
+
+    exit(stopSol(logFile))
+
+### Code that orchestrates and monitors recorders remotely (executed anywhere)
+
+aweProcs = []
+initProcs = []
+recordersExpectedToExit = False
+cleanupLock = threading.Lock()
+
+def cleanupChildProcess(parent):
+    psOut = subprocess.run(['ps', '-opid', '--no-headers', '--ppid', str(parent.pid)],
+                            stdout=subprocess.PIPE, encoding='utf8')
+    childProcIds = [int(line) for line in psOut.stdout.splitlines()]
+    for childPid in iter(childProcIds):
+        os.system(useSudo + " kill -9 %d"%(childPid))
+
+
+def cleanup(force=False, *fromSignal):
+    global gTuiErrorsDetected
+    global tuiLogDir
+    global tuiOutLog
+    global tuiErrLog
+    global rigs
+    global tmpFrontEndDir
+    cleanupLock.acquire()
+
+    if force:
+        gTuiErrorsDetected = force
+
+    print("Cleanup started ...")
+    for i, a in enumerate(aweProcs):
+        if not force:
+            try: # m.stdin might be closed already
+                a.stdin.write(b'q\n')
+                a.stdin.flush()
+            except:
+                try:
+                    os.system(useSudo + " kill -9 %d"%(a.pid))
+                except:
+                    print("Failed to kill backend process %d"%(a.pid))
+        else:
+            try:
+                # if Popen used sudo command, it creates child shell process.
+                # Before cleanup 'a process', clean up child first if there is any
+                cleanupChildProcess(a)
+                os.system(useSudo + " kill -9 %d"%(a.pid))
+            except:
+                print("Failed to kill backend process %d"%(a.pid))
+        try:
+            timeout_sec = 30
+            print("Waiting (timeout=%ds) for child process %d/%d to exit cleanly..." %
+                  (timeout_sec, i+1, len(aweProcs)))
+            a.wait(timeout=timeout_sec)
+        except:
+            pass
+
+    print("Cleaning up sensor initializers ...")
+    for idx, i in enumerate(initProcs):
+        try:
+            i.kill()
+            timeout_sec = 10
+            print("Waiting (timeout=%ds) for initializer %d/%d to exit cleanly..." %
+                  (timeout_sec, idx+1, len(initProcs)))
+            i.wait(timeout=timeout_sec)
+        except:
+            print("Failed to kill sensorInitializer process %d"%(i.pid))
+
+    # execute platform recorder cleanup script
+    print("Performing platform recorder cleanup, if found ...")
+    cleanupSh = next(filter(lambda x: x == supportedShs[3], shs), '')
+    if cleanupSh:
+        visited = set()
+        for f in rigs:
+            url = toUrl(f)
+            hostname = "local" if url.scheme == "local" else url.hostname
+            if hostname not in visited:
+                visited.add(hostname)
+                cmd = [useSudo, tmpFrontEndDir + "/" + os.path.basename(cleanupSh)]
+                runRemote(url, cmd, noHup=True, stdout=None, stderr=None)
+                runRemote(url,  [useSudo, "rm", "-rf", tmpFrontEndDir])
+    else:
+        shutil.rmtree(tmpFrontEndDir, ignore_errors=True)
+
+
+    if gTuiErrorsDetected:
+        tuiErrLog.close()
+        tuiOutLog.close()
+
+        print("Errors detected during recording")
+        print("First 100 lines of std error log:")
+
+        utils.printNlines(tuiLogDir + "/err.log", 100)
+
+        print("First 100 lines of std out log:")
+        utils.printNlines(tuiLogDir + "/out.log", 100)
+        print("When reporting bugs, please attach full log and files {}/*.log and {}/*.log".format(tuiLogDir, tmpDir))
+    else:
+        tuiOutLog.close()
+        tuiErrLog.close()
+        shutil.rmtree(tuiLogDir)
+
+    if force:
+        print("WARNING: Forcibly exited. Some data might have been lost!\n"
+              "WARNING: Use q<Enter> to exit gracefully, next time.\n")
+        os._exit(1)
+    cleanupLock.release()
+    # Clean up from signal, directly quit the program.
+    if len(fromSignal) > 0 and fromSignal[0] == signal.SIGQUIT:
+        os._exit(0)
+
+def makeRemoteCmd(url, cmd, options = []):
+    if url.scheme == 'local':
+        return ["setsid"] + cmd
+    os.environ["SSHPASS"] = url.password
+    if isinstance(cmd, list): cmd = " ".join(cmd)
+
+    retCmd = ["setsid", "ssh", "-o", "StrictHostKeyChecking=no"]
+
+    if len(options) > 0:
+        retCmd += options
+
+    retCmd += [url.username + "@" + url.hostname, cmd]
+    return retCmd
+
+def runRemote(url, cmd, noHup=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE):
+    if noHup:
+        cmd = ["nohup"] + cmd + ["&>/dev/null"]
+    if url.scheme != 'local':
+        cmd = makeRemoteCmd(url, cmd)
+    runLocal(url, cmd, stdout, stderr)
+
+def rsync(url, srcs, dst, args = []):
+    if url.scheme == 'local':
+        runLocal(url, [useSudo, "mkdir", "-p", dst])
+        runLocal(url, [useSudo, "chmod", "ugo+rwx", dst])
+        runLocal(url, [useSudo, "cp", "-a"] + args + srcs + [dst])
+        return
+    dst = url.username + "@" + url.hostname + ":" + dst
+    os.environ["SSHPASS"] = url.password
+    runLocal(url, ["setsid", "rsync", "-av", "--delete-excluded"] + args + ["-e",
+                "ssh -o StrictHostKeyChecking=no", "--rsync-path",
+                useSudo + " rsync"] + srcs + [dst])
+
+def makeSshPasswordless(url):
+    if url.scheme == 'local': return
+
+    ssh = os.environ["HOME"] + "/.ssh"
+    rsa = ssh + "/id_rsa"
+
+    if not os.path.exists(rsa):
+        os.makedirs(ssh, exist_ok=True)
+        subprocess.run(["ssh-keygen", "-t", "rsa", "-P", "",
+                        "-f", rsa])
+
+    pid, fd = pty.fork()
+    if not pid:
+        os.execve("/usr/bin/ssh-copy-id",
+                  ["ssh-copy-id", "-o", "StrictHostKeyChecking=no",
+                   url.username + "@" + url.hostname],
+                  env=os.environ)
+    while True:
+        try:
+            s = os.read(fd, 512)
+        except:
+            break
+        if s.endswith(b'password: '):
+            os.write(fd, bytes(url.password, 'utf8') + b'\n')
+            continue
+
+    os.close(fd)
+    _, status = os.waitpid(pid, 0)
+    if status:
+        print("Warn: failed to do ssh-copy-id")
+        cleanup(force=True)
+
+def makeSudoPasswordless(rigs):
+    if os.uname().machine != 'aarch64': return
+    for f in rigs:
+        url = toUrl(f)
+        line = url.username + " ALL=(ALL) NOPASSWD:ALL"
+        shCmd="grep %s /etc/sudoers || echo \"%s\" >> /etc/sudoers" % (url.username, line)
+        cmd = ("echo %s | sudo -p '' -S -- sh -c '" + shCmd + "'") % url.password
+        runRemote(url, cmd)
+
+def createVirtualConvertedRigs(rigs):
+    for r in rigs:
+        try:
+            url = toUrl(r)
+            cmd = [useSudo, getBasePath(url) + virtualConverter, tmpDir + '/' + os.path.basename(r), tmpDir + '/' + rigNameFromUrl(url)  + "-virtual.json"]
+            runRemote(url, cmd) #convert rig file
+        except:
+            print("Error: fail to run rig virtual converter")
+            exit(1)
+
+def waitForSensorInitToStart(processStdout):
+    count = 0
+    start = datetime.datetime.now()
+    while True:
+        inputs, _, _ = select.select([processStdout], [], [], 0.1)
+        count += 1
+        for input in inputs:
+            line = input.readline()
+            if line.strip().endswith(b"SensorManager::start() started"):
+                return True
+
+        # 20s timeout
+        if datetime.timedelta(seconds=20) < (datetime.datetime.now() - start):
+            print("Sensor initializer didn't start, no acknowledgement received")
+            return False
+
+
+def launchSensorInit(rig):
+    global initProcs
+
+    url = toUrl(rig)
+    cmd = [getBasePath(url) + sensorInitializer, "--rig=" + tmpDir + "/" + os.path.basename(rig)]
+
+    p = subprocess.Popen(makeRemoteCmd(url, cmd, ["-t", "-t"]),
+                         bufsize=0,
+                         stderr=subprocess.DEVNULL,
+                         stdout=subprocess.PIPE,
+                         stdin=subprocess.DEVNULL)
+
+    waitForSensorInitToStart(p.stdout)
+    initProcs.append(p)
+
+def reserializeRigs(rigs):
+    reserializer = dwDir + rigReserializer
+    if os.path.isfile(reserializer) and os.access(reserializer, os.X_OK):
+        for r in rigs:
+            os.chmod(r, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)
+            try:
+                # Deserialize the input rig, upgrade to the latest version
+                # and serialize to the same rig on disk
+                subprocess.check_output([reserializer, r, r], shell=False)
+            except subprocess.CalledProcessError as e:
+                tuiErrLog.write(e.output);
+                print("Failed to reserialize {} with the latest version".format(os.path.basename(r)))
+    else:
+        print("Failed to run {} for re-serializing rig/s".format(reserializer))
+        cleanup(force=True)
+
+def prepRemotes(rigs, initRigs, shs):
+    global tmpDir
+    global tmpFrontEndDir
+    visited = set()
+    setupSh = next(filter(lambda x: x == supportedShs[0], shs), '')
+    cleanupSh = list(filter(lambda x: x == supportedShs[3], shs))
+
+    for f in rigs + initRigs:
+        url = toUrl(f)
+        hostname = "local" if url.scheme == "local" else url.hostname
+
+        if hostname not in visited:
+            print("\tCopying rigs and setup code for {}...".format(hostname))
+            rsync(url, rigs + initRigs + shs, tmpDir + "/", ["-L"])
+            if len(cleanupSh) > 0 and hostname != "local":
+                rsync(url, cleanupSh, tmpFrontEndDir + "/", ["-L"])
+            if url.scheme != 'local' and not dwIsInstalled(dwRemoteDir, dwDefDir):
+                print("\tCopying dw build to folder " + dwRemoteDir)
+                excludes = ["data","apps","tests","include","samples"]
+                rsync(url, [dwDir + "/"], dwRemoteDir,
+                        sum((["--exclude", i] for i in excludes), []))
+
+        if f in initRigs:
+            print("\tSensor init for {}...".format(os.path.basename(f)))
+            launchSensorInit(f)
+        else:
+            print("\tPlatform setup for {}...".format(hostname))
+            if setupSh and hostname not in visited:
+                cmd = [useSudo, tmpDir + "/" + os.path.basename(setupSh)]
+                runRemote(url, cmd, noHup=True, stdout=None, stderr=None)
+
+        visited.add(hostname)
+
+### Code that handles simple Text User Interface (if tty)
+
+monsOut = dict()
+monsErr = dict()
+outsToUrl = dict()
+errsToUrl = dict()
+sensors = dict()
+tmpSensors = dict()
+curSink = dict()
+
+def consumeOut(url, line):
+    l = line.decode('utf8').strip().split(" ") # 'a b' ->  ['a', 'b']
+    d = dict(zip(l[::2], l[1::2]))             #          d['a'] = 'b'
+
+    if len(d) == 1 and line.endswith(b'CurrentMount: \n'): return True
+    elif len(d) == 1 and line.endswith(b'EndOfMountsInfo\n'): return True
+    elif "CurrentMount:" in d or "Mount:" in d or "Rollover:" in d: return True
+    elif "Mount:" in d and "Bytes:" in d: return True
+    elif "File:" in d and "Bytes:" in d: return True
+    elif "NewSink:" in d:
+        s = d["NewSink:"]
+        curSink[url] = "Ready to start" if s == "/dev/null" else os.path.dirname(s)
+        return True
+    elif len(d) == 1 and line.endswith(b'EndOfSensorsInfo\n') and tmpSensors:
+        sensors[url]    = tmpSensors[url]
+        return True
+    elif "Sensor:" in d and "Bytes:" in d:
+        name = d["Sensor:"]
+        sz = int(d["Bytes:"])
+
+        if url not in sensors or name not in sensors[url]:
+            oldSz = 0
+            oldTime = 0
+        else:
+            (oldSz,oldTime, _, _) = sensors[url][name]
+        if url not in tmpSensors:
+            tmpSensors[url] = dict()
+        now = time.time()
+        if now - oldTime < 5: return True
+        tmpSensors[url][name] = (sz, now, oldSz, oldTime)
+        return True
+    return False
+
+def toUnits(s):
+    sz = s / 1024 / 1024 / 1024;     units = "GB"
+    if sz < 1: sz = s / 1024 / 1024; units = "MB"
+    if sz < 1: sz = s / 1024 ;       units = "KB"
+    return (sz, units)
+
+def printSensors(url):
+    if url not in sensors: return
+    totSz = 0
+    totSpd = 0
+    for name in sorted(sensors[url]):
+        (newSz, newTime, oldSz, oldTime) = sensors[url][name]
+        totSz += newSz
+        spd = abs(newSz - oldSz) / (newTime - oldTime) if newTime - oldTime > 0 else 0
+        totSpd += spd
+        (niceSz, units) = toUnits(newSz)
+        (niceSpd, spdUnits) = toUnits(spd)
+
+        print("%10s %s %10s %s/s %s" % (
+              ("%.3f" % niceSz), units, ("%.3f" % niceSpd), spdUnits, name))
+
+    (totSz, szUnits) = toUnits(totSz)
+    (totSpd, spdUnits) = toUnits(totSpd)
+    print("%10s %s %10s %s/s TOTAL" % (
+          ("%.3f" % totSz), szUnits, ("%.3f" % totSpd), spdUnits))
+
+def tui(url, line, isErr):
+    global tuiErrLog
+    global gTuiErrorsDetected
+    global recordingStartTime
+    global recordersExpectedToExit
+    try:
+        if isErr:
+            monsErr[url] = line
+        elif not consumeOut(url, line):
+            monsOut[url] = line
+        print('\033c')
+        for url in sorted(monsOut.keys() | monsErr.keys() | sensors.keys()):
+            sink = curSink[url] if url in curSink else ""
+            print("Recorder @ " + url.hostname + url.path + ": " + sink)
+            if recordingStartTime:
+                print("Start Time:\t" + recordingStartTime.strftime('%H:%M:%S'))
+                print("Current Time:\t" + datetime.datetime.now().strftime('%H:%M:%S'))
+                print("Time Elapsed:\t" + str(datetime.datetime.now() - recordingStartTime))
+            printSensors(url)
+            if url in monsOut:
+                print("Last output: %s\n" % monsOut[url].strip().decode('utf8'))
+            if url in monsErr:
+                print("Last error: %s\n" % monsErr[url].strip().decode('utf8'))
+        if not recordersExpectedToExit:
+            print("Press s<Enter> to start/stop. Press q<Enter> to quit.")
+        else:
+            print("Quit signal forwarded to child processes.")
+            print("Cleaning up shortly ...")
+    except Exception as e:
+        gTuiErrorsDetected = True
+        tuiErrLog.write(line)
+        tuiErrLog.write(str(e).encode())
+        print("recorder-tui: line " + str(line.decode().strip()) + " caused exception in recorder-tui. Exception is: " + str(e))
+
+### Code that starts recorder backends (may be remotely) and handles pipes
+backEndRecordingState = "stop"
+
+def getPeerNames():
+    global rigs
+
+    peers = ""
+    for backendId, f in enumerate(rigs):
+        for mntId in range(utils.getNumPeersForRig(f)):
+            peers += str(backendId) + str(mntId) + ','
+    return peers[:-1]
+
+
+def sendAweCmd(p, cmd):
+    try:
+        p.stdin.write(cmd)
+        p.stdin.flush()
+    except:
+        cleanup(force=True)
+
+def sendStartCmd(recordpath=b'', mode=b'continuous'):
+    global backEndRecordingState
+    global rigs
+    global recordingStartTime
+    backEndRecordingState = "start"
+    cmd = b'start'
+    cmd += b' ' + recordpath
+    cmd += b' ' + str(uuid.uuid1()).encode()
+    cmd += b' ' + mode
+    cmd += b' ' + getPeerNames().encode()
+
+    for i in range(len(aweProcs)):
+        sendAweCmd(aweProcs[i], cmd + b' ' + str(i).encode() + b'\n')
+
+    recordingStartTime = datetime.datetime.now()
+
+    for s in curSink: curSink[s] = "Starting..."
+
+def sendStopCmd():
+    global backEndRecordingState
+    global recordingStartTime
+    backEndRecordingState = "stop"
+
+    for i in range(len(aweProcs)):
+        sendAweCmd(aweProcs[i], b'stop\n')
+
+    # For CALIBRATION sessions, save the timestamp of the calibration
+    # to persistent storage
+    if cmdargs.tag == "CALIBRATION":
+        print("calibration session, updating time")
+        calTimePath = "/storage/recorder"
+        visited = set()
+
+        # Loop through to find the local rig
+        for f in rigs + initRigs:
+            url = toUrl(f)
+            hostname = "local" if url.scheme == "local" else url.hostname
+            print(" {}: recordingStartTime: {}".format(hostname, recordingStartTime))
+            print(" {}: recordingStartTime.timestamp: {}".format(hostname, recordingStartTime.timestamp()))
+            if hostname not in visited:
+                if hostname is "local":
+                    # Create calibration folder, timestamp file
+                    os.makedirs(calTimePath,exist_ok=True)
+                    with open(calTimePath+'/calibration_time', 'w+') as calFile:
+                        calFile.write(str(recordingStartTime.timestamp()))
+                        calFile.write('\n')
+                        calFile.close()
+                    visited.add(hostname)
+
+        # Now go through any remaining remotes, copy the timestamp to all
+        for f in rigs + initRigs:
+            url = toUrl(f)
+            hostname = "local" if url.scheme == "local" else url.hostname
+            if hostname not in visited:
+                if hostname is not "local":
+                    cmd = [useSudo, 'mkdir', '-p', calTimePath ]
+                    runRemote(url, cmd, noHup=True, stdout=None, stderr=None)
+                    rsync(url, [calTimePath + "/"], calTimePath)
+                    visited.add(hostname)
+
+    recordingStartTime = 0
+
+    for s in curSink: curSink[s] = "Stopped..."
+
+def tuiToggleRecord():
+    global backEndRecordingState
+    if backEndRecordingState == "stop":
+        sendStartCmd()
+    else:
+        sendStopCmd()
+
+def sortRigs(rigs):
+    slave = False
+    orderRigs = []
+    unorderRigs = []
+
+    # IP_RigConfiguration_seq is used for orchestration of recorders in distributed master-slave recording
+    # sort the rigs according to the seq provided in the file name
+    for f in rigs:
+        s = os.path.basename(f).split(".json")[0]
+
+        if (s.find('_') > -1) and s.split('_')[-1].isdigit():
+            slave = True
+            orderRigs.append(f)
+        else:
+            unorderRigs.append(f)
+
+    if slave:
+        rigs = sorted(orderRigs, key=lambda x: x.split("_")[-1]) + unorderRigs
+
+    return rigs
+
+def waitForRecorderToStart(url, processStdout, processStderr, rigPrefix, rigBaseName):
+    ack = b''
+    ack += rigPrefix.encode() + rigBaseName.encode()
+    ack += b' Ready\n'
+
+    fds = [processStdout]
+    fds.append(processStderr) if processStderr else None
+
+    start = datetime.datetime.now()
+    while True:
+        if not fds:
+            break
+        inputs, _, _ = select.select(fds, [], [], 1)
+        for input in inputs:
+            line = input.readline()
+            if line == b"":
+                # fd got closed, but other fds may still have messages,
+                # remove this one, and keep going
+                fds.remove(input)
+                continue
+            if input == processStderr and not tuiErrLog.closed:
+                tuiErrLog.write(line)
+                tuiErrLog.flush()
+                continue
+            if not tuiOutLog.closed:
+                tuiOutLog.write(line)
+                tuiOutLog.flush()
+            if line == ack:
+                curSink[url] = "Ready to start"
+                return True
+        # 60s timeout
+        if datetime.timedelta(seconds=60) < (datetime.datetime.now() - start):
+            print(f"{rigBaseName}: Backend recorder didn't start, no acknowledgement received")
+            return False
+    print(f"{rigBaseName}: Backend abruptly exited in waitForRecorderToStart")
+    return False
+
+config_version = ""
+
+tmpFrontEndDir = tmpDir + "-frontend-" + str(os.getpid())
+tmpDir += "-" + str(os.getpid())
+
+if os.path.isdir(cmdargs.rig):
+    shutil.copytree(cmdargs.rig, tmpFrontEndDir)
+    try:
+        with open(tmpFrontEndDir + "/version.txt") as f:
+            vers = f.read().strip()
+            if vers.isnumeric():
+                config_version = vers
+    except FileNotFoundError:
+        pass
+    try:
+        with open(tmpFrontEndDir + "/tags.txt") as f:
+            userTags = f.read().split("\n")
+            userTags = list(filter(None, userTags))
+            userTags = [x.strip() for x in userTags]
+            supportedTags.extend(userTags)
+    except FileNotFoundError:
+        pass
+else:
+    os.makedirs(tmpFrontEndDir)
+    shutil.copy(cmdargs.rig, tmpFrontEndDir)
+os.chdir(tmpFrontEndDir)
+cmdrigs = os.listdir(tmpFrontEndDir)
+
+tuiLogDir = os.path.join(cmdargs.log_dir_path, "recorder-tui-" + str(os.getpid()))
+os.makedirs(tuiLogDir)
+tuiOutLog = open(tuiLogDir + "/out.log", "wb")
+tuiErrLog = open(tuiLogDir + "/err.log", "wb")
+gTuiErrorsDetected = False
+
+rigs = list(filter(lambda x:x.endswith(".json") and not x.endswith("init.json") and not x.endswith("common.json"), cmdrigs))
+initRigs = list(filter(lambda x: x.endswith("init.json"), cmdrigs))
+shs = list(filter(lambda x: x in supportedShs, cmdrigs))
+
+if cmdargs.tag not in supportedTags:
+    sys.stdout.write("recorder-tui: invalid tag {}, tags should be one of {}\n".format(cmdargs.tag, ", ".join(supportedTags)))
+    sys.stdout.flush()
+    cleanup(force=True)
+
+if not rigs:
+    print("no valid rig file found, please see \"sys.argv[0] --help\" for usage")
+    cleanup(force=True)
+
+rigs = sortRigs(rigs)
+
+for r in rigs:
+    makeSshPasswordless(toUrl(r))
+
+makeSudoPasswordless(rigs)
+reserializeRigs(rigs)
+prepRemotes(rigs, initRigs, shs)
+createVirtualConvertedRigs(rigs)
+
+signal.signal(signal.SIGTERM, partial(cleanup, False))
+signal.signal(signal.SIGINT, partial(cleanup, False))
+signal.signal(signal.SIGQUIT, partial(cleanup, False, signal.SIGQUIT))
+errs = []
+outs = []
+ins = []
+
+aesKey = bytes()
+aesKeyEncrypted = bytes()
+rsaKeyMd5 = ""
+
+DEFAULT_RSA_KEY_PATH = "/home/nvidia/.ssh/recorder-aiinfra.pem"
+AES_KEY_LENGTH = 128
+
+if not cmdargs.disable_encryption:
+    if not os.path.isfile(cmdargs.rsa_key):
+        sys.stdout.write("recorder-tui: no valid rsa key\n")
+        sys.stdout.flush()
+        cleanup(force=True)
+
+    aesKey = utils.generateAESKey(AES_KEY_LENGTH)
+    aesKeyEncrypted = utils.encryptRSA(cmdargs.rsa_key, aesKey)
+    rsaKeyMd5 = utils.getRSAMD5(cmdargs.rsa_key)
+
+for f in rigs:
+    url = toUrl(f)
+    if cmdargs.disable_encryption:
+        cmd = [useSudo, getBasePath(url) + awePath,
+               "--backend", "--disable-encryption",
+               tmpDir + "/" + os.path.basename(f)]
+    else:
+        cmd = [useSudo, getBasePath(url) + awePath,
+               "--backend", "--enable-encryption",
+               "--aes-key", aesKey.hex(),
+               "--aes-key-encrypted", aesKeyEncrypted.hex(),
+               "--rsa-key-md5", rsaKeyMd5,
+               tmpDir + "/" + os.path.basename(f)]
+
+    if cmdargs.no_mount_check:
+        cmd.append("--no-mount-check")
+
+    cmd.extend(["--tag", str(cmdargs.tag)])
+
+    stderr = None
+    if os.isatty(sys.stdout.fileno()):
+        stderr = subprocess.PIPE
+
+    if cmd[0] == '':
+        cmd.pop(0)
+    p = subprocess.Popen(makeRemoteCmd(url, cmd),
+                         stderr=stderr,
+                         stdout=subprocess.PIPE,
+                         stdin=subprocess.PIPE)
+
+    # put in the process list for cleaning up, since frontend launched the backend already
+    aweProcs.append(p)
+
+    # in distributed master-slave recording wait for the feedback
+    if (not waitForRecorderToStart(url, p.stdout, p.stderr, rigPrefix, os.path.basename(f))):
+        cleanup(force=True)
+
+    if stderr: errs += [p.stderr]
+    outs += [p.stdout]
+    ins += [p.stdin]
+    outsToUrl[p.stdout] = url
+    errsToUrl[p.stderr] = url
+
+if cmdargs.skip_init_input:
+    routeCmd = "exec auxFile['route'] = '" + "1" + "'\n"
+    laneCmd = "exec auxFile['lane'] = '" + "0" + "'\n"
+    loginCmd = "exec auxFile['login-id'] = '" + "skipped" + "'\n"
+    descCmd = "exec auxFile['description'] = '" + "user input skipped during initialization" + "'\n"
+
+    #If these tags on interactive setup are provided then initalize the commandline arg values
+    if not noInteraction:
+        routeCmd = "exec auxFile['route'] = '" + cmdargs.route + "'\n"
+        laneCmd = "exec auxFile['lane'] = '" + cmdargs.lane_id + "'\n"
+        loginCmd = "exec auxFile['login-id'] = '" + cmdargs.login_id + "'\n"
+        if cmdargs.description:
+            descCmd = "exec auxFile['description'] = '" + cmdargs.description + "'\n"
+
+    for proc in aweProcs:
+        sendAweCmd(proc, routeCmd.encode())
+        sendAweCmd(proc, laneCmd.encode())
+        sendAweCmd(proc, loginCmd.encode())
+        sendAweCmd(proc, descCmd.encode())
+elif os.isatty(sys.stdout.fileno()):
+    route = None
+    while route is None:
+        temp = input("Enter the route(ex: 123): ")
+        try:
+            int(temp)
+            route = temp
+        except:
+            print("Please retry")
+
+    routeCmd = "exec auxFile['route'] = '" + route + "'\n"
+
+    lane = None
+    while lane is None:
+        temp = input("Enter the lane value (leave blank to skip or type 'help' for more information): ").strip()
+        if not temp:
+            temp = "0"
+        if temp == "help":
+            print("Certain data collection use-cases require a single lane to be selected for drives along a given route. "
+                  "Lanes are designated 1-8 with 1 being the rightmost lane and indexes increasing right-to-left like so:\n"
+                  "  | |   |   |   |   |\n"
+                  "  |M|   |   |   |   |\n"
+                  "  |e|   |   |   |   |\n"
+                  "  |d|   |   |   |   |\n"
+                  "  |i|   |   |   |   |\n"
+                  "  |a| 4 | 3 | 2 | 1 | 0 = No lane selected\n"
+                  "  |n|   |   |   |   |\n"
+                  "  | |   |   |   |   |\n"
+                  "Please leave lane selection blank if you are not performing a data collection drive in a specific lane.")
+            continue
+
+        try:
+            laneInt = int(temp)
+            if laneInt >= 0 and laneInt <= 8:
+                lane = temp
+            else:
+               raise ValueError
+        except:
+            print("Please enter a lane value between 0 and 8 or leave blank to skip.")
+
+    laneCmd = "exec auxFile['lane'] = '" + lane + "'\n"
+
+    login = input("Enter the login-id: ")
+    while len(login) == 0:
+        login = input("Enter again the valid login-id: ")
+    loginCmd = "exec auxFile['login-id'] = '" + login + "'\n"
+
+    description = input("Enter a description(optional): ").strip()
+    if description:
+        descCmd = "exec auxFile['description'] = \"" + description + "\"\n"
+
+    for proc in aweProcs:
+        sendAweCmd(proc, routeCmd.encode())
+        sendAweCmd(proc, loginCmd.encode())
+        sendAweCmd(proc, laneCmd.encode())
+        if description:
+            sendAweCmd(proc, descCmd.encode())
+
+if config_version:
+    versionCmd = "exec auxFile['configuration-version'] = '" + config_version + "'\n"
+    for proc in aweProcs:
+        sendAweCmd(proc, versionCmd.encode())
+
+mode = "continuous"
+cameraExt = ""
+bbr = BBR.BBR(tuiLogDir + "/bbr.log")
+if cmdargs.bbr:
+    mode = "bbr"
+    s_CAN = bbr.initialize(rigs)
+
+while True:
+    if not outs and not errs: break
+
+    readfds = outs + errs
+    exceptfds = outs + ins
+    if noInteraction == False:
+        readfds += [sys.stdin.buffer]
+        exceptfds += [sys.stdin.buffer]
+
+    if mode == "bbr":
+        readfds += [s_CAN]
+        exceptfds += [s_CAN]
+        if bbr.changeSinks():
+            sendStartCmd(mode=b'bbr')
+
+    if noInteraction == True and backEndRecordingState == "stop" and mode == "continuous":
+        sendStartCmd()
+
+    rfds, _, xfds = select.select(readfds, [], exceptfds)
+
+    if xfds:
+        sys.stderr.write("Error: Exceptional FDs!", xfds)
+        sys.stderr.flush()
+        cleanup(force=True)
+
+    for rfd in rfds:
+        if mode == "bbr" and rfd is s_CAN:
+            bbr.readCAN(rfd)
+            continue
+
+        line = rfd.readline()
+        if not line:
+            if not recordersExpectedToExit:
+                sys.stderr.write("Error: one of the recorders abruptly exited!")
+                sys.stderr.flush()
+                cleanup(force=True)
+            if rfd in errs: errs.remove(rfd)
+            if rfd in outs: outs.remove(rfd)
+            continue
+
+        if rfd is sys.stdin.buffer:
+            if line:
+                [cmd, *temp] = line.strip().split(b' ', 1)
+
+            if cmd == b"h264" or cmd == b"lraw":
+                if backEndRecordingState == "stop" and cmd != cameraExt:
+                    cameraExt = cmd
+                    for a in aweProcs:
+                        sendAweCmd(a, cameraExt + b'\n')
+                continue
+
+            elif cmd == b"bbr":
+                if backEndRecordingState == "stop" and mode == "continuous":
+                    mode = "bbr"
+                    s_CAN = bbr.initialize(rigs)
+                    break
+                continue
+
+            elif cmd == b"continuous":
+                if backEndRecordingState == "stop" and mode == "bbr":
+                    mode = "continuous"
+                    s_CAN.close()
+                    break
+                continue
+
+            elif cmd == b'start':
+                if mode == "continuous":
+                    recordpath = b''
+                    if len(temp) == 1:
+                        recordpath = temp[0]
+                    sendStartCmd(recordpath=recordpath)
+
+                elif mode == "bbr":
+                    bbr.start()
+
+                print("Starting recording, this may take a moment...")
+                continue
+
+            elif cmd == b's':
+                if mode == "continuous":
+                    tuiToggleRecord()
+
+                elif mode == "bbr":
+                    if backEndRecordingState == "stop":
+                        bbr.start()
+                    else:
+                        bbr.stop()
+                        sendStopCmd()
+
+                print("Toggling recording, this may take a moment...")
+                continue
+
+            elif cmd == b'stop':
+                if mode == "bbr":
+                    bbr.stop()
+
+                sendStopCmd()
+                print("Stopping recording, this may take a moment...")
+                continue
+
+            elif cmd == b'q':
+                recordersExpectedToExit = True
+                if backEndRecordingState != "stop":
+                    # Need to stop session in progress before quitting
+                    sendStopCmd()
+                print("Quitting, this may take a moment...")
+
+            for a in aweProcs:
+                sendAweCmd(a, line)
+
+            continue
+
+        if rfd in outs or rfd in errs:
+            if rfd in outs:
+                tuiOutLog.write(line)
+                tuiOutLog.flush()
+            if rfd in errs:
+                tuiErrLog.write(line)
+                tuiErrLog.flush()
+
+            if line:
+                check = line.decode().strip().split()
+                if len(check) == 4 and check[3] == "no-space" and backEndRecordingState != "stop":
+                    print("stopping recorder: one of the backend recorder disk is full")
+                    if mode == "bbr":
+                        bbr.stop()
+
+                    sendStopCmd()
+                    continue
+
+            if mode == "bbr":
+                newSink = bbr.readBackendInput(line, isErr=rfd in errs)
+                if newSink:
+                    url = outsToUrl[rfd]
+                    curSink[url] = os.path.dirname(newSink)
+
+            if mode == "continuous":
+                if not os.isatty(sys.stdout.fileno()):
+                    sys.stdout.buffer.write(line)
+                    sys.stdout.buffer.flush()
+
+                else:
+                    if rfd in errs: url = errsToUrl[rfd]
+                    if rfd in outs: url = outsToUrl[rfd]
+
+                    tui(url, line, isErr=rfd in errs)
+
+    if mode == "bbr":
+        bbr.movefiles()
+
+cleanup()
+print("tui exited")
+exit(0)

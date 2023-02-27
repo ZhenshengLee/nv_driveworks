@@ -1,0 +1,54 @@
+@startuml node_interface.png
+!include node_interface.plantuml
+@enduml
+@startuml single_process.png
+!include single_process.plantuml
+@enduml
+@startuml multi_process.png
+!include multi_process.plantuml
+@enduml
+@startuml multi_soc.png
+!include multi_soc.plantuml
+@enduml
+@startuml example_schedule_a.png
+!include example_schedule_a.plantuml
+@enduml
+@startuml example_schedule_b.png
+!include example_schedule_b.plantuml
+@enduml
+@startuml process_layout.png
+!include process_layout.plantuml
+@enduml
+@startuml system_context.png
+!include system_context.plantuml
+@enduml
+@startuml pipelining_optimal_without.png
+!include pipelining_optimal_without.plantuml
+@enduml
+@startuml pipelining_phases.png
+!include pipelining_phases.plantuml
+@enduml
+@startuml pipelining_optimal_with.png
+!include pipelining_optimal_with.plantuml
+@enduml
+@startuml pipelining_realistic_without.png
+!include pipelining_realistic_without.plantuml
+@enduml
+@startuml pipelining_realistic_with.png
+!include pipelining_realistic_with.plantuml
+@enduml
+@startuml system_context_with_ssm.png
+!include system_context_with_ssm.plantuml
+@enduml
+@startuml schedule_switching.png
+!include schedule_switching.plantuml
+@enduml
+@startuml staged_startup.png
+!include staged_startup.plantuml
+@enduml
+@startuml interaction_processes.png
+!include interaction_processes.plantuml
+@enduml
+@startuml interaction_loaderlite.png
+!include interaction_loaderlite.plantuml
+@enduml

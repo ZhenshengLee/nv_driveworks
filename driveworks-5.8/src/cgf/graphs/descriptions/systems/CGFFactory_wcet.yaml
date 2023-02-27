@@ -1,0 +1,86 @@
+################################################################################
+#
+# Notice
+# ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS"
+# NVIDIA MAKES NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+# OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED
+# WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR
+# PURPOSE.
+#
+# NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences
+# of use of such information or for any infringement of patents or other rights
+# of third parties that may result from its use. No license is granted by
+# implication or otherwise under any patent or patent rights of NVIDIA
+# CORPORATION & AFFILIATES. No third party distribution is allowed unless
+# expressly authorized by NVIDIA. Details are subject to change without notice.
+# This code supersedes and replaces all information previously supplied. NVIDIA
+# CORPORATION & AFFILIATES products are not authorized for use as critical
+# components in life support devices or systems without express written approval
+# of NVIDIA CORPORATION & AFFILIATES.
+#
+# SPDX-FileCopyrightText: Copyright (c) 2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+#
+# NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+# property and proprietary rights in and to this material, related documentation
+# and any modifications thereto. Any use, reproduction, disclosure or
+# distribution of this material and related documentation without an express
+# license agreement from NVIDIA CORPORATION or its affiliates is strictly
+# prohibited.
+#
+################################################################################
+
+camera_master.camera_master_ssm_pass_0: 7000
+camera_master.CGFFactory_cameraEpochSync_sensorSyncNode_pass_0: 16000
+camera_master.CGFFactory_cameraEpochSync_sensorSyncNode_pass_1: 11000
+camera_master.CGFFactory_cameraEpochSync_sensorSyncNode_pass_2: 27000
+camera_master.CGFFactory_cameraSensor0_pass_0: 374000
+camera_master.CGFFactory_cameraSensor0_pass_1: 2000
+camera_master.CGFFactory_cameraSensor0_pass_2: 478000
+camera_master.CGFFactory_cameraSensor0_pass_4: 102000
+camera_master.CGFFactory_cameraSensor1_pass_0: 374000
+camera_master.CGFFactory_cameraSensor1_pass_1: 2000
+camera_master.CGFFactory_cameraSensor1_pass_2: 478000
+camera_master.CGFFactory_cameraSensor1_pass_4: 102000
+camera_master.CGFFactory_cameraSensor2_pass_0: 374000
+camera_master.CGFFactory_cameraSensor2_pass_1: 2000
+camera_master.CGFFactory_cameraSensor2_pass_2: 478000
+camera_master.CGFFactory_cameraSensor2_pass_4: 102000
+camera_master.CGFFactory_cameraSensor3_pass_0: 374000
+camera_master.CGFFactory_cameraSensor3_pass_1: 2000
+camera_master.CGFFactory_cameraSensor3_pass_2: 478000
+camera_master.CGFFactory_cameraSensor3_pass_4: 102000
+camera_master.CGFFactory_cameraSensor4_pass_0: 374000
+camera_master.CGFFactory_cameraSensor4_pass_1: 2000
+camera_master.CGFFactory_cameraSensor4_pass_2: 478000
+camera_master.CGFFactory_cameraSensor4_pass_4: 102000
+camera_master.CGFFactory_cameraSensor5_pass_0: 374000
+camera_master.CGFFactory_cameraSensor5_pass_1: 2000
+camera_master.CGFFactory_cameraSensor5_pass_2: 478000
+camera_master.CGFFactory_cameraSensor5_pass_4: 102000
+camera_master.CGFFactory_cameraSensor6_pass_0: 374000
+camera_master.CGFFactory_cameraSensor6_pass_1: 2000
+camera_master.CGFFactory_cameraSensor6_pass_2: 478000
+camera_master.CGFFactory_cameraSensor6_pass_4: 102000
+camera_master.CGFFactory_cameraSensor7_pass_0: 374000
+camera_master.CGFFactory_cameraSensor7_pass_1: 2000
+camera_master.CGFFactory_cameraSensor7_pass_2: 478000
+camera_master.CGFFactory_cameraSensor7_pass_4: 102000
+camera_master.CGFFactory_vehicleEpochSync_sensorSyncNode_pass_0: 17000
+camera_master.CGFFactory_vehicleEpochSync_sensorSyncNode_pass_1: 8000
+camera_master.CGFFactory_vehicleEpochSync_sensorSyncNode_pass_2: 25000
+camera_master.CGFFactory_factoryInputNode_pass_1: 1000000
+camera_master.CGFFactory_factoryInputNode_pass_2: 1000000
+camera_master.CGFFactory_factoryInputNode_pass_3: 1000000
+camera_master.CGFFactory_factoryCalibrationNode0_pass_0: 1000000
+camera_master.CGFFactory_factoryCalibrationNode0_pass_1: 1000000
+camera_master.CGFFactory_factoryCalibrationNode0_pass_2: 1000000
+camera_master.CGFFactory_factoryCalibrationNode1_pass_0: 1000000
+camera_master.CGFFactory_factoryCalibrationNode1_pass_1: 1000000
+camera_master.CGFFactory_factoryCalibrationNode1_pass_2: 1000000
+camera_master.CGFFactory_factoryCalibrationNode2_pass_0: 1000000
+camera_master.CGFFactory_factoryCalibrationNode2_pass_1: 1000000
+camera_master.CGFFactory_factoryCalibrationNode2_pass_2: 1000000
+camera_master.CGFFactory_factoryOutputNode_pass_1: 1000000
+camera_master.CGFFactory_factoryOutputNode_pass_2: 1000000
+camera_master.CGFFactory_factoryOutputNode_pass_3: 1000000

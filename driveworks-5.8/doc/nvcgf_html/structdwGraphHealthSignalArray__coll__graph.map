@@ -1,0 +1,4 @@
+<map id="dwGraphHealthSignalArray" name="dwGraphHealthSignalArray">
+<area shape="rect" id="node1" title="Represents an array of health signals." alt="" coords="5,95,204,121"/>
+<area shape="rect" id="node2" href="$GraphHealthSignal_8h.html#structdwGraphHealthSignal" title="Basic health signal that describes the health status of the graph." alt="" coords="23,5,186,32"/>
+</map>

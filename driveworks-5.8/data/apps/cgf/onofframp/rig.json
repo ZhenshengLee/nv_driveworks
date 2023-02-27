@@ -1,0 +1,491 @@
+{
+    "rig": {
+        "properties": {
+            "layout": "Hyperion 7.0"
+        },
+        "sensors": [
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        5.726898234570399e-05,
+                        -0.08750029653310776,
+                        -0.037500135600566864
+                    ]
+                },
+                "name": "camera:front:center:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        1.7699999809265137,
+                        0.0,
+                        1.4700000286102295
+                    ]
+                },
+                "parameter": "video=video_A0_FC_120.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0 0.0010337684070691 2.2048213921266e-08 5.6866707523473e-12 3.1827639075709e-14",
+                    "cx": "964.875977",
+                    "cy": "645.572449",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.034388162195682526,
+                        -3.7623074054718018,
+                        0.16219355165958405
+                    ]
+                },
+                "name": "camera:front:center:60fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -5.798683196189813e-05,
+                        1.1458930969238281,
+                        -0.5729333758354187
+                    ],
+                    "t": [
+                        1.7489999532699585,
+                        -0.10000000149011612,
+                        1.4700000286102295
+                    ]
+                },
+                "parameter": "video=video_B0_FC_60.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.000545421498827636 -1.6216719633103e-10 -4.64720492990289e-12 2.85224527762934e-16",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        1.613114356994629,
+                        -0.93112713098526,
+                        -4.375610828399658
+                    ]
+                },
+                "name": "camera:rear:left:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        1.7075465166271897e-06,
+                        5.915113433729857e-06,
+                        120.00000762939453
+                    ],
+                    "t": [
+                        1.2979999780654907,
+                        0.6539999842643738,
+                        1.4850000143051147
+                    ]
+                },
+                "parameter": "video=video_A1_RL_120.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.00102669443003833 3.77865596590254e-08 -2.1812513600894e-11 4.76916107246175e-14",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.07577700912952423,
+                        0.04374990612268448,
+                        -1.6374692916870117
+                    ]
+                },
+                "name": "camera:rear:right:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        1.7075467440008651e-06,
+                        -5.915117071708664e-06,
+                        -120.00000762939453
+                    ],
+                    "t": [
+                        1.2979999780654907,
+                        -0.6539999842643738,
+                        1.4850000143051147
+                    ]
+                },
+                "parameter": "video=video_A2_RR_120.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.00102669443003833 3.77865596590254e-08 -2.1812513600894e-11 4.76916107246175e-14",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.04191381484270096,
+                        -3.6125011444091797,
+                        -0.31249991059303284
+                    ]
+                },
+                "name": "camera:rear:center:60fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        180.0
+                    ],
+                    "t": [
+                        0.460999995470047,
+                        0.0,
+                        1.4850000143051147
+                    ]
+                },
+                "parameter": "video=video_B0_RC_60.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.000545421498827636 -1.62167196338103e-10 -4.64720492990289e-12 2.85224527762934e-16",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "camera:cross:left:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        45.0
+                    ],
+                    "t": [
+                        1.6419999599456787,
+                        0.6399999856948853,
+                        1.4700000286102295
+                    ]
+                },
+                "parameter": "video=video_A1_XL_120.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.00102669443003833 3.77865596590254e-08 -2.1812513600894e-11 4.76916107246175e-14",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "camera:cross:right:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -45.0
+                    ],
+                    "t": [
+                        1.6419999599456787,
+                        -0.6399999856948853,
+                        1.4700000286102295
+                    ]
+                },
+                "parameter": "video=video_A2_XR_120.h264,timestamp=video_time_0.txt",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.0 0.00102669443003833 3.77865596590254e-08 -2.1812513600894e-11 4.76916107246175e-14",
+                    "cx": "960",
+                    "cy": "604",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "radar:rear:left:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        6.784617863993172e-15,
+                        175.0
+                    ],
+                    "t": [
+                        -1.100000023841858,
+                        0.3799999952316284,
+                        0.46000000834465027
+                    ]
+                },
+                "parameter": "file=radar_BSL.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:rear:right:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -175.0
+                    ],
+                    "t": [
+                        -1.100000023841858,
+                        -0.3799999952316284,
+                        0.46000000834465027
+                    ]
+                },
+                "parameter": "file=radar_BSR.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:front:left:crosstraffic",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        90.0
+                    ],
+                    "t": [
+                        3.2300000190734863,
+                        0.8500000238418579,
+                        0.5799999833106995
+                    ]
+                },
+                "parameter": "file=radar_RL.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:front:right:crosstraffic",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        1.0855394681026295e-13,
+                        -90.0
+                    ],
+                    "t": [
+                        3.2300000190734863,
+                        -0.8500000238418579,
+                        0.5799999833106995
+                    ]
+                },
+                "parameter": "file=radar_RR.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:rear:left:blindspot",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        -1.0855394681026295e-13,
+                        90.0
+                    ],
+                    "t": [
+                        -0.7300000190734863,
+                        0.7900000214576721,
+                        0.6100000143051147
+                    ]
+                },
+                "parameter": "file=radar_FXL.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:rear:right:blindspot",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        -0.7300000190734863,
+                        -0.7900000214576721,
+                        0.6100000143051147
+                    ]
+                },
+                "parameter": "file=radar_FXR.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:front:left:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        5.000004768371582
+                    ],
+                    "t": [
+                        3.640000104904175,
+                        0.47999998927116394,
+                        0.4699999988079071
+                    ]
+                },
+                "parameter": "file=radar_FL.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:front:right:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        -0.0,
+                        -5.000004768371582
+                    ],
+                    "t": [
+                        3.640000104904175,
+                        -0.47999998927116394,
+                        0.4699999988079071
+                    ]
+                },
+                "parameter": "file=radar_FR.bin, time-smoothing=false",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "can:vehicle",
+                "parameter": "file=can_ta1.bin",
+                "properties": null,
+                "protocol": "can.virtual"
+            },
+            {
+                "name": "imu:xsens",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "parameter": "file=imu_xsens.bin",
+                "properties": null,
+                "protocol": "imu.virtual"
+            },
+            {
+                "name": "gps:xsens",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "parameter": "file=gps_xsens.bin,xsens-raw-gps=false,time-smoothing=true",
+                "properties": null,
+                "protocol": "gps.virtual"
+            }
+        ],
+        "vehicle": {
+            "valid": true,
+            "value": {
+                "actuation": {
+                    "brakeActuatorTimeConstant": 0.5,
+                    "brakeActuatorTimeDelay": 0.0,
+                    "driveByWireTimeConstant": 0.25999999046325684,
+                    "driveByWireTimeDelay": 0.10999999940395355,
+                    "effectiveMass": 450.1882019042969,
+                    "maxSteeringWheelAngle": 8.290313720703125,
+                    "steeringWheelToSteeringMap": [
+                        0.0,
+                        0.06764844059944153,
+                        -2.211817081843037e-05,
+                        0.0001220461999764666,
+                        6.98658084274939e-07,
+                        1.0106930403708247e-06
+                    ],
+                    "throttleActuatorTimeConstant": 1.0,
+                    "throttleActuatorTimeDelay": 0.0,
+                    "torqueLUT": {
+                        "brakePedalInput": "0.15000, 0.16000, 0.17000, 0.19000, 0.20000, 0.22000, 0.23000, 0.25000, 0.26000, 0.27000, 0.29000, 0.30000, 0.32000, 0.33000, 0.35000",
+                        "brakeTorqueOutput": "0.000000, 50.32000, 100.64000, 170.37000, 370.03000, 569.69000, 961.02002, 1360.32996, 1798.51001, 2250.68994, 2719.58008, 3396.22998, 4487.31006, 6859.02979, 7625.33008",
+                        "throttlePedalInput": "0.15000, 0.18000, 0.22000, 0.25000, 0.29000, 0.32000, 0.36000, 0.40000, 0.43000, 0.47000, 0.50000, 0.54000, 0.57000, 0.61000, 0.65000",
+                        "throttleSpeedInput": "0.000000, 2.28000, 4.57000, 6.85000, 9.14000, 11.42000, 13.71000, 16.000000, 18.28000, 20.57000, 22.85000, 25.14000, 27.42000, 29.71000, 32.000000",
+                        "throttleTorqueOutput": [
+                            "180.67, 77.36, -15.56, -98.11, -170.28, -232.06, -283.46, -324.48, -355.12, -375.37, -385.25, -384.74, -373.84, -352.57, -320.91",
+                            "330.68, 220.000, 119.70, 29.78, -49.75, -118.90, -177.67, -226.06, -264.07, -291.70, -308.94, -315.80, -312.28, -298.37, -274.08",
+                            "482.67, 364.62, 256.95, 159.66, 72.75, -3.76, -69.90, -125.66, -171.04, -206.03, -230.65, -244.88, -248.72, -242.19, -225.27",
+                            "636.64, 511.22, 396.18, 291.52, 197.24, 113.35, 39.84, -23.28, -76.03, -118.39, -150.37, -171.97, -183.19, -184.02, -174.48",
+                            "792.60, 659.80, 537.39, 425.36, 323.72, 232.45, 151.57, 81.07, 20.96, -28.77, -68.12, -97.09, -115.67, -123.88, -121.70",
+                            "950.53, 810.37, 680.59, 561.19, 452.18, 353.54, 265.29, 187.42, 119.94, 62.83, 16.11, -20.22, -46.17, -61.75, -66.94",
+                            "1110.45, 962.92, 825.77, 699.000, 582.62, 476.61, 380.99, 295.75, 220.90, 156.42, 102.33, 58.62, 25.30, 2.35, -10.20",
+                            "1272.35, 1117.45, 972.93, 838.79, 715.04, 601.67, 498.67, 406.07, 323.84, 252.000, 190.54, 139.46, 98.76, 68.45, 48.52",
+                            "1436.24, 1273.96, 1122.08, 980.57, 849.44, 728.70, 618.34, 518.36, 428.77, 349.55, 280.72, 222.27, 174.21, 136.52, 109.22",
+                            "1602.10, 1432.46, 1273.20, 1124.33, 985.83, 857.72, 739.99, 632.64, 535.68, 449.09, 372.89, 307.07, 251.64, 206.58, 171.91",
+                            "1769.95, 1592.94, 1426.31, 1270.07, 1124.20, 988.72, 863.62, 748.90, 644.57, 550.61, 467.04, 393.86, 331.05, 278.63, 236.58",
+                            "1939.78, 1755.40, 1581.40, 1417.79, 1264.55, 1121.70, 989.23, 867.14, 755.44, 654.12, 563.18, 482.62, 412.44, 352.65, 303.24",
+                            "2111.60, 1919.85, 1738.48, 1567.49, 1406.89, 1256.67, 1116.83, 987.37, 868.30, 759.60, 661.29, 573.37, 495.82, 428.66, 371.88",
+                            "2285.40, 2086.27, 1897.54, 1719.18, 1551.21, 1393.61, 1246.41, 1109.58, 983.13, 867.07, 761.39, 666.10, 581.18, 506.65, 442.50",
+                            "2461.18, 2254.69, 2058.58, 1872.85, 1697.51, 1532.55, 1377.97, 1233.77, 1099.96, 976.52, 863.47, 760.81, 668.52, 586.62, 515.10"
+                        ]
+                    }
+                },
+                "axleFront": {
+                    "corneringStiffness": 30654.0,
+                    "position": 2.8499999046325684,
+                    "track": 1.5820000171661377,
+                    "wheelRadiusLeft": 0.33649998903274536,
+                    "wheelRadiusRight": 0.33649998903274536
+                },
+                "axleRear": {
+                    "corneringStiffness": 36407.0,
+                    "position": 0.0,
+                    "track": 1.5750000476837158,
+                    "wheelRadiusLeft": 0.33649998903274536,
+                    "wheelRadiusRight": 0.33649998903274536
+                },
+                "body": {
+                    "boundingBoxPosition": [
+                        -1.1089999675750732,
+                        0.0,
+                        0.0
+                    ],
+                    "centerOfMass": [
+                        1.5640000104904175,
+                        0.0,
+                        0.550000011920929
+                    ],
+                    "height": 1.4730000495910645,
+                    "inertia": [
+                        750.0,
+                        3200.0,
+                        3500.0
+                    ],
+                    "length": 4.872000217437744,
+                    "mass": 1779.4000244140625,
+                    "width": 2.121000051498413,
+                    "widthWithoutMirrors": 1.8519999980926514
+                },
+                "hasCabin": false,
+                "numTrailers": 0
+            }
+        },
+        "vehicleio": []
+    },
+    "version": 7
+}

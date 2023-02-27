@@ -1,0 +1,19 @@
+<map id="dw::framework::ISensorNode" name="dw::framework::ISensorNode">
+<area shape="rect" id="node1" title=" " alt="" coords="5,513,215,540"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ExceptionSafeSensorNode.html" title=" " alt="" coords="293,327,483,369"/>
+<area shape="rect" id="node16" href="$classdw_1_1framework_1_1SimpleSensorNode.html" title=" " alt="" coords="263,543,513,569"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1dwCameraNode.html" title=" " alt="" coords="581,5,812,32"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1dwGPSChannelNode.html" title=" " alt="" coords="567,56,826,83"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1dwGPSNode.html" title=" " alt="" coords="593,107,800,133"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1dwIMUChannelNode.html" title=" " alt="" coords="567,157,826,184"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1dwIMUNode.html" title=" " alt="" coords="593,208,800,235"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1dwLidarBatchNode.html" title=" " alt="" coords="572,259,821,285"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1dwLidarNode.html" title=" " alt="" coords="591,309,803,336"/>
+<area shape="rect" id="node10" href="$classdw_1_1framework_1_1dwRadarChannelNode.html" title=" " alt="" coords="561,360,832,387"/>
+<area shape="rect" id="node11" href="$classdw_1_1framework_1_1dwRadarNode.html" title=" " alt="" coords="587,411,806,437"/>
+<area shape="rect" id="node12" href="$classdw_1_1framework_1_1dwUltrasonicChannelNode.html" title=" " alt="" coords="591,462,803,503"/>
+<area shape="rect" id="node13" href="$classdw_1_1framework_1_1dwUltrasonicNode.html" title=" " alt="" coords="573,528,820,555"/>
+<area shape="rect" id="node14" href="$classdw_1_1framework_1_1dwVehicleStateChannelNode.html" title=" " alt="" coords="600,579,793,621"/>
+<area shape="rect" id="node15" href="$classdw_1_1framework_1_1dwVehicleStateNode.html" title=" " alt="" coords="600,645,793,686"/>
+<area shape="rect" id="node17" href="$classdw_1_1framework_1_1SimpleSensorNodeT.html" title=" " alt="" coords="589,710,805,751"/>
+</map>

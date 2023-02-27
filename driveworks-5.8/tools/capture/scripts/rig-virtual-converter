@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+################################################################################
+#
+# Notice
+# ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS"
+# NVIDIA MAKES NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+# OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED
+# WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR
+# PURPOSE.
+#
+# NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences
+# of use of such information or for any infringement of patents or other rights
+# of third parties that may result from its use. No license is granted by
+# implication or otherwise under any patent or patent rights of NVIDIA
+# CORPORATION & AFFILIATES. No third party distribution is allowed unless
+# expressly authorized by NVIDIA. Details are subject to change without notice.
+# This code supersedes and replaces all information previously supplied. NVIDIA
+# CORPORATION & AFFILIATES products are not authorized for use as critical
+# components in life support devices or systems without express written approval
+# of NVIDIA CORPORATION & AFFILIATES.
+#
+# SPDX-FileCopyrightText: Copyright (c) 2018-2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+#
+# NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+# property and proprietary rights in and to this material, related documentation
+# and any modifications thereto. Any use, reproduction, disclosure or
+# distribution of this material and related documentation without an express
+# license agreement from NVIDIA CORPORATION or its affiliates is strictly
+# prohibited.
+#
+################################################################################
+
+import json
+import sys
+import os.path
+import glob
+
+if len(sys.argv) < 3:
+    print("Convert Recorder Rig to Virtual Rig\n\n"
+          "Usage: " + sys.argv[0] + " <recorder-rig.json> <virtual-rig.json>")
+    exit(1)
+
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+if not os.path.basename(input_file).endswith('.json'):
+    print("Error: expect a json file input")
+    exit(1)
+
+with open(input_file, 'r') as inf:
+    rig = json.load(inf)
+
+sensors_to_exclude = []
+
+for s in rig["rig"]["sensors"]:
+    s["protocol"] = s["protocol"].split(".")[0] + ".virtual"
+    sensorName = s["name"].replace(':', '_')
+    if s["protocol"].startswith("camera."):
+        ext = ".raw"
+        if "lraw" in s["parameter"]: ext = ".lraw"
+        if "h264" in s["parameter"]: ext = ".h264"
+        if "mp4" in s["parameter"]: ext = ".mp4"
+        s["parameter"] = "video=" + sensorName + ext
+        s["parameter"] += ",timestamp=" + sensorName + ext + ".timestamps"
+    else:
+        # For Data Sensor
+        if s["protocol"].startswith("data."):
+            excludeSensor = True
+            # Check if it represents an actual socket-based sensor
+            for vio in rig["rig"].get("vehicleio", []):
+                if s["name"] == vio.get("parent-sensor"):
+                    excludeSensor = False
+            if s["name"].startswith("cmd"):
+                excludeSensor = False
+            # Exclude if it doesn't
+            if excludeSensor:
+                sensors_to_exclude.append(s)
+
+        ext = ".bin"
+
+        # Smoothen using sensor timestamps unless there
+        # is an explicit param for the output timestamp
+        timestampParam = 'output-timestamp=smoothed'
+        extraParams = []
+        for param in s["parameter"].split(','):
+            if param.startswith('output-timestamp'):
+                timestampParam = param
+            elif "sensor2Antenna" in param:
+                # TODO(DWSENSORS-403): Remove this logic when sensor2Antenna parameters are removed from rig files
+                extraParams.append(param)
+
+        s["parameter"] = "file=" + sensorName + ext
+        s["parameter"] += ',' + timestampParam
+        if extraParams:
+            s["parameter"] += ","
+            s["parameter"] += ",".join(extraParams)
+
+for s in sensors_to_exclude:
+    rig["rig"]["sensors"].remove(s)
+
+rig["rig"]["sensors"] = sorted(rig["rig"]["sensors"], key=lambda k: k["name"])
+
+with open(output_file, 'w') as outf:
+    json.dump(rig, outf, indent=4, sort_keys = True)

@@ -1,0 +1,72 @@
+{
+    "Hyperion 7.0": [
+        "can:vehicle",
+        "imu:xsens",
+        "camera:front:center:120fov",
+        "camera:front:center:60fov",
+        "camera:rear:center:60fov",
+        "camera:rear:left:120fov",
+        "radar:front:left:center",
+        "radar:front:left:crosstraffic",
+        "radar:front:right:center",
+        "radar:front:right:crosstraffic",
+        "radar:rear:left:blindspot",
+        "radar:rear:left:center",
+        "radar:rear:right:blindspot",
+        "radar:rear:right:center"
+    ],
+    "Hyperion 7.1": [
+        "can:vehicle",
+        "imu:xsens",
+        "camera:front:center:120fov",
+        "camera:front:center:60fov",
+        "camera:rear:center:60fov",
+        "camera:rear:left:120fov",
+        "radar:front:center",
+        "radar:front:left:corner",
+        "radar:front:left:crosstraffic",
+        "radar:front:right:crosstraffic",
+        "radar:front:right:corner",
+        "radar:rear:center",
+        "radar:rear:left:corner",
+        "radar:rear:right:corner"
+    ],
+    "hyperion_8": [
+        "can:0",
+        "gps:novatel",
+        "imu:novatel",
+        "camera:front:wide:120fov",
+        "radar:front:center",
+        "radar:corner:front:left",
+        "radar:corner:front:right",
+        "radar:corner:rear:left",
+        "radar:corner:rear:right"
+    ],
+    "hy8": [
+        "can:0",
+        "gps:novatel",
+        "imu:novatel",
+        "camera:front:wide:120fov",
+        "radar:front:center",
+        "radar:corner:front:left",
+        "radar:corner:front:right",
+        "radar:corner:rear:left",
+        "radar:corner:rear:right"
+    ],
+    "HIL": [
+        "can:vehicle",
+        "imu:simulator",
+        "camera:front:center:120fov",
+        "camera:front:center:60fov",
+        "camera:rear:center:60fov",
+        "camera:rear:left:120fov",
+        "radar:front:center",
+        "radar:front:left:corner",
+        "radar:front:left:crosstraffic",
+        "radar:front:right:crosstraffic",
+        "radar:front:right:corner",
+        "radar:rear:center",
+        "radar:rear:left:corner",
+        "radar:rear:right:corner"
+    ]
+}

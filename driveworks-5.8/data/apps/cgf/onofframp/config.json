@@ -1,0 +1,100 @@
+{
+    "configs":
+    {
+        "default":
+        {
+            "sensors": [
+                {
+                    "name": "camera:front:center:120fov",
+                    "parameter": "video=video_A0_FC_120.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:front:center:60fov",
+                    "parameter": "video=video_B0_FC_60.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:rear:left:120fov",
+                    "parameter": "video=video_A1_RL_120.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:rear:right:120fov",
+                    "parameter": "video=video_A2_RR_120.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:rear:center:60fov",
+                    "parameter": "video=video_B0_RC_60.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:cross:left:120fov",
+                    "parameter": "video=video_A1_XL_120.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "camera:cross:right:120fov",
+                    "parameter": "video=video_A2_XR_120.h264,timestamp=video_time_0.txt",
+                    "protocol": "camera.virtual"
+                },
+                {
+                    "name": "radar:rear:left:center",
+                    "parameter": "file=radar_BSL.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:rear:right:center",
+                    "parameter": "file=radar_BSR.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:front:left:crosstraffic",
+                    "parameter": "file=radar_RL.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:front:right:crosstraffic",
+                    "parameter": "file=radar_RR.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:rear:left:blindspot",
+                    "parameter": "file=radar_FXL.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:rear:right:blindspot",
+                    "parameter": "file=radar_FXR.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:front:left:center",
+                    "parameter": "file=radar_FL.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "radar:front:right:center",
+                    "parameter": "file=radar_FR.bin, time-smoothing=false",
+                    "protocol": "radar.virtual"
+                },
+                {
+                    "name": "can:vehicle",
+                    "parameter": "file=can_ta1.bin",
+                    "protocol": "can.virtual"
+                },
+                {
+                    "name": "imu:xsens",
+                    "parameter": "file=imu_xsens.bin",
+                    "protocol": "imu.virtual"
+                },
+                {
+                    "name": "gps:xsens",
+                    "parameter": "file=gps_xsens.bin,xsens-raw-gps=false,time-smoothing=true",
+                    "protocol": "gps.virtual"
+                }]
+        }
+    },
+    "version": 7
+}

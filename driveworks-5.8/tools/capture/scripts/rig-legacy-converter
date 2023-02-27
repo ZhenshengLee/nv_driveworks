@@ -1,0 +1,188 @@
+#!/usr/bin/python3
+
+################################################################################
+#
+# Notice
+# ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS"
+# NVIDIA MAKES NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR
+# OTHERWISE WITH RESPECT TO THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED
+# WARRANTIES OF NONINFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR
+# PURPOSE.
+#
+# NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences
+# of use of such information or for any infringement of patents or other rights
+# of third parties that may result from its use. No license is granted by
+# implication or otherwise under any patent or patent rights of NVIDIA
+# CORPORATION & AFFILIATES. No third party distribution is allowed unless
+# expressly authorized by NVIDIA. Details are subject to change without notice.
+# This code supersedes and replaces all information previously supplied. NVIDIA
+# CORPORATION & AFFILIATES products are not authorized for use as critical
+# components in life support devices or systems without express written approval
+# of NVIDIA CORPORATION & AFFILIATES.
+#
+# SPDX-FileCopyrightText: Copyright (c) 2018-2021 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+#
+# NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+# property and proprietary rights in and to this material, related documentation
+# and any modifications thereto. Any use, reproduction, disclosure or
+# distribution of this material and related documentation without an express
+# license agreement from NVIDIA CORPORATION or its affiliates is strictly
+# prohibited.
+#
+################################################################################
+
+import json
+from pprint import pprint
+from collections import OrderedDict
+import sys
+import os
+
+if len(sys.argv) < 3:
+    print("Usage:", sys.argv[0], "input rig file and output path \n\n"
+          "output recorder-config.json that is compatible with recorder 1.0\n")
+    exit(1)
+
+
+input_file = sys.argv[1]
+output_path = sys.argv[2] if sys.argv[2].endswith('/') else sys.argv[2] + '/'
+
+if not os.path.exists(output_path):
+    print("Error: output path does not exist or not accessible")
+    exit(1)
+
+filename = os.path.basename(input_file)
+if not filename.endswith('.json'):
+    print("Error: expect a json file input")
+    exit(1)
+
+# Strip IP address if present
+if filename.find('_') > -1:
+    ip = filename.split('_')[0]
+    if len(ip.split('.')) == 4:
+        filename = "_".join(filename.split('_')[1:])
+
+input_rig_file = open(input_file, 'r')
+
+output_json_file = open(output_path + 'recorder1.0-' + filename, 'w')
+
+rig_data = json.load(input_rig_file)
+sensors = rig_data['rig']['sensors']
+
+camera_groups = {}
+
+if not sensors:
+    print("ERROR: there is no sensor in the rig file")
+    exit(1)
+
+comments = ["To record raw camera use output-format=raw.",
+        "To record raw and h264 use output-format=raw+h264.",
+        "To record h264 only use output-format=h264.",
+        "To record lraw only use output-format=lraw.",
+        "To record lraw and h264 use output-format=lraw+h264.",
+        "To record camera asynchronously, add async-record=1 to ",
+        "the params of the camera sensor.",
+        "To record 2 consecutive frames and skip 6 consecutive frames in the ",
+        "camera use frame-record-count=2 and frame-skip-count=6.",
+        "The write-file-pattern for each only refers to the filenames ",
+        "and not the extensions. Those are inferred automatically.",
+        "The separate-thread for each refers to the fact of whether",
+        "threads are shared or a new one is created for capturing data.",
+        "If separate-thread=false, it will capture on the same thread as",
+        "other sensor types that have set separate-thread=false.",
+        "If separate-thread=true, a new thread will spawn just for that",
+        "sensor type.",
+        "To set the log-level choose from [verbose, debug, warn, error]"
+        ]
+output = OrderedDict()
+
+output['_comments'] = comments
+output['version'] = '0.9'
+output['gpu-device'] = 0
+output['log-level'] = 'verbose'
+output['file-buffer-size'] = 2091752
+
+channel_names = {}
+
+def get_sensor_config(sensor):
+    config = OrderedDict()
+    config['write-file-pattern'] = '' #all write-file-pattern should be empty
+    config['sensors'] = []
+    return config
+
+def get_camera_params(params):
+    params = list(filter(lambda x: x != "", params.split(',')))
+    output = OrderedDict()
+    output_format = ""
+    serializer_format = "lraw"
+    for p in params:
+        name, value = p.split('=')
+        if name == 'output-format':
+            output_format = value
+        elif name == 'format':
+            serializer_format = value
+        else :
+            output[name] = value
+    if output_format:
+        output['format'] = output_format
+    if serializer_format:
+        output['output-format'] = serializer_format
+
+    output_str = ''
+    for i in output:
+        output_str += str(i) + '=' + str(output[i]) + ','
+
+    if output_str.endswith(','):
+        output_str = output_str[:-1]
+
+    return output_str
+
+def get_channel_config(sensor):
+    global camera_groups
+
+    params = sensor['parameter']
+
+    config = OrderedDict()
+    config['seperate-thread'] = 'true'
+    config['protocol'] = sensor['protocol']
+    config['params'] = params
+    if 'camera' in sensor['protocol']:
+        substr = 'csi-port'
+        config['params'] = get_camera_params(params)
+        begin = params.find(substr) + len(substr)
+        if begin == -1:
+            print("ERROR: csi-port is missing from camera config")
+            exit(0)
+
+        end = params.find(',', begin)
+        end = len(params) if end == -1 else end
+        group_name = params[begin:end].replace(' ', '')[1:] #trim param and pop out '='
+
+        if group_name in camera_groups:
+            camera_groups[group_name]['channel-names'].append(sensor['name'])
+            return {}   #camrea_group is already present
+        else:
+            config['channel-names'] = []
+            config['channel-names'].append(sensor['name'])
+            camera_groups[group_name] = config
+    else:
+        config['channel-name'] = sensor['name']
+
+    return config
+
+for sensor in sensors:
+    protocol = sensor['protocol']
+    sensor['name'] = "_".join(sensor['name'].split(":"))
+    sensor_name = protocol.split('.')[0]
+    if sensor_name not in output:
+        output[sensor_name] = get_sensor_config(sensor)
+
+    if protocol not in channel_names:
+        channel_names[protocol] = []
+
+    channel_names[protocol].append(sensor['name'])
+    channel_config = get_channel_config(sensor)
+    if channel_config:
+        output[sensor_name]['sensors'].append(channel_config)
+
+output_json_file.write(json.dumps(output , indent=4, sort_keys=False))

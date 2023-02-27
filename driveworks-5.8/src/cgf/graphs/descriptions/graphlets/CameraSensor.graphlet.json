@@ -1,0 +1,121 @@
+{
+    "name": "CameraSensor",
+    "inputPorts": {
+        "VIRTUAL_SYNC_TIME": {
+            "type": "dwTime_t"
+        },
+        "SENSOR_EXTRINSICS": {
+            "type": "dwCalibratedExtrinsics"
+        }
+    },
+    "outputPorts": {
+        "SENSOR_PROPERTIES": {
+            "type": "dwSensorNodeProperties"
+        },
+        "INTRINSICS": {
+            "type": "dwCameraIntrinsics"
+        },
+        "CUDA_PROCESSED": {
+            "type": "dwImageHandle_t"
+        },
+        "CUDA_PROCESSED_RGBA": {
+            "type": "dwImageHandle_t"
+        },
+        "CUDA_ISP_RGB_FP_16_HALF_RES": {
+            "type": "dwImageHandle_t"
+        },
+        "CUDA_ISP_RGB_FP_16_HALF_RES_FOVEAL": {
+            "type": "dwImageHandle_t"
+        },
+        "FOVEAL_SIGNAL": {
+            "type": "bool"
+        },
+        "IMAGE_TIMESTAMP": {
+            "type": "dwTime_t"
+        },
+        "NEXT_IMAGE_TIMESTAMP": {
+            "type": "dwTime_t"
+        }
+    },
+    "parameters": {
+        "cameraIndex": { "type": "size_t", "default": 0 },
+        "delayPostInit": { "type": "int32_t", "default": 0 },
+        "fovealMode": { "type": "dwFovealMode", "default": "OFF" },
+        "fovealROIX": { "type": "int32_t", "default": 480 },
+        "fovealROIY": { "type": "int32_t", "default": 302 },
+        "fovealROIWidth": { "type": "int32_t", "default": 960 },
+        "fovealROIHeight": { "type": "int32_t", "default": 604 },
+        "fovealScalesX": { "type": "float32_t", "default": 2 },
+        "fovealScalesY": { "type": "float32_t", "default": 2 },
+        "streamIndex": { "type": "size_t", "default": 0 },
+        "useEEPROMIntrinsics": { "type": "bool", "default": false }
+    },
+    "subcomponents": {
+        "cameraNode": {
+            "componentType": "../../../../../src/dwframework/dwnodes/sensors/dwcameranode/dwCameraNode.node.json",
+            "parameters": {
+                "cameraIndex": "$cameraIndex",
+                "streamIndex": "$streamIndex",
+                "useEEPROMIntrinsics": "$useEEPROMIntrinsics"
+            }
+        },
+        "ispNode": {
+            "componentType": "../../../nodes/ISPNode.node.json",
+            "parameters": {
+                "*": "$*"
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "cameraNode.SENSOR_PROPERTIES",
+            "dests": {"SENSOR_PROPERTIES": {}}
+        },
+        {
+            "src": "cameraNode.INTRINSICS",
+            "dests": {"INTRINSICS": {}}
+        },
+        {
+            "src": "cameraNode.IMAGE_NATIVE_PROCESSED",
+            "dests": {
+                "ispNode.IMAGE": {},
+                "CUDA_PROCESSED": {}
+            },
+            "params": {
+                "singleton": true
+            }
+        },
+        {
+            "src": "cameraNode.IMAGE_PROCESSED_RGBA",
+            "dests": {"CUDA_PROCESSED_RGBA": {}}
+        },
+        {
+            "src": "cameraNode.IMAGE_TIMESTAMP",
+            "dests": {"IMAGE_TIMESTAMP": {}}
+        },
+        {
+            "src": "cameraNode.NEXT_IMAGE_TIMESTAMP",
+            "dests": {"NEXT_IMAGE_TIMESTAMP": {}}
+        },
+        {
+            "src": "ispNode.IMAGE",
+            "dests": {"CUDA_ISP_RGB_FP_16_HALF_RES": {}}
+        },
+        {
+            "src": "ispNode.IMAGE_FOVEAL",
+            "dests": {"CUDA_ISP_RGB_FP_16_HALF_RES_FOVEAL": {}}
+        },
+        {
+            "src": "ispNode.FOVEAL_SIGNAL",
+            "dests": {"FOVEAL_SIGNAL": {}}
+        },
+        {
+            "src": "VIRTUAL_SYNC_TIME",
+            "dests": {"cameraNode.VIRTUAL_SYNC_TIME": {}}
+        },
+        {
+            "src": "SENSOR_EXTRINSICS",
+            "dests": {"cameraNode.SENSOR_EXTRINSICS": {}}
+        }
+    ]
+}

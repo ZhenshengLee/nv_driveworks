@@ -1,0 +1,32 @@
+<map id="dw::framework::IChannelPacket" name="dw::framework::IChannelPacket">
+<area shape="rect" id="node1" title=" " alt="" coords="5,601,232,627"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ChannelNvSciPacketDefault.html" title=" " alt="" coords="308,143,507,184"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1ChannelPacketBase.html" title=" " alt="" coords="280,209,535,235"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1ChannelPacketDefaultBase.html" title=" " alt="" coords="296,336,519,377"/>
+<area shape="rect" id="node11" href="$classdw_1_1framework_1_1CodecPacket.html" title=" " alt="" coords="303,407,512,434"/>
+<area shape="rect" id="node13" href="$classdw_1_1framework_1_1EgomotionStateHandlePacket.html" title=" " alt="" coords="309,463,506,504"/>
+<area shape="rect" id="node15" href="$classdw_1_1framework_1_1FeatureArrayPacket.html" title=" " alt="" coords="302,528,513,569"/>
+<area shape="rect" id="node17" href="$classdw_1_1framework_1_1FeatureHistoryArrayPacket.html" title=" " alt="" coords="296,593,519,635"/>
+<area shape="rect" id="node19" href="$classdw_1_1framework_1_1FeatureNccScoresPacket.html" title=" " alt="" coords="307,659,507,700"/>
+<area shape="rect" id="node21" href="$classdw_1_1framework_1_1ImageHandlePacket.html" title=" " alt="" coords="300,724,515,765"/>
+<area shape="rect" id="node23" href="$classdw_1_1framework_1_1LatencyPacket.html" title=" " alt="" coords="297,791,517,818"/>
+<area shape="rect" id="node25" href="$classdw_1_1framework_1_1PointCloudPacket.html" title=" " alt="" coords="309,844,506,885"/>
+<area shape="rect" id="node27" href="$classdw_1_1framework_1_1PyramidImagePacket.html" title=" " alt="" coords="296,912,519,953"/>
+<area shape="rect" id="node29" href="$classdw_1_1framework_1_1SensorServiceNodeRawDataPacket.html" title=" " alt="" coords="298,984,517,1025"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwLidarDecodedPacket_01_4.html" title=" " alt="" coords="590,5,813,47"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwLidarPacketsArray_01_4.html" title=" " alt="" coords="590,71,813,112"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwRadarScan_01_4.html" title=" " alt="" coords="590,136,813,177"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwSensorNodeRawData_01_4.html" title=" " alt="" coords="590,201,813,243"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwTraceNodeData_01_4.html" title=" " alt="" coords="590,267,813,308"/>
+<area shape="rect" id="node10" href="$classdw_1_1framework_1_1ChannelPacketDefault.html" title=" " alt="" coords="590,332,813,373"/>
+<area shape="rect" id="node12" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwCodecPacket_01_4.html" title=" " alt="" coords="590,397,813,439"/>
+<area shape="rect" id="node14" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwEgomotionStateHandle__t_01_4.html" title=" " alt="" coords="585,463,818,504"/>
+<area shape="rect" id="node16" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwFeatureArray_01_4.html" title=" " alt="" coords="590,528,813,569"/>
+<area shape="rect" id="node18" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwFeatureHistoryArray_01_4.html" title=" " alt="" coords="590,593,813,635"/>
+<area shape="rect" id="node20" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwFeatureNccScores_01_4.html" title=" " alt="" coords="590,659,813,700"/>
+<area shape="rect" id="node22" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwImageHandle__t_01_4.html" title=" " alt="" coords="590,724,813,765"/>
+<area shape="rect" id="node24" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwLatency_01_4.html" title=" " alt="" coords="590,789,813,831"/>
+<area shape="rect" id="node26" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwPointCloud_01_4.html" title=" " alt="" coords="590,855,813,896"/>
+<area shape="rect" id="node28" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwPyramidImage_01_4.html" title=" " alt="" coords="590,920,813,961"/>
+<area shape="rect" id="node30" href="$classdw_1_1framework_1_1ChannelPacket_3_01SensorServiceNodeRawData_01_4.html" title=" " alt="" coords="583,985,820,1027"/>
+</map>

@@ -1,0 +1,46 @@
+{
+    "name": "VehicleStateConsumer",
+    "inputPorts": {
+        "VIRTUAL_SYNC_TIME": {
+            "type": "dwTime_t"
+        }
+    },
+    "outputPorts": {
+        "VEHICLE_IO_STATE": {
+            "type": "dwVehicleIOState"
+        },
+        "NEXT_TIMESTAMP": {
+            "type": "dwTime_t"
+        }
+    },
+    "parameters": {
+        "sensorAffinityMask": { "type": "int32_t", "default": 1 },
+        "sensorThreadPriority": { "type": "int32_t", "default": 99 }
+    },
+    "subcomponents": {
+        "vehicleStateNode": {
+            "componentType": "../../../../../src/dwframework/dwnodes/sensors/dwvehiclestatenode/dwVehicleStateNode.node.json",
+            "parameters": {
+                "*": "$*",
+                "legacyInternal": true,
+                "legacyExternal": false,
+                "external": false,
+                "vioStateRcEnabled": false
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "vehicleStateNode.PROCESSED_DATA",
+            "dests": {"VEHICLE_IO_STATE": {}}
+        },
+        {
+            "src": "vehicleStateNode.NEXT_TIMESTAMP",
+            "dests": {"NEXT_TIMESTAMP": {}}
+        },
+        {
+            "src": "VIRTUAL_SYNC_TIME",
+            "dests": {"vehicleStateNode.VIRTUAL_SYNC_TIME": {}}
+        }
+    ]
+}

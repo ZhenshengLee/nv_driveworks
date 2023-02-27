@@ -1,0 +1,7 @@
+<map id="dw::framework::ChannelPacket&lt; SensorServiceNodeRawData &gt;" name="dw::framework::ChannelPacket&lt; SensorServiceNodeRawData &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="551,39,788,80"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ChannelSocketPacketBase.html" title=" " alt="" coords="280,5,503,47"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1IChannelPacket_1_1SocketCallbacks.html" title=" " alt="" coords="5,5,232,47"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1SensorServiceNodeRawDataPacket.html" title=" " alt="" coords="282,71,501,112"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1IChannelPacket.html" title=" " alt="" coords="5,78,232,105"/>
+</map>
