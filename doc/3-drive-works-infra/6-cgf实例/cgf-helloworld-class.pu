@@ -1,0 +1,123 @@
+@startuml cgf-HelloWorldNode-class
+hide empty description
+skinparam monochrome false
+title cgf-HelloWorldNode-class-diagram
+header %date("yyyy.MM.dd") \n lizhensheng
+
+namespace dw.framework{
+
+abstract Node
+class SimpleNodeT << NodeT >>
+class SimpleProcessNodeT << NodeT >>
+
+HelloWorldNodeImpl <|-- SimpleProcessNodeT
+SimpleProcessNodeT <|-- SimpleNodeT
+SimpleNodeT <|-- SimpleNode
+SimpleNode <|-- Node
+
+HelloWorldNode <|-- ExceptionSafeProcessNode
+ExceptionSafeProcessNode <|-- Node
+
+abstract AbstractMetaObject
+class MetaObject << NodeT >>
+class PortCollectionDescriptor
+class ParameterCollectionDescriptor
+class PassCollectionDescriptor
+class ParameterProvider
+
+MetaObject <|-- AbstractMetaObject
+AbstractMetaObject --> PortCollectionDescriptor : > uses
+AbstractMetaObject --> ParameterCollectionDescriptor : > uses
+AbstractMetaObject --> PassCollectionDescriptor : > uses
+AbstractMetaObject --> ParameterProvider : > uses
+
+' relationship
+ExceptionSafeProcessNode --> SimpleProcessNodeT : > uses
+
+' class declaration
+' base
+
+abstract class Node{
+    ' {field}
+    {abstract} +dwStatus setName(const char* name)
+    {abstract} +dwStatus getErrorSignal(dwGraphErrorSignal*& errorSignal)
+    {abstract} +dwStatus reportCurrentErrorSignal(dwGraphErrorSignal& signal)
+    {method} {abstract} +dwStatus setInputChannel
+    {method} {abstract} +dwStatus setOutputChannel
+    {abstract} +void resetPorts()
+    {abstract} +dwStatus reset()
+}
+
+' main
+
+class ExceptionSafeProcessNode{
+    +ExceptionSafeProcessNode(std::unique_ptr<Node> impl)
+    {method} +dwStatus setInputChannel
+    {method} +dwStatus setOutputChannel
+    {method} +dwStatus run()
+    {method} +dwStatus runPass
+    {method} +dwStatus getErrorSignal
+}
+
+class HelloWorldNode{
+    {method} {static} +describeInputPorts()
+    {method} {static} +describeOutputPorts()
+    {method} {static} +describePasses()
+    {method} {static} +describeParameters()
+    {method} {static} +create(ParameterProvider& provider)()
+}
+
+' pimpl
+
+class HelloWorldNodeImpl{
+    +HelloWorldNodeImpl(const HelloWorldNodeParams& params, const dwContextHandle_t ctx)
+    +dwStatus reset() final
+    -dwStatus process()
+}
+
+class SimpleNodeT{
+    +SimpleNodeT() : SimpleNode(createAllocationParams<NodeT>()
+}
+
+note right of SimpleNodeT
+    传入子类的类型是为了\n
+    生成参数param
+end note
+
+class SimpleNode{
+    #HeapHashMap m_inputPorts;
+    #HeapHashMap m_outputPorts;
+    +SimpleNode(NodeAllocationParams params)
+    {method} +dwStatus setInputChannel
+    {method} +dwStatus setOutputChannel
+    {method} +dwStatus run()
+    {method} +dwStatus runPass
+    {method} +void initInputArrayPort
+    {method} +void initOutputPort
+    {method} +dwStatus setup()
+    {method} +dwStatus teardown()
+    {method} +void resetPorts()
+    {method} #void registerPass
+
+}
+
+' node object factory
+
+abstract class AbstractMetaObject{
+    {method} +AbstractMetaObject(className)
+    {method} {abstract} +PortCollectionDescriptor& getInputPorts()
+    {method} {abstract} +PortCollectionDescriptor& getOutputPorts()
+    {method} {abstract} +ParameterCollectionDescriptor& getParameters()
+    {method} {abstract} +PassCollectionDescriptor& getPasses()
+    {method} {abstract} +std::unique_ptr<Node> create(ParameterProvider& provider)
+}
+
+class ParameterProvider{
+    {method} +getOptional
+    {method} +getRequired
+}
+
+}
+
+
+@enduml
