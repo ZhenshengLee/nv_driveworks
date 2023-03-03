@@ -1,0 +1,95 @@
+@startuml cgf-dwframework-class
+hide empty description
+skinparam monochrome false
+title cgf-dwframework-class-diagram
+header %date("yyyy.MM.dd") \n lizhensheng
+
+' namespace dw.framework{
+
+package library {
+abstract Node
+' class SimpleNodeT << NodeT >>
+class SimpleProcessNodeT << NodeT >>
+class ExceptionSafeProcessNode
+class ExceptionSafeSensorNode
+}
+
+
+' node extra function
+package node-function {
+interface IAsyncResetable
+interface IContainsPreShutdownAction
+interface ISensorNode
+}
+
+ExceptionSafeProcessNode <|-- Node
+ExceptionSafeSensorNode <|-- Node
+ExceptionSafeSensorNode <|-- ISensorNode
+' relationship
+ExceptionSafeProcessNode --> SimpleProcessNodeT : > uses
+
+
+' package processing {
+dwLidarPointCloudAccumulatorNode <|-- ExceptionSafeProcessNode
+dwLidarPointCloudStitcherNode <|-- ExceptionSafeProcessNode
+dwRadarDopplerMotionNode <|-- ExceptionSafeProcessNode
+dwRigNode <|-- ExceptionSafeProcessNode
+dwRigNode <|-- IContainsPreShutdownAction
+dwSelfCalibrationNode <|-- ExceptionSafeProcessNode
+dwSoftISPNode <|-- ExceptionSafeProcessNode
+' }
+
+dwTraceCollectorNode <|-- ExceptionSafeProcessNode
+dwTraceCollectorNode <|-- IAsyncResetable
+dwTraceNode <|-- ExceptionSafeProcessNode
+
+dwGlobalEgomotionNode <|-- ExceptionSafeProcessNode
+dwGlobalEgomotionNode <|-- IAsyncResetable
+
+dwRelativeEgomotionIMUNode <|-- ExceptionSafeProcessNode
+dwLidarPointCloudStitcherNode <|-- IAsyncResetable
+dwLidarPointCloudStitcherNode <|-- IContainsPreShutdownAction
+
+dwRelativeEgomotionIMUNodeImpl <|-- SimpleProcessNodeT
+dwRelativeEgomotionIMUNodeImpl <|-- IAsyncResetable
+dwRelativeEgomotionIMUNodeImpl <|-- IContainsPreShutdownAction
+
+dwFeatureDetectorNode <|-- dwFeatureDetectorNodeBase
+dwFeatureDetectorNodeBase <|-- ExceptionSafeProcessNode
+dwFeatureDetectorPVANode <|-- dwFeatureDetectorNodeBase
+
+dwFeatureTrackerNode <|-- ExceptionSafeProcessNode
+
+dwPyramidNode <|-- dwPyramidNodeBase
+dwPyramidNodeBase <|-- ExceptionSafeProcessNode
+dwPyramidPVANode <|-- dwPyramidNodeBase
+
+dwIcpNode <|-- ExceptionSafeProcessNode
+
+dwCameraNode <|-- ExceptionSafeSensorNode
+
+dwGPSNode <|-- ExceptionSafeSensorNode
+dwGPSChannelNode <|-- ExceptionSafeSensorNode
+
+dwIMUNode <|-- ExceptionSafeSensorNode
+dwIMUChannelNode <|-- ExceptionSafeSensorNode
+
+dwLidarNode <|-- ExceptionSafeSensorNode
+dwLidarBatchNode <|-- ExceptionSafeSensorNode
+
+dwRadarNode <|-- ExceptionSafeSensorNode
+dwRadarChannelNode <|-- ExceptionSafeSensorNode
+
+dwUltrasonicNode <|-- ExceptionSafeSensorNode
+dwUltrasonicChannelNode <|-- ExceptionSafeSensorNode
+
+dwVehicleStateNode <|-- ExceptionSafeSensorNode
+dwVehicleStateChannelNode <|-- ExceptionSafeSensorNode
+
+' class declaration
+' base
+
+' }
+
+
+@enduml
