@@ -1,4 +1,5 @@
 {
+    "$schema": "../../../../../../doc/3-drive-works-infra/7-基于json的cgf设计/graphlet.schema.json",
     "name": "EgomotionDemo",
     "inputPorts": {
         "IMU_FRAME": {
