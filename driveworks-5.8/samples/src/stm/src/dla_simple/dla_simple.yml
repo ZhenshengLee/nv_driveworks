@@ -1,0 +1,48 @@
+---
+Version: 3.0.0
+dla_simple:
+  Identifier: 102
+  Resources:
+    CPU:
+    - CPU0
+    DLA:
+    - DLA0
+  Hyperepochs:
+  - hyperepoch0:
+      Epochs:
+      - epoch0:
+          Period: 100ms
+  Clients:
+  - clientDla:
+      Resources:
+        DLA_HANDLE:
+        - DLA_HANDLE0: DLA0
+      Epochs:
+      - hyperepoch0.epoch0:
+          Runnables:
+          - dlaSubmit:
+              WCET: 10ms
+              Dependencies: []
+              Submits: clientDla.dlaSubmittee
+              Resources:
+              - CPU0
+              - DLA_HANDLE
+          - dlaSubmittee:
+              WCET: 10ms
+              Dependencies:
+              - clientDla.confirmUnfinished
+              Resources:
+              - DLA
+          - confirmUnfinished:
+              WCET: 10ms
+              Dependencies:
+              - clientDla.dlaSubmit
+              Resources:
+              - CPU0
+          - confirmFinished:
+              WCET: 10ms
+              Dependencies:
+              - clientDla.dlaSubmittee
+              Resources:
+              - CPU0
+...

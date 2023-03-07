@@ -1,3 +1,4 @@
 *.so*
 *.bin*
 *.h264*
+driveworks-5.8/tools/stm*

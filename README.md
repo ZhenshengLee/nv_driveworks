@@ -14,10 +14,10 @@ driveworks-samples_5.8.82-317146970_amd64.deb
 driveworks-cgf_5.8.82-317146970_amd64.deb
 driveworks-cgf-samples_5.8.82-317146970_amd64.deb
 driveworks-cgf-doc_5.8.82-317146970_all.deb
+driveworks-stm_5.8.82-317146970_amd64.deb
+driveworks-stm-samples_5.8.82-317146970_amd64.deb
 
 # driveworks-cgf-ui_5.8.82-317146970_amd64.deb
 
-# driveworks-stm_5.8.82-317146970_amd64.deb
-# driveworks-stm-samples_5.8.82-317146970_amd64.deb
 # driveworks-data_5.8.82-317146970_all.deb
 ```

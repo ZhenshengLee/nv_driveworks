@@ -1,0 +1,262 @@
+VERSION 15.4.0
+
+SCHEDULE 101
+
+HYPEREPOCH{
+11: [11];
+}
+
+SYNC{
+s0(1,{clientGpuY:CPU()},{clientGpuX:CUDA(1)});
+s1(1,{clientGpuX:CPU()},{clientGpuY:CPU(),clientGpuY:CUDA(1)});
+s2(0,{clientGpuY:CUDA(1)},{framesync_default_hyperepoch0_epoch0:CPU()});
+s3(0,{clientGpuX:CUDA(1)},{clientGpuY:CUDA(1)});
+s4(1,{clientGpuY:CPU()},{clientGpuY:CPU(),framesync_default_hyperepoch0_epoch0:CPU()});
+s5(1,{framesync_default_hyperepoch0_epoch0:CPU()},{clientGpuX:CPU()});
+}
+
+FENCE{
+f0(s0,1);
+f1(s1,1);
+f2(s2,0);
+f3(s3,0);
+f4(s4,1);
+f5(s5,1);
+}
+
+CLIENT(default:clientGpuY(6)) { 
+RESOURCES{
+CUDA CUDA_STREAMY;
+}
+CORE(0, 11) {
+WOF f1;
+CUF  f3, CUDA_STREAMY;
+CUF  f1, CUDA_STREAMY;
+CUSUB [11: 0 % 1] f2, CUDA_STREAMY, submit(4);
+SIG  f4;
+CALL [11: 0 % 1] test1(3);
+SIG  f0;
+}
+}
+CLIENT(default:clientGpuX(9)) { 
+RESOURCES{
+CUDA CUDA_STREAMX;
+}
+CORE(0, 11) {
+WOF f5;
+CUF  f0, CUDA_STREAMX;
+CUSUB [11: 0 % 1] f3, CUDA_STREAMX, submit(7);
+SIG  f1;
+}
+}
+CLIENT(default:framesync_default_hyperepoch0_epoch0(11)) { 
+RESOURCES{
+}
+CORE(0, 11) {
+LOG 0(10);
+SIG  f5;
+WOF [11: 0 % 1] f4;
+WOF [11: 0 % 1] f2;
+LOG 1(10);
+WUP 100000000(10);
+}
+}
+
+METADATA
+!CompiledSchedule
+clients:
+- !CompiledClient
+  framesync_epoch: null
+  framesync_hyperepoch: null
+  id_: clientGpuY
+  is_deadlock_resolver: false
+  log_id: 6
+  resources: [clientGpuY.default.CUDA_STREAMY]
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 12000001
+    children_log_ids: [8]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 30000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: clientGpuY.test1
+    log_id: 3
+    modulo: 0
+    parents_log_ids: [4]
+    post_fence: f0
+    pre_fence_list: [f4]
+    priority: 10
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 20000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 20000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 22000001
+    children_log_ids: [3, 10]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 20000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: clientGpuY.submit
+    log_id: 4
+    modulo: 0
+    parents_log_ids: [7]
+    post_fence: f4
+    pre_fence_list: [f1]
+    priority: 10
+    resources: [clientGpuY.default.CUDA_STREAMY, default.CPU0]
+    runnable_type: CUDASubmitter
+    start: 10000000
+    step: []
+    submittee: null
+    submittee_id: clientGpuY.kernel
+    t_level: 10000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000001
+    children_log_ids: [10]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 32000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: clientGpuY.kernel
+    log_id: 5
+    modulo: 0
+    parents_log_ids: [8, 7]
+    post_fence: f2
+    pre_fence_list: [f1, f3]
+    priority: 10
+    resources: [default.iGPU]
+    runnable_type: CUDASubmittee
+    start: 31000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 31000000
+  schedule: null
+  soc: default
+- !CompiledClient
+  framesync_epoch: null
+  framesync_hyperepoch: null
+  id_: clientGpuX
+  is_deadlock_resolver: false
+  log_id: 9
+  resources: [clientGpuX.default.CUDA_STREAMX]
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 32000001
+    children_log_ids: [4, 5]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 10000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: clientGpuX.submit
+    log_id: 7
+    modulo: 0
+    parents_log_ids: []
+    post_fence: f1
+    pre_fence_list: [f5]
+    priority: 10
+    resources: [clientGpuX.default.CUDA_STREAMX, default.CPU0]
+    runnable_type: CUDASubmitter
+    start: 0
+    step: []
+    submittee: null
+    submittee_id: clientGpuX.kernel
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2000001
+    children_log_ids: [5]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 31000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: clientGpuX.kernel
+    log_id: 8
+    modulo: 0
+    parents_log_ids: [3]
+    post_fence: f3
+    pre_fence_list: [f0]
+    priority: 10
+    resources: [default.iGPU]
+    runnable_type: CUDASubmittee
+    start: 30000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 30000000
+  schedule: null
+  soc: default
+- !CompiledClient
+  framesync_epoch: epoch0
+  framesync_hyperepoch: hyperepoch0
+  id_: framesync_default_hyperepoch0_epoch0
+  is_deadlock_resolver: false
+  log_id: 11
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1
+    children_log_ids: []
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 32000001
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: framesync_default_hyperepoch0_epoch0.framesync_runnable
+    log_id: 10
+    modulo: 0
+    parents_log_ids: [5, 4]
+    post_fence: f5
+    pre_fence_list: [f4, f2]
+    priority: 0
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 32000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 32000000
+  schedule: null
+  soc: default
+hyperepochs:
+- !CompiledHyperepoch
+  epochs:
+  - !CompiledEpoch {frames: 1, hyperepoch: null, id_: hyperepoch0.epoch0, log_id: 1,
+    period: 100000000}
+  id_: hyperepoch0
+  log_id: 2
+  resources: [default.CPU0, default.iGPU, clientGpuY.default.CUDA_STREAMY, clientGpuX.default.CUDA_STREAMX]
+  schedule: null
+  schedule_length: 32000001
+id_: cpu_gpu_1
+resource_type_mapping: {clientGpuX.default.CUDA_STREAMX: clientGpuX.default.CUDA_STREAM,
+  clientGpuY.default.CUDA_STREAMY: clientGpuY.default.CUDA_STREAM, default.CPU0: default.CPU,
+  default.iGPU: default.GPU}
+schedule_identifier: 101
