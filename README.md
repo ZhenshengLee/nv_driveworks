@@ -32,5 +32,5 @@ driveworks-samples_5.10.87-323457480_amd64.deb
 # driveworks-doc_5.10.87-323457480_all.deb
 # cgf not found
 # stm
-# driveworks-stm_5.10.87-323457480_amd64.deb
+driveworks-stm_5.10.87-323457480_amd64.deb
 ```
