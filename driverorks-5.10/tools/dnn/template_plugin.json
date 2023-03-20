@@ -1,0 +1,6 @@
+{
+  "__comment": "Please list here all the plugin paths (absolute path or relative to tensorRT_optimization tool)",
+  "__comment": "Note that for UFF/ONNX models, layer names are not required and can be set to an empty string.",
+  "plugin_path1": ["layer_name1", "layer_name2"],
+  "plugin_path2": [""]
+}

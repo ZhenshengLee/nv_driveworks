@@ -1,0 +1,460 @@
+{
+    "rig": {
+        "properties": {
+            "layout": "Hyperion 7.1"
+        },
+        "sensors": [
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BtsoBFAAApwEBPgAAfAEBaQAAUgEBkgAAhwABAgAAoAABvAAAfwABBQAAjAAB1QAAdgABCQAAiAAB3QAAbwABDAAAhAAB5gAAZwABDwAAgQAB7gAAXgABEwAAfQAB9gAAVwABFgAAeQAB/wAATwABGQAAdgABBwEARgABHQAAcgABDwEAPwABIAAAbgABGAEANwABIwAAagABIQEALgABJwAAZwABKAEAJwABKgAAYwABMQEAHwABLwAAXQABOgEAFgABOAAAVQABQQEADwABQAAATAABSgEABwABSAAAQwABogEAOgABqwEAMgABswEAKQABuwEAIQABxAEAGQABzAEAEAAB1QEABwAB5jkA",
+                    "resolution": [
+                        480,
+                        302
+                    ]
+                },
+                "name": "camera:front:center:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "t": [
+                        1.77,
+                        0.0,
+                        1.47
+                    ]
+                },
+                "parameter": "camera-name=SF3324,interface=csi-ab,format=lraw,output-format=raw+processed,fifo-size=29,slave=1,file-buffer-size=4194304",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0 0.0010337684070691 2.2048213921266e-08 5.6866707523473e-12 3.1827639075709e-14",
+                    "cx": "964.875977",
+                    "cy": "645.572449",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.gmsl"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8B//8BQjYB",
+                    "resolution": [
+                        480,
+                        302
+                    ]
+                },
+                "name": "camera:front:center:60fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "t": [
+                        1.749,
+                        -0.1,
+                        1.47
+                    ]
+                },
+                "parameter": "camera-name=SF3325,interface=csi-cd,format=lraw,output-format=raw+processed,fifo-size=29,slave=1,file-buffer-size=4194304",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0 0.00054324528900906 -3.235247625355e-10 -2.7108519422281e-12 -1.4618914108091e-15",
+                    "cx": "974.77478",
+                    "cy": "637.490173",
+                    "height": "1208",
+                    "width": "1920"
+                },
+                "protocol": "camera.gmsl"
+            },
+            {
+                "name": "can:vehicle",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "parameter": "device=can0",
+                "properties": null,
+                "protocol": "can.socket"
+            },
+            {
+                "name": "gps:novatel",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.685,
+                        0.0,
+                        1.583
+                    ]
+                },
+                "parameter": "device=0",
+                "properties": null,
+                "protocol": "gps.novatel"
+            },
+            {
+                "name": "gps:xsens",
+                "nominalSensor2Rig": {
+                    "quaternion": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "t": [
+                        -0.2,
+                        -0.1,
+                        0.4
+                    ]
+                },
+                "parameter": "device=/dev/ttyUSB0,baudrate=230400,stop-bits=1,slave=true,file-buffer-size=8192",
+                "properties": null,
+                "protocol": "gps.xsens"
+            },
+            {
+                "name": "imu:novatel",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        0.145,
+                        0.18,
+                        0.743
+                    ]
+                },
+                "parameter": "device=0",
+                "properties": null,
+                "protocol": "imu.novatel"
+            },
+            {
+                "name": "imu:xsens",
+                "nominalSensor2Rig": {
+                    "quaternion": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "t": [
+                        -0.2,
+                        -0.1,
+                        0.4
+                    ]
+                },
+                "parameter": "device=/dev/ttyUSB0,baudrate=230400,stop-bits=1,slave=true,file-buffer-size=8192",
+                "properties": null,
+                "protocol": "imu.xsens"
+            },
+            {
+                "name": "lidar:left:hdl32e",
+                "nominalSensor2Rig": {
+                    "quaternion": [
+                        -0.101504623889923,
+                        -0.101504623889923,
+                        -0.699831902980804,
+                        0.699768126010895
+                    ],
+                    "t": [
+                        1.41499996185303,
+                        0.512000024318695,
+                        1.74
+                    ]
+                },
+                "parameter": "device=VELO_HDL32E,ip=192.168.1.211,port=2211,scan-frequency=10",
+                "properties": null,
+                "protocol": "lidar.socket",
+                "sensor2Rig": {
+                    "quaternion": [
+                        -0.101504623889923,
+                        -0.101504623889923,
+                        -0.699831902980804,
+                        0.699768126010895
+                    ],
+                    "t": [
+                        1.41499996185303,
+                        0.512000024318695,
+                        1.74
+                    ]
+                }
+            },
+            {
+                "name": "lidar:right:hdl32e",
+                "nominalSensor2Rig": {
+                    "quaternion": [
+                        0.101504623889923,
+                        -0.101504623889923,
+                        0.699831902980804,
+                        0.699768126010895
+                    ],
+                    "t": [
+                        1.41499996185303,
+                        -0.512000024318695,
+                        1.74
+                    ]
+                },
+                "parameter": "device=VELO_HDL32E,ip=192.168.1.212,port=2212,scan-frequency=10",
+                "properties": null,
+                "protocol": "lidar.socket",
+                "sensor2Rig": {
+                    "quaternion": [
+                        0.101504623889923,
+                        -0.101504623889923,
+                        0.699831902980804,
+                        0.699768126010895
+                    ],
+                    "t": [
+                        1.41499996185303,
+                        -0.512000024318695,
+                        1.74
+                    ]
+                }
+            },
+            {
+                "name": "radar:front:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "t": [
+                        3.73,
+                        0.119,
+                        0.329
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.20,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:front:left:corner",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        45.0
+                    ],
+                    "t": [
+                        3.573,
+                        0.72,
+                        0.517
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.21,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:front:left:crosstraffic",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        90.0
+                    ],
+                    "t": [
+                        3.344,
+                        0.84,
+                        0.524
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.26,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:front:right:corner",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        180.0,
+                        0.0,
+                        -45.0
+                    ],
+                    "t": [
+                        3.573,
+                        -0.72,
+                        0.517
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.22,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:front:right:crosstraffic",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        180.0,
+                        0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        3.344,
+                        -0.84,
+                        0.524
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.27,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:rear:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        180.0,
+                        0.0,
+                        180.0
+                    ],
+                    "t": [
+                        -1.091,
+                        -0.005,
+                        0.447
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.25,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:rear:left:corner",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        180.0,
+                        0.0,
+                        135.0
+                    ],
+                    "t": [
+                        -0.937,
+                        0.701,
+                        0.499
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.23,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            },
+            {
+                "name": "radar:rear:right:corner",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        -135.0
+                    ],
+                    "t": [
+                        -0.937,
+                        -0.701,
+                        0.499
+                    ]
+                },
+                "parameter": "device=CONTINENTAL_ARS430,ip=10.1.1.24,port=40000,multicast-ip=239.0.0.1,time-smoothing=true,slave=true,file-buffer-size=4194304",
+                "properties": null,
+                "protocol": "radar.socket"
+            }
+        ],
+        "vehicle": {
+            "valid": true,
+            "value": {
+                "COMMENT": "[date: 2020-01-19] mass and centerOfMass are measured with two persons in the front seats. vehicle yaw inertia (the 3rd element of inertia), front cornering stiffness, rear cornering stiffness and steering map are estimated with vehicle test data. roll and pitch inertia (inertia's first and second elements) and height of center of mass are estimates. [date: 2021-07-21] throttleTorqueOutput resampled for throttleSpeedInput with values close to 0mps",
+                "actuation": {
+                    "brakeActuatorTimeConstant": 0.05,
+                    "brakeActuatorTimeDelay": 0.0,
+                    "driveByWireTimeConstant": 0.25999999046325684,
+                    "driveByWireTimeDelay": 0.10999999940395355,
+                    "effectiveMass": 389.8653869628906,
+                    "maxSteeringWheelAngle": 8.290313720703125,
+                    "steeringWheelToSteeringMap": [
+                        0.0,
+                        0.06459085643291473,
+                        -2.557147672632709e-05,
+                        1.8859604097087868e-05,
+                        1.3523515463020885e-07,
+                        4.7676653025519045e-07
+                    ],
+                    "throttleActuatorTimeConstant": 0.3,
+                    "throttleActuatorTimeDelay": 0.0,
+                    "torqueLUT": {
+                        "brakePedalInput": "0.15, 0.16, 0.17, 0.19, 0.20, 0.22, 0.23, 0.25, 0.26, 0.27, 0.29, 0.30, 0.32, 0.33, 0.35",
+                        "brakeTorqueOutput": "0.000, 49.09, 98.18, 166.20, 360.97, 555.75, 937.50, 1327.03, 1754.49, 2195.60, 2653.02, 3313.10, 4377.48, 6691.15, 7438.69",
+                        "throttlePedalInput": "0.17, 0.20, 0.23, 0.27, 0.30, 0.34, 0.37, 0.41, 0.44, 0.48, 0.51, 0.55, 0.58, 0.61, 0.65",
+                        "throttleSpeedInput": "0.00, 2.14, 4.29, 6.43, 8.57, 10.71, 12.86, 15.00, 17.14, 19.29, 21.43, 23.57, 25.71, 27.86, 30.00",
+                        "throttleTorqueOutput": [
+                            "68.96, 22.07, -25.21, -72.83, -120.75, -164.84, -202.53, -225.26, -251.77, -279.48, -280.48, -281.48, -282.48, -283.48, -284.48",
+                            "707.25, 560.40, 411.69, 261.67, 110.68, 11.85, -67.57, -104.96, -144.60, -184.34, -185.34, -186.34, -187.34, -188.34, -189.34",
+                            "1342.68, 1096.46, 846.99, 595.26, 341.93, 188.61, 67.71, 15.48, -37.26, -89.02, -98.81, -104.39, -105.39, -106.39, -107.39",
+                            "1836.76, 1523.81, 1206.73, 886.79, 564.81, 369.49, 214.14, 143.81, 77.25, 13.62, -15.85, -33.79, -34.79, -35.79, -36.79",
+                            "2328.83, 1949.70, 1565.50, 1177.78, 787.57, 550.43, 360.74, 272.23, 191.87, 116.36, 67.21, 36.91, 35.91, 34.91, 33.91",
+                            "2678.62, 2266.03, 1848.07, 1426.34, 1001.90, 735.53, 518.64, 408.59, 313.73, 226.45, 159.00, 114.07, 108.81, 102.25, 95.43",
+                            "3027.80, 2581.90, 2130.32, 1674.71, 1216.19, 920.63, 676.64, 544.97, 435.63, 336.57, 250.81, 191.22, 179.79, 164.42, 147.95",
+                            "3233.24, 2787.20, 2335.71, 1880.30, 1421.96, 1109.90, 846.17, 689.34, 564.84, 454.13, 351.33, 275.29, 251.74, 221.70, 189.91",
+                            "3438.51, 2992.44, 2541.10, 2085.90, 1627.74, 1299.14, 1015.83, 833.69, 694.05, 571.68, 451.79, 359.55, 323.67, 278.98, 231.87",
+                            "3500.25, 3087.18, 2669.66, 2248.71, 1824.99, 1492.50, 1197.24, 986.03, 830.59, 696.67, 560.88, 451.03, 396.57, 331.39, 263.27",
+                            "3561.46, 3181.47, 2797.88, 2411.33, 2022.21, 1685.83, 1378.89, 1138.38, 967.16, 821.69, 669.98, 542.74, 469.46, 383.76, 294.63",
+                            "3562.46, 3182.47, 2849.89, 2531.52, 2210.98, 1883.18, 1572.48, 1298.63, 1110.98, 954.07, 787.58, 641.78, 543.30, 431.30, 315.53",
+                            "3563.46, 3183.47, 2900.93, 2651.17, 2399.66, 2080.50, 1766.55, 1458.97, 1254.90, 1086.56, 905.25, 741.10, 617.14, 478.77, 336.28",
+                            "3564.46, 3184.47, 2901.93, 2728.73, 2579.98, 2281.72, 1972.84, 1627.12, 1406.01, 1226.35, 1031.34, 847.85, 691.91, 521.45, 346.66",
+                            "3565.46, 3185.47, 2902.93, 2805.41, 2760.14, 2482.92, 2179.94, 1795.43, 1557.29, 1366.29, 1157.55, 954.91, 766.70, 564.01, 356.82"
+                        ]
+                    }
+                },
+                "axleFront": {
+                    "corneringStiffness": 93534.5234375,
+                    "position": 2.8499999046325684,
+                    "track": 1.5820000171661377,
+                    "wheelRadiusLeft": 0.33059999346733093,
+                    "wheelRadiusRight": 0.33059999346733093
+                },
+                "axleRear": {
+                    "corneringStiffness": 176162.140625,
+                    "position": 0.0,
+                    "track": 1.5750000476837158,
+                    "wheelRadiusLeft": 0.33059999346733093,
+                    "wheelRadiusRight": 0.33059999346733093
+                },
+                "body": {
+                    "boundingBoxPosition": [
+                        -1.1089999675750732,
+                        0.0,
+                        0.0
+                    ],
+                    "centerOfMass": [
+                        1.5946999788284302,
+                        0.0,
+                        0.550000011920929
+                    ],
+                    "height": 1.4730000495910645,
+                    "inertia": [
+                        750.0,
+                        3200.0,
+                        3414.201171875
+                    ],
+                    "length": 4.872000217437744,
+                    "mass": 2014.4000244140625,
+                    "width": 2.121000051498413,
+                    "widthWithoutMirrors": 1.852
+                },
+                "hasCabin": false,
+                "name": "ford fusion 2017",
+                "numTrailers": 0
+            }
+        }
+    },
+    "version": 7
+}

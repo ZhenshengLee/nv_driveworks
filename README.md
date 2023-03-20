@@ -8,6 +8,8 @@
 
 ## deb包
 
+### driveworks-5.8
+
 ```sh
 driveworks_5.8.82-317146970_amd64.deb
 driveworks-samples_5.8.82-317146970_amd64.deb
@@ -20,4 +22,15 @@ driveworks-stm-samples_5.8.82-317146970_amd64.deb
 # driveworks-cgf-ui_5.8.82-317146970_amd64.deb
 
 # driveworks-data_5.8.82-317146970_all.deb
+```
+
+### driveworks-5.10
+
+```sh
+driveworks_5.10.87-323457480_amd64.deb
+driveworks-samples_5.10.87-323457480_amd64.deb
+# driveworks-doc_5.10.87-323457480_all.deb
+# cgf not found
+# stm
+# driveworks-stm_5.10.87-323457480_amd64.deb
 ```

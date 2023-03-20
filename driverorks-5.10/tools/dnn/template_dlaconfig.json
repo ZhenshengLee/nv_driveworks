@@ -1,0 +1,5 @@
+{
+	"__comment" : "provide specific layers to be run on gpu by layer-types or layer-numbers. Layer types and layer numbers corresponding to each layer can be obtained from logs.",
+	"layerTypesOnGPU": [],
+	"layersOnGPU": []
+}

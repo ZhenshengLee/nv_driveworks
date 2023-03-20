@@ -1,0 +1,33 @@
+{
+	"__comment": "Set the precision for a specific layer.",
+	"layer_name_1" : 
+	{
+		"precision" : "int8",
+		"output_types" : 
+		{
+			"tensor_name_1" : "int8",
+			"tensor_name_2" : "fp16"
+		}
+	},
+	"__comment": "Set the precision for all the layers that match the regular expression.",
+	"layer_name_2.*" :
+	{
+		"precision" : "fp32",
+		"output_types" : 
+		{
+			"tensor_name": "fp32"
+		}
+	},
+	"layer_name_3.*" :
+	{
+		"precision" : "fp32",
+		"__comment" : "Set the data type for all the outputs to the precision of the layer."
+	},
+	"__comment": "Set the scaling factors for the tensors.",
+	"tensor_scales" :
+	{
+		"input_images" : 1.0,
+		"activation_1/Relu6": 6.0,
+		"activation_2/Relu6": 6.0
+	}
+}

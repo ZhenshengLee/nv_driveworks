@@ -1,0 +1,12 @@
+{
+  "dataConditionerParams" : {
+    "meanValue" : [0.0, 0.0, 0.0],
+    "stdev" : [1.0, 1.0, 1.0],
+    "splitPlanes" : true,
+    "pixelScaleCoefficient": 1.0,
+    "ignoreAspectRatio" : false,
+    "doPerPlaneMeanNormalization" : false
+  },
+  "tonemapType" : "none",
+  "__comment": "tonemapType can be one of {none, agtm}"
+}
