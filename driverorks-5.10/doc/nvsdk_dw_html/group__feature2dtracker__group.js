@@ -1,0 +1,45 @@
+var group__feature2dtracker__group =
+[
+    [ "dwFeature2DTrackerConfig", "group__feature2dtracker__group.html#structdwFeature2DTrackerConfig", [
+      [ "algorithm", "group__feature2dtracker__group.html#a72a9376581de70c9c8e383abc1ce2710", null ],
+      [ "detectorType", "group__feature2dtracker__group.html#a1b6c02a778efde9a85991497820a6c52", null ],
+      [ "displacementThreshold", "group__feature2dtracker__group.html#a19d71492de1cfe3d4d613384fa780059", null ],
+      [ "enableAdaptiveWindowSizeLK", "group__feature2dtracker__group.html#a2fbdc5150e22b9c9631dc9291f7c8757", null ],
+      [ "enableSparseOutput", "group__feature2dtracker__group.html#adb0ad9b51578c45f56906ccdc05bf491", null ],
+      [ "historyCapacity", "group__feature2dtracker__group.html#a24e90dac0edb53a34f50d5efe09c903d", null ],
+      [ "imageHeight", "group__feature2dtracker__group.html#a99501e2875ea7cf32865ba59cf313b31", null ],
+      [ "imageWidth", "group__feature2dtracker__group.html#adb9faa4d6ee021f2e31dc586a64d8109", null ],
+      [ "largeMotionKillRatio", "group__feature2dtracker__group.html#ae5adbd9bd73557f98dc732234a556418", null ],
+      [ "maxFeatureCount", "group__feature2dtracker__group.html#a618e6c6f43309778ed89c2cceb40791d", null ],
+      [ "maxScaleChange", "group__feature2dtracker__group.html#ab7608cb9e21f4b43d882546906c20717", null ],
+      [ "nccKillThreshold", "group__feature2dtracker__group.html#a05e67945cf22bb9512b07c640a79d2ab", null ],
+      [ "nccUpdateThreshold", "group__feature2dtracker__group.html#a28fa8ef5b044e3255c3e6a144e999ab9", null ],
+      [ "numIterScaling", "group__feature2dtracker__group.html#a1c869e13f6fcf89cfba38d782c9636fe", null ],
+      [ "numIterTranslationOnly", "group__feature2dtracker__group.html#a9cdcac32eb667c01512b677201eac509", null ],
+      [ "numLevelTranslationOnly", "group__feature2dtracker__group.html#a1736fb15b52d23d38efabd67272bc36f", null ],
+      [ "processorType", "group__feature2dtracker__group.html#a13562ed76f1a8d2d9903a4de0685f978", null ],
+      [ "pyramidLevelCount", "group__feature2dtracker__group.html#a07550e77f5d8cd0fd4d9fe61b06df316", null ],
+      [ "useHalf", "group__feature2dtracker__group.html#ae94af553f7a2502c2ff66e4b99a58e77", null ],
+      [ "windowSizeLK", "group__feature2dtracker__group.html#a8c9a4082587e128c9a6945c599755b03", null ]
+    ] ],
+    [ "DW_FEATURE2D_TRACKER_MAX_WINDOW_SIZE", "group__feature2dtracker__group.html#ga922761d6f62a8deefe0394e521a7eb2f", null ],
+    [ "dwConstFeature2DTrackerHandle_t", "group__feature2dtracker__group.html#ga7e00f2127b30ffa615bff9c48202c9ac", null ],
+    [ "dwFeature2DTrackerHandle_t", "group__feature2dtracker__group.html#ga5e6db17dfac364bca1a8fdc475257c68", null ],
+    [ "dwFeature2DTrackerAlgorithm", "group__feature2dtracker__group.html#gaedef2b465c9332d24484fd5dc5c450e9", [
+      [ "DW_FEATURE2D_TRACKER_ALGORITHM_STD", "group__feature2dtracker__group.html#ggaedef2b465c9332d24484fd5dc5c450e9a7162f6e7fa3c0d0b6b0002d154ef3dfd", null ],
+      [ "DW_FEATURE2D_TRACKER_ALGORITHM_EX", "group__feature2dtracker__group.html#ggaedef2b465c9332d24484fd5dc5c450e9a06edef6741a78d5e4ccf90f6278164a4", null ],
+      [ "DW_FEATURE2D_TRACKER_ALGORITHM_EX_FAST", "group__feature2dtracker__group.html#ggaedef2b465c9332d24484fd5dc5c450e9ac46a07c60e9451b8e3a38acb0f72ffaf", null ],
+      [ "DW_FEATURE2D_TRACKER_ALGORITHM_COUNT", "group__feature2dtracker__group.html#ggaedef2b465c9332d24484fd5dc5c450e9a78952f3355866bc264d97b00ab2f2711", null ]
+    ] ],
+    [ "dwFeature2DTracker_compact", "group__feature2dtracker__group.html#ga653816f0e70ec655c96fa9daf595b3a2", null ],
+    [ "dwFeature2DTracker_getCUDAStream", "group__feature2dtracker__group.html#gacca93da8f930ec0af2998a1bd40a2285", null ],
+    [ "dwFeature2DTracker_getPVAStream", "group__feature2dtracker__group.html#ga680c82fe5c1b5f94255a380145a097d2", null ],
+    [ "dwFeature2DTracker_initDefaultParams", "group__feature2dtracker__group.html#gacc7433d0e649cb138c356f9ce005fccc", null ],
+    [ "dwFeature2DTracker_initDefaultParamsForCamera", "group__feature2dtracker__group.html#gae188e07efafc350302f888bd00bef124", null ],
+    [ "dwFeature2DTracker_initialize", "group__feature2dtracker__group.html#ga338a09308a4534aa08482159895b7762", null ],
+    [ "dwFeature2DTracker_release", "group__feature2dtracker__group.html#gaac51ce50bf476989e7d3400a6a2b6345", null ],
+    [ "dwFeature2DTracker_reset", "group__feature2dtracker__group.html#ga9637b4335c4b8ed1b11e469642f3f463", null ],
+    [ "dwFeature2DTracker_setCUDAStream", "group__feature2dtracker__group.html#gaeafca43022d12b8f7779151ef49c99fd", null ],
+    [ "dwFeature2DTracker_setPVAStream", "group__feature2dtracker__group.html#gadafd5359cbd977b93fb97f0c832f2047", null ],
+    [ "dwFeature2DTracker_trackFeatures", "group__feature2dtracker__group.html#gaad84b8d7ede7ae10a20222c061021079", null ]
+];

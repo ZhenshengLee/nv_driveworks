@@ -1,0 +1,67 @@
+var group__featureArray__group =
+[
+    [ "dwFeatureArray", "group__featureArray__group.html#structdwFeatureArray", [
+      [ "ages", "group__featureArray__group.html#abfd3a4835612e6d82f54a8276ae8299c", null ],
+      [ "featureCount", "group__featureArray__group.html#a58f8cbd95a6cacb395599c42e3ae5c1f", null ],
+      [ "ids", "group__featureArray__group.html#a55837c66219423745185c30f64cd02b5", null ],
+      [ "locations", "group__featureArray__group.html#a59fc81eeae867ff5044a82dd08705878", null ],
+      [ "maxFeatures", "group__featureArray__group.html#aed9a4bb3cbf466b284f4de651f7e2885", null ],
+      [ "memoryType", "group__featureArray__group.html#a01f05637c3c2f795bd718d18ca4111fd", null ],
+      [ "newToOldMap", "group__featureArray__group.html#a69d12e43c945b4aa597d2f8016105af9", null ],
+      [ "scales", "group__featureArray__group.html#a186061745b0b9db465652959ebdbdb3d", null ],
+      [ "statuses", "group__featureArray__group.html#a2b055dcf5e6e713acf3116d4a3dfd41d", null ],
+      [ "timeIdx", "group__featureArray__group.html#a2f25fd25992a2bb7c5739dd483d98998", null ],
+      [ "validTrackedCount", "group__featureArray__group.html#ab0658124de2060bfd5a2231e928d67ec", null ]
+    ] ],
+    [ "dwFeatureDescriptorArray", "group__featureArray__group.html#structdwFeatureDescriptorArray", [
+      [ "bytes", "group__featureArray__group.html#a338ce6e2a085eaf069c71bc0d12b1071", null ],
+      [ "data", "group__featureArray__group.html#a4be07f406b2276055e3022e4549285bb", null ],
+      [ "dataType", "group__featureArray__group.html#a721060623dd68459e4ebc93e1a8c1120", null ],
+      [ "descriptors", "group__featureArray__group.html#ae5d72c22b60e4ec81ee0b1dceede93ed", null ],
+      [ "dimension", "group__featureArray__group.html#a64fa87b0ed55d61d0aa1609a162148e6", null ],
+      [ "featureCount", "group__featureArray__group.html#a78dda4350c712140c69253043badce77", null ],
+      [ "ids", "group__featureArray__group.html#a9eb226a8021db10d3bb75ce927fa8fc8", null ],
+      [ "locations", "group__featureArray__group.html#a202a1a062c49f2c4f69280afad1fd5d4", null ],
+      [ "maxFeatures", "group__featureArray__group.html#ac0b4b7816e713fd55a176bfc62ea7c19", null ],
+      [ "memoryType", "group__featureArray__group.html#ae63a1044932964823d9fa69234e27825", null ],
+      [ "statuses", "group__featureArray__group.html#af02237e3b24008707e93de03273f1306", null ]
+    ] ],
+    [ "dwFeatureHistoryArray", "group__featureArray__group.html#structdwFeatureHistoryArray", [
+      [ "ages", "group__featureArray__group.html#a4c6faa13abee7eb02a98d8618552d916", null ],
+      [ "bytes", "group__featureArray__group.html#ac6a21142a3a77b19ebd23029a03e479b", null ],
+      [ "currentTimeIdx", "group__featureArray__group.html#acac509432b1e52052bee8c2d18bd6118", null ],
+      [ "data", "group__featureArray__group.html#ad6d3ffe9760895f271913a2c685499f1", null ],
+      [ "featureCount", "group__featureArray__group.html#aa1d3615da2dc2e0ae7ad0c1eedeae568", null ],
+      [ "ids", "group__featureArray__group.html#abe8cc3de1fb591f0d3bda9d049e764f4", null ],
+      [ "locationHistory", "group__featureArray__group.html#a90e33ce0c91eb6aa5f14ad844cc857f9", null ],
+      [ "maxFeatures", "group__featureArray__group.html#a733567c39b2f54f9495f932a376d14d7", null ],
+      [ "maxHistory", "group__featureArray__group.html#a17f754c825d2e51b6bb44eec81e85432", null ],
+      [ "memoryType", "group__featureArray__group.html#a22a7b0d4f3c10b9f436c670dd6ee9e62", null ],
+      [ "newToOldMap", "group__featureArray__group.html#ad31628f8021e3f4c7af432cfe9f1704e", null ],
+      [ "scales", "group__featureArray__group.html#a1a3bc05abd0e3cac6d873bcbb828f995", null ],
+      [ "statuses", "group__featureArray__group.html#ab259b136db10282b78e86ab11e95e0ad", null ],
+      [ "validTrackedCount", "group__featureArray__group.html#a226acd2f57d728d30474f60afda64029", null ]
+    ] ],
+    [ "dwFeature2DStatus", "group__featureArray__group.html#ga41557d7183de7a8b1d351f7cb1043817", [
+      [ "DW_FEATURE2D_STATUS_INVALID", "group__featureArray__group.html#gga41557d7183de7a8b1d351f7cb1043817aaa24301f99b0bccba0aa4045b86c03e3", null ],
+      [ "DW_FEATURE2D_STATUS_DETECTED", "group__featureArray__group.html#gga41557d7183de7a8b1d351f7cb1043817a8ef068f96c240ea86e613e26bab09e09", null ],
+      [ "DW_FEATURE2D_STATUS_TRACKED", "group__featureArray__group.html#gga41557d7183de7a8b1d351f7cb1043817ab746d85bd87c09fc6e6c6b3e59912d41", null ],
+      [ "DW_FEATURE2D_STATUS_TYPE_COUNT", "group__featureArray__group.html#gga41557d7183de7a8b1d351f7cb1043817ad2753e2b7e66e2dd0e0ca05167c66f50", null ]
+    ] ],
+    [ "dwFeature_mergeNewToOldMap", "group__featureArray__group.html#ga49511aa6f6381770f68838df696280f8", null ],
+    [ "dwFeatureArray_copyAsync", "group__featureArray__group.html#ga4afa68d015838f5d0017df22ec0b4a79", null ],
+    [ "dwFeatureArray_create", "group__featureArray__group.html#gacea0d10ba2271450e4ad00061f3589ac", null ],
+    [ "dwFeatureArray_destroy", "group__featureArray__group.html#gaad6d20a82ac080c06684ff69553cadab", null ],
+    [ "dwFeatureArray_reset", "group__featureArray__group.html#gaa14403e78848f4dc068bb386ff6d6560", null ],
+    [ "dwFeatureDescriptorArray_copy", "group__featureArray__group.html#gacf97790ee65f805b911c4d23f9d9347a", null ],
+    [ "dwFeatureDescriptorArray_copyAsync", "group__featureArray__group.html#ga0c7b9e60d6b9471096c45c580e14ad93", null ],
+    [ "dwFeatureDescriptorArray_create", "group__featureArray__group.html#gaa70b87d88a46914de531c33696e413ce", null ],
+    [ "dwFeatureDescriptorArray_destroy", "group__featureArray__group.html#ga76f08e967cc3a2f07b32e6ad40685de5", null ],
+    [ "dwFeatureHistoryArray_copyAsync", "group__featureArray__group.html#ga8abb15248cf2a91333720b8eed1ba7b9", null ],
+    [ "dwFeatureHistoryArray_create", "group__featureArray__group.html#gae638b572d3bef4c29ebe29531b58354c", null ],
+    [ "dwFeatureHistoryArray_destroy", "group__featureArray__group.html#ga212e03d3e504937744c141c0951d8bf5", null ],
+    [ "dwFeatureHistoryArray_get", "group__featureArray__group.html#ga37a28dca6e70635553798b0546b62b90", null ],
+    [ "dwFeatureHistoryArray_getCurrent", "group__featureArray__group.html#gaf337f7663e3198d67440dc265d359e9c", null ],
+    [ "dwFeatureHistoryArray_getPrevious", "group__featureArray__group.html#gaff6250de8fc450cba4d14f7d5a80d2d3", null ],
+    [ "dwFeatureHistoryArray_reset", "group__featureArray__group.html#gaad15398ee6a8f80b373c6d38f2e99c7a", null ]
+];
