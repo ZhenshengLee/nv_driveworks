@@ -1,0 +1,28 @@
+var classdw_1_1framework_1_1ChannelParams =
+[
+    [ "ChannelParams", "classdw_1_1framework_1_1ChannelParams.html#af386a1aa255385455b3cf20a6a24322d", null ],
+    [ "ChannelParams", "classdw_1_1framework_1_1ChannelParams.html#ab8d277791e9cf5ba06380e6b13400c94", null ],
+    [ "~ChannelParams", "classdw_1_1framework_1_1ChannelParams.html#ac82e57431189ef7368bc00e879ac190d", null ],
+    [ "getDataOffset", "classdw_1_1framework_1_1ChannelParams.html#aeab67fa789d9b9b49926c4dfffc50782", null ],
+    [ "getDebugMode", "classdw_1_1framework_1_1ChannelParams.html#a6abeb2544ba5eb5901c5f88b1b07819c", null ],
+    [ "getDebugPort", "classdw_1_1framework_1_1ChannelParams.html#a9a5fa5c64e1107a1848e0c1d458f7ab4", null ],
+    [ "getExpectedConnectionsCount", "classdw_1_1framework_1_1ChannelParams.html#a266a665833fccb992bea0aa52707c862", null ],
+    [ "getExpectedDebugConnectionsCount", "classdw_1_1framework_1_1ChannelParams.html#a3791677e0cb0a3779d69afc78cc1ba6a", null ],
+    [ "getFifoSize", "classdw_1_1framework_1_1ChannelParams.html#ae0b74b1b868d132105d8c4c85d79c87e", null ],
+    [ "getId", "classdw_1_1framework_1_1ChannelParams.html#ac582adda2a6168da4cfabda5478711e0", null ],
+    [ "getMailboxMode", "classdw_1_1framework_1_1ChannelParams.html#ab817a0ccf2c123317575b5f861481533", null ],
+    [ "getNvSciStreamParams", "classdw_1_1framework_1_1ChannelParams.html#a675c985d52b78a6661728766e2583842", null ],
+    [ "getPoolCapacity", "classdw_1_1framework_1_1ChannelParams.html#a1d9386aafb8f291bed8e403cadc50329", null ],
+    [ "getReuseEnabled", "classdw_1_1framework_1_1ChannelParams.html#a1d90c4cf58f047d5dc69df861e836b1f", null ],
+    [ "getRole", "classdw_1_1framework_1_1ChannelParams.html#aaaa3c797d8e9d64e4014db8047b1a5ab", null ],
+    [ "getSingletonId", "classdw_1_1framework_1_1ChannelParams.html#a7b8afe2e91772624e661e108a823e449", null ],
+    [ "getSingletonMode", "classdw_1_1framework_1_1ChannelParams.html#af89de70e486cff24dc444fc74a93342e", null ],
+    [ "getSocketParams", "classdw_1_1framework_1_1ChannelParams.html#a4dc942d4e6bc40a763e54d539ede68ff", null ],
+    [ "getStr", "classdw_1_1framework_1_1ChannelParams.html#a228999900149d05435c396a7ba9d2a41", null ],
+    [ "getSyncEnabled", "classdw_1_1framework_1_1ChannelParams.html#a5f1627e53c015789c9eba0efaa3123f4", null ],
+    [ "getType", "classdw_1_1framework_1_1ChannelParams.html#a297cb6304936ce8078efa7ee37480079", null ],
+    [ "isStrictFifo", "classdw_1_1framework_1_1ChannelParams.html#a1bd1039b660ac7ea2e574e88ed17a8a1", null ],
+    [ "operator=", "classdw_1_1framework_1_1ChannelParams.html#a3ffa14096fff20ffe7324f1fe3ada364", null ],
+    [ "setMailboxMode", "classdw_1_1framework_1_1ChannelParams.html#a17d90e44305efe556547ac1b70ca8777", null ],
+    [ "setStrictFifo", "classdw_1_1framework_1_1ChannelParams.html#aa567a40a5534d5812b2d6e46ed4284b3", null ]
+];

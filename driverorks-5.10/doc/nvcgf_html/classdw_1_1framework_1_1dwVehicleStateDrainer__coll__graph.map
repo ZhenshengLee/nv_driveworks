@@ -1,0 +1,11 @@
+<map id="dw::framework::dwVehicleStateDrainer" name="dw::framework::dwVehicleStateDrainer">
+<area shape="rect" id="node1" title=" " alt="" coords="2320,207,2513,249"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1dwSensorDrainerTemplate.html" title=" " alt="" coords="2032,200,2271,256"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="1189,228,1517,284"/>
+<area shape="rect" id="node4" title=" " alt="" coords="291,166,476,207"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="656,196,971,252"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1dwBaseDrainerTemplate.html" title=" " alt="" coords="1188,133,1519,189"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,144,100,171"/>
+<area shape="rect" id="node6" title=" " alt="" coords="313,93,453,120"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1dwSensorDrainerTemplate.html" title=" " alt="" coords="1568,152,1807,208"/>
+</map>

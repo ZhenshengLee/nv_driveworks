@@ -1,0 +1,8 @@
+<map id="dw::framework::ChannelPacket&lt; dwLatency &gt;" name="dw::framework::ChannelPacket&lt; dwLatency &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="629,79,852,121"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1LatencyPacket.html" title=" " alt="" coords="359,56,579,83"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1IChannelPacket.html" title=" " alt="" coords="5,5,232,32"/>
+<area shape="rect" id="node4" href="$namespacedw_1_1framework.html#structdw_1_1framework_1_1dwLatency" title=" " alt="" coords="20,56,217,83"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1ChannelSocketPacketBase.html" title=" " alt="" coords="357,107,580,149"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1IChannelPacket_1_1SocketCallbacks.html" title=" " alt="" coords="5,107,232,149"/>
+</map>

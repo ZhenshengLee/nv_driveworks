@@ -1,0 +1,6 @@
+<map id="dw::framework::dwRigNode" name="dw::framework::dwRigNode">
+<area shape="rect" id="node1" title="dwRigNode receives extrinsic calibrations from sensors in the system, and maintains that state to upd..." alt="" coords="107,169,308,196"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ExceptionSafeProcessNode.html" title=" " alt="" coords="5,80,196,121"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1Node.html" title=" " alt="" coords="20,5,181,32"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1IContainsPreShutdownAction.html" title=" " alt="" coords="220,80,408,121"/>
+</map>

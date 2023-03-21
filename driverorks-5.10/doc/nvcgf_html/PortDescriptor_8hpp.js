@@ -1,0 +1,38 @@
+var PortDescriptor_8hpp =
+[
+    [ "DW_DESCRIBE_PORT", "PortDescriptor_8hpp.html#abeca03d8edecf4ed94ca766dbae49cf8", null ],
+    [ "DW_DESCRIBE_PORT_ARRAY", "PortDescriptor_8hpp.html#ac7f5b90444461ad6d560b6e152afebd7", null ],
+    [ "DW_PORT_TYPE_NAME_STRING_VIEW", "PortDescriptor_8hpp.html#aeb9ef24619b0c061d04d8afc11a3b3e5", null ],
+    [ "PortBinding", "PortDescriptor_8hpp.html#af8de91d1f208b867b1473ebc1caa6863", [
+      [ "OPTIONAL", "PortDescriptor_8hpp.html#af8de91d1f208b867b1473ebc1caa6863a7951811e4b085cf68ed3dc3191f36405", null ],
+      [ "REQUIRED", "PortDescriptor_8hpp.html#af8de91d1f208b867b1473ebc1caa6863aebdf9721be38d1fc1cd6db8c737d1be0", null ]
+    ] ],
+    [ "describeInputPorts", "PortDescriptor_8hpp.html#ae033e51866c5bdeeb47c1220a2eefe15", null ],
+    [ "describeOutputPorts", "PortDescriptor_8hpp.html#a6574bf6a09823d187413547ee73a5381", null ],
+    [ "describePort", "PortDescriptor_8hpp.html#a31178f346cab23c7c257236e46689cf7", null ],
+    [ "describePort", "PortDescriptor_8hpp.html#ad723a8194c96eafc5bc441a8073a2a6c", null ],
+    [ "describePortArray", "PortDescriptor_8hpp.html#a3fb31845435e53377734cbf9871f10e5", null ],
+    [ "describePortArray", "PortDescriptor_8hpp.html#af562c3de9cb765825aa86dd1d7922ff7", null ],
+    [ "describePortCollection", "PortDescriptor_8hpp.html#a5b0c4c59a7720f5f33a6479d63bdd4a7", null ],
+    [ "describePorts", "PortDescriptor_8hpp.html#a0ba73732cebfb7ac4febbbf7087bcf66", null ],
+    [ "descriptorIndex", "PortDescriptor_8hpp.html#aeefc0b5203899156823db58a912b4224", null ],
+    [ "descriptorPortArray", "PortDescriptor_8hpp.html#a1848f9589b0732bc18a0e47616237c06", null ],
+    [ "descriptorPortBinding", "PortDescriptor_8hpp.html#acb1e5d6754c71f05a813206ba559d0e7", null ],
+    [ "descriptorPortComment", "PortDescriptor_8hpp.html#ae728d97e3612de0311a00da1ae729226", null ],
+    [ "descriptorPortSize", "PortDescriptor_8hpp.html#a34df7002e21d2899283f732d2457e35b", null ],
+    [ "isValidPortIdentifier", "PortDescriptor_8hpp.html#ae4f7858eca47eda11aa727f8ca9f47d8", null ],
+    [ "isValidPortIndex", "PortDescriptor_8hpp.html#aa356af2563126dc53e87f1d947f4f469", null ],
+    [ "portArraySize", "PortDescriptor_8hpp.html#a5c80c9e6c4d1b4b867bd182e22a1a3af", null ],
+    [ "portDescriptorIndex", "PortDescriptor_8hpp.html#a3e08c1e54faeaa72bcfc7d7931e636c8", null ],
+    [ "portDescriptorSize", "PortDescriptor_8hpp.html#a6482d679ac8fa89a8ceb996ddf878581", null ],
+    [ "portDescriptorType", "PortDescriptor_8hpp.html#a5722f9a68d48a7d82af8b9eb963da759", null ],
+    [ "portIndex", "PortDescriptor_8hpp.html#a235403acd68a8d55509169c976ab8d22", null ],
+    [ "portSize", "PortDescriptor_8hpp.html#ab812ac6b2a508c4d01b470ed2acb60d9", null ],
+    [ "portType", "PortDescriptor_8hpp.html#aed1bbdfee4462df2b9b126e6ef4d3b03", null ],
+    [ "PORT_ARRAY_SIZE", "PortDescriptor_8hpp.html#a767d2c0def121365045b788b622f359f", null ],
+    [ "PORT_BINDING", "PortDescriptor_8hpp.html#a43bcccdf1351a6db35ffb3d991c83cd8", null ],
+    [ "PORT_COMMENT", "PortDescriptor_8hpp.html#a731b3a707937e586fe3d7e42235f04d8", null ],
+    [ "PORT_NAME", "PortDescriptor_8hpp.html#a6910f945cd162f245e8f7af8e9a9aa99", null ],
+    [ "PORT_TYPE", "PortDescriptor_8hpp.html#a9ace3c0b53cc5114b7b2fe316510d98e", null ],
+    [ "PORT_TYPE_NAME", "PortDescriptor_8hpp.html#ace03982ca13dab527b8105609fce7647", null ]
+];

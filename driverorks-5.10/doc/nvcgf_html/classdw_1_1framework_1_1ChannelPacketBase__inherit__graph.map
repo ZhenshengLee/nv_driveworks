@@ -1,0 +1,11 @@
+<map id="dw::framework::ChannelPacketBase" name="dw::framework::ChannelPacketBase">
+<area shape="rect" id="node1" title=" " alt="" coords="555,143,809,170"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwLidarDecodedPacket_01_4.html" title=" " alt="" coords="857,5,1080,47"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwLidarPacketsArray_01_4.html" title=" " alt="" coords="857,71,1080,112"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwSensorNodeRawData_01_4.html" title=" " alt="" coords="857,136,1080,177"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1ChannelPacket_3_01dwTraceNodeData_01_4.html" title=" " alt="" coords="857,201,1080,243"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1ChannelPacketRadarScan.html" title=" " alt="" coords="857,267,1080,308"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1IChannelPacket.html" title=" " alt="" coords="280,114,507,141"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1ChannelSocketPacketBase.html" title=" " alt="" coords="282,165,505,207"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1IChannelPacket_1_1SocketCallbacks.html" title=" " alt="" coords="5,165,232,207"/>
+</map>

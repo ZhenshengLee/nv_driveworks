@@ -1,0 +1,9 @@
+<map id="dw::framework::ManagedPortInput&lt; T &gt;" name="dw::framework::ManagedPortInput&lt; T &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="1140,82,1353,123"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ManagedPortInputBase.html" title=" " alt="" coords="877,82,1091,123"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1ManagedPortBase.html" title=" " alt="" coords="425,56,671,83"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1PortBase.html" title=" " alt="" coords="24,5,209,32"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1ChannelObject.html" title=" " alt="" coords="5,56,228,83"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1lockstep_1_1ILockstepSyncClient.html" title=" " alt="" coords="25,107,208,149"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1GenericData.html" title=" " alt="" coords="444,107,652,133"/>
+</map>

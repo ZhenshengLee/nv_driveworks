@@ -1,0 +1,7 @@
+<map id="dw::framework::ChannelPacketDefault" name="dw::framework::ChannelPacketDefault">
+<area shape="rect" id="node1" title=" " alt="" coords="609,73,832,114"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ChannelPacketDefaultBase.html" title=" " alt="" coords="335,23,558,65"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1IChannelPacket.html" title=" " alt="" coords="5,5,232,32"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1GenericData.html" title=" " alt="" coords="15,56,223,83"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1IChannelPacket_1_1SocketCallbacks.html" title=" " alt="" coords="333,89,560,130"/>
+</map>

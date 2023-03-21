@@ -1,0 +1,7 @@
+<map id="dw::framework::dwGlobalEgomotionNode" name="dw::framework::dwGlobalEgomotionNode">
+<area shape="rect" id="node1" title="This node computes the global vehicle state and motion over time using signals from GPS and relative ..." alt="" coords="497,71,789,98"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1ExceptionSafeProcessNode.html" title=" " alt="" coords="237,5,427,47"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1Node.html" title=" " alt="" coords="5,13,167,39"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1IAsyncResetable.html" title=" " alt="" coords="215,71,449,98"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1IContainsPreShutdownAction.html" title=" " alt="" coords="238,123,426,164"/>
+</map>

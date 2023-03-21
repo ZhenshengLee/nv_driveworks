@@ -1,0 +1,6 @@
+<map id="dw::framework::dwSelfCalibrationNodeParam" name="dw::framework::dwSelfCalibrationNodeParam">
+<area shape="rect" id="node1" title=" " alt="" coords="397,71,640,112"/>
+<area shape="rect" id="node2" href="$namespacedw_1_1framework.html#structdw_1_1framework_1_1dwSelfCalibrationNodeCameraParams" title=" " alt="" coords="5,5,248,47"/>
+<area shape="rect" id="node3" href="$namespacedw_1_1framework.html#structdw_1_1framework_1_1dwSelfCalibrationNodeRadarParams" title=" " alt="" coords="5,71,248,112"/>
+<area shape="rect" id="node4" href="$namespacedw_1_1framework.html#structdw_1_1framework_1_1dwSelfCalibrationNodeLidarParams" title=" " alt="" coords="5,136,248,177"/>
+</map>

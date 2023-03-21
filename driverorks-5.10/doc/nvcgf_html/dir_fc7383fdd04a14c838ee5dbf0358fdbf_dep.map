@@ -1,0 +1,21 @@
+<map id="src/dwcgf/core/dwcgf" name="src/dwcgf/core/dwcgf">
+<area shape="rect" id="node2" href="dir_d6f3ebc97cc99896e2c598b0e3b19748.html" title="computegraph" alt="" coords="38,159,154,207"/>
+<area shape="rect" id="node3" href="dir_fbcaf7e02fbb5d5da6aa9266e4b3ff50.html" title="enum" alt="" coords="188,255,260,303"/>
+<area shape="rect" id="node4" href="dir_a94cd31340db57770a8b28445256d433.html" title="lockstep" alt="" coords="291,255,368,303"/>
+<area shape="rect" id="node5" href="dir_db0cfe4e297f8afb93b13465c314d0bf.html" title="node" alt="" coords="293,63,365,111"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000049_000008.html" title="1" alt="" coords="168,152,178,167"/>
+<area shape="rect" id="node6" href="dir_0b050ab078c65eced0c6defbeb6e4b35.html" title="parameter" alt="" coords="179,159,269,207"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000049_000052.html" title="2" alt="" coords="264,145,274,160"/>
+<area shape="rect" id="node7" href="dir_7877d1558964a2d2a9d7e5032f1b98d5.html" title="pass" alt="" coords="389,159,461,207"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000049_000053.html" title="5" alt="" coords="390,132,399,147"/>
+<area shape="rect" id="node8" href="dir_0a8a32f8f7cdae11b6adf2983d9d8ec7.html" title="port" alt="" coords="293,159,365,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000049_000055.html" title="8" alt="" coords="333,133,342,148"/>
+<area shape="rect" id="node9" href="dir_9f005caa7c4fa8913eb7c3ff0ef29bfe.html" title="channel" alt="" coords="494,255,567,303"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000049_000004.html" title="2" alt="" coords="522,227,532,242"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000052_000041.html" title="2" alt="" coords="228,229,237,244"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000053_000004.html" title="1" alt="" coords="492,229,502,244"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000055_000048.html" title="1" alt="" coords="333,229,342,244"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000055_000004.html" title="4" alt="" coords="476,238,485,252"/>
+<area shape="rect" id="clust2" href="dir_fc7383fdd04a14c838ee5dbf0358fdbf.html" alt="" coords="27,52,472,313"/>
+<area shape="rect" id="clust1" href="dir_13ef1d86006cfdc12f6fb3921be935e0.html" title="core" alt="" coords="16,16,483,324"/>
+</map>

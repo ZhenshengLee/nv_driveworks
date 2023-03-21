@@ -1,0 +1,10 @@
+<map id="dw::framework::Port" name="dw::framework::Port">
+<area shape="rect" id="node1" title=" " alt="" coords="240,125,393,151"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1PortInput.html" title=" " alt="" coords="931,5,1153,47"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1PortInput.html" title=" " alt="" coords="949,143,1135,184"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1PortInput.html" title=" " alt="" coords="448,98,672,125"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1PortOutput.html" title=" " alt="" coords="443,214,677,241"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1PortBase.html" title=" " alt="" coords="5,125,191,151"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1RegisteredPortInput.html" title=" " alt="" coords="943,77,1141,119"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1RegisteredPortOutput.html" title=" " alt="" coords="943,208,1141,249"/>
+</map>

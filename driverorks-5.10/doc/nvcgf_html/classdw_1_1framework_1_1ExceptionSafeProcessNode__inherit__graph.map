@@ -1,0 +1,26 @@
+<map id="dw::framework::ExceptionSafeProcessNode" name="dw::framework::ExceptionSafeProcessNode">
+<area shape="rect" id="node1" title=" " alt="" coords="215,533,405,575"/>
+<area shape="rect" id="node3" href="$classdw_1_1framework_1_1dwFeatureDetectorNodeBase.html" title=" " alt="" coords="502,71,697,112"/>
+<area shape="rect" id="node6" href="$classdw_1_1framework_1_1dwFeatureTrackerNodeBase.html" title=" " alt="" coords="502,136,697,177"/>
+<area shape="rect" id="node9" href="$classdw_1_1framework_1_1dwGlobalEgomotionNode.html" title="This node computes the global vehicle state and motion over time using signals from GPS and relative ..." alt="" coords="453,202,745,229"/>
+<area shape="rect" id="node10" href="$classdw_1_1framework_1_1dwIcpNode.html" title=" " alt="" coords="500,253,699,279"/>
+<area shape="rect" id="node11" href="$classdw_1_1framework_1_1dwLidarPointCloudAccumulatorNode.html" title=" " alt="" coords="494,304,705,345"/>
+<area shape="rect" id="node12" href="$classdw_1_1framework_1_1dwLidarPointCloudStitcherNode.html" title=" " alt="" coords="494,369,705,411"/>
+<area shape="rect" id="node13" href="$classdw_1_1framework_1_1dwPointCloudAccumulatorNode.html" title=" " alt="" coords="491,435,707,476"/>
+<area shape="rect" id="node14" href="$classdw_1_1framework_1_1dwPyramidNodeBase.html" title=" " alt="" coords="499,500,699,541"/>
+<area shape="rect" id="node17" href="$classdw_1_1framework_1_1dwRadarDopplerMotionNode.html" title=" " alt="" coords="482,565,717,607"/>
+<area shape="rect" id="node18" href="$classdw_1_1framework_1_1dwRelativeEgomotionIMUNode.html" title="This node computes the vehicle state and relative motion over time using signals from IMU and wheelsp..." alt="" coords="499,631,699,672"/>
+<area shape="rect" id="node19" href="$classdw_1_1framework_1_1dwRigNode.html" title="dwRigNode receives extrinsic calibrations from sensors in the system, and maintains that state to upd..." alt="" coords="499,697,700,723"/>
+<area shape="rect" id="node20" href="$classdw_1_1framework_1_1dwSelfCalibrationNode.html" title=" " alt="" coords="461,747,737,774"/>
+<area shape="rect" id="node21" href="$classdw_1_1framework_1_1dwSelfCalibrationRoadcastAggregatorNode.html" title=" " alt="" coords="478,799,721,840"/>
+<area shape="rect" id="node22" href="$classdw_1_1framework_1_1dwSelfCalibrationSingleIMUNode.html" title=" " alt="" coords="478,864,721,905"/>
+<area shape="rect" id="node23" href="$classdw_1_1framework_1_1dwTraceCollectorNode.html" title=" " alt="" coords="463,930,735,957"/>
+<area shape="rect" id="node24" href="$classdw_1_1framework_1_1dwTraceNode.html" title=" " alt="" coords="492,981,707,1007"/>
+<area shape="rect" id="node2" href="$classdw_1_1framework_1_1Node.html" title=" " alt="" coords="5,541,167,567"/>
+<area shape="rect" id="node4" href="$classdw_1_1framework_1_1dwFeatureDetectorNode.html" title=" " alt="" coords="813,5,1008,47"/>
+<area shape="rect" id="node5" href="$classdw_1_1framework_1_1dwFeatureDetectorPVANode.html" title=" " alt="" coords="813,71,1008,112"/>
+<area shape="rect" id="node7" href="$classdw_1_1framework_1_1dwFeatureTrackerNode.html" title=" " alt="" coords="813,136,1008,177"/>
+<area shape="rect" id="node8" href="$classdw_1_1framework_1_1dwFeatureTrackerPVANode.html" title=" " alt="" coords="813,201,1008,243"/>
+<area shape="rect" id="node15" href="$classdw_1_1framework_1_1dwPyramidNode.html" title=" " alt="" coords="793,478,1028,505"/>
+<area shape="rect" id="node16" href="$classdw_1_1framework_1_1dwPyramidPVANode.html" title=" " alt="" coords="811,529,1011,571"/>
+</map>

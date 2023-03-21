@@ -1,0 +1,8 @@
+<map id="src/dwframework/dwnodes/sensors/common" name="src/dwframework/dwnodes/sensors/common">
+<area shape="rect" id="node1" href="dir_92243c10b8961dbb7788cd69a1e6c7aa.html" title="common" alt="" coords="55,52,133,100"/>
+<area shape="rect" id="node2" href="dir_7ae1804a9de308097eb829b8b44cc57b.html" title="common" alt="" coords="5,148,84,196"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000007_000006.html" title="1" alt="" coords="68,128,77,143"/>
+<area shape="rect" id="node3" href="dir_7e1db130a3dfe6035dc464788a6fbec0.html" title="dwcgf" alt="" coords="109,148,181,196"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000007_000015.html" title="3" alt="" coords="126,121,136,135"/>
+<area shape="rect" id="clust1" href="dir_6d2d5c74358bcd677bb92ac0dfa06610.html" title="sensors" alt="" coords="43,16,145,111"/>
+</map>
