@@ -1,0 +1,58 @@
+{
+    "calibration": {
+        "rigSha256": "af756f08e1c58b2ddfbaa4ed47bd8587f39fce0c173f26d311816ed7b68aadcd",
+        "sensors": [
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.7250012159347534
+                    ]
+                },
+                "name": "radar:corner:front:left"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        1.3393951503459789e-09,
+                        1.1582501713292004e-07,
+                        1.3249988555908203
+                    ]
+                },
+                "name": "radar:corner:front:right"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -0.5249961614608765
+                    ]
+                },
+                "name": "radar:corner:rear:left"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        6.086715131914389e-09,
+                        -2.468698596658214e-07,
+                        -2.825000524520874
+                    ]
+                },
+                "name": "radar:corner:rear:right"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -1.4250000715255737
+                    ]
+                },
+                "name": "radar:front:center"
+            }
+        ]
+    },
+    "version": 7
+}

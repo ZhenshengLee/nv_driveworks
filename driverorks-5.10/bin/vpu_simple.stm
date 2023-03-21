@@ -1,0 +1,272 @@
+VERSION 16.1.0
+
+SCHEDULE 10
+
+HYPEREPOCH{
+11: [11];
+}
+
+SYNC{
+s0(1,{client0:CPU()},{client0:VPU(PVA_STREAM0)});
+s1(0,{client0:VPU(PVA_STREAM0)},{client0:VPU(PVA_STREAM0)});
+s2(0,{client0:VPU(PVA_STREAM0)},{client0:CPU()});
+s3(1,{client0:CPU()},{framesync_default_hyperepoch0_epoch0:CPU()});
+s4(1,{framesync_default_hyperepoch0_epoch0:CPU()},{client0:CPU()});
+}
+
+FENCE{
+f0(s0,1);
+f1(s1,0);
+f2(s2,0);
+f3(s3,1);
+f4(s4,1);
+}
+
+CLIENT(default:client0(9)) { 
+RESOURCES{
+VPU PVA_STREAM0;
+}
+CORE(0, 11) {
+WOF f4;
+VPUF  f0, PVA_STREAM0;
+VPUSUB [11: 0 % 1] f1, PVA_STREAM0, vpuSubmit0(3);
+VPUF  f1, PVA_STREAM0;
+VPUSUB [11: 0 % 1] f2, PVA_STREAM0, vpuSubmit1(4);
+CALL [11: 0 % 1] confirmUnfinished(7);
+SIG  f0;
+WOF [11: 0 % 1] f2;
+CALL [11: 0 % 1] confirmFinished(8);
+SIG  f3;
+}
+}
+CLIENT(default:framesync_default_hyperepoch0_epoch0(11)) { 
+RESOURCES{
+}
+CORE(0, 11) {
+LOG 0(10);
+SIG  f4;
+WOF [11: 0 % 1] f3;
+LOG 1(10);
+WUP 100000000(10);
+}
+}
+
+METADATA
+!CompiledSchedule
+clients:
+- !CompiledClient
+  framesync_epoch: null
+  framesync_hyperepoch: null
+  id_: client0
+  is_deadlock_resolver: false
+  log_id: 9
+  resources: [client0.default.PVA_STREAM0]
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 60000001
+    children_log_ids: [4]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 10000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.vpuSubmit0
+    log_id: 3
+    modulo: 0
+    monitoring: false
+    parents_log_ids: []
+    post_fence: ''
+    pre_fence_list: [f4]
+    priority: 10
+    resources: [client0.default.PVA_STREAM0, default.CPU0]
+    runnable_type: VPUSubmitter
+    start: 0
+    step: []
+    submittee: null
+    submittee_id: client0.vpuSubmittee0
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 50000001
+    children_log_ids: [7, 8]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 20000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.vpuSubmit1
+    log_id: 4
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [3]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [client0.default.PVA_STREAM0, default.CPU0]
+    runnable_type: VPUSubmitter
+    start: 10000000
+    step: []
+    submittee: null
+    submittee_id: client0.vpuSubmittee1
+    t_level: 10000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 30000001
+    children_log_ids: [6]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 40000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.vpuSubmittee0
+    log_id: 5
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [7]
+    post_fence: f1
+    pre_fence_list: [f0]
+    priority: 10
+    resources: [default.VPU0]
+    runnable_type: VPUSubmittee
+    start: 30000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 30000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 20000001
+    children_log_ids: [8]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 50000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.vpuSubmittee1
+    log_id: 6
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [5]
+    post_fence: f2
+    pre_fence_list: [f1]
+    priority: 10
+    resources: [default.VPU0]
+    runnable_type: VPUSubmittee
+    start: 40000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 40000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 40000001
+    children_log_ids: [5]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 30000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.confirmUnfinished
+    log_id: 7
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [4]
+    post_fence: f0
+    pre_fence_list: []
+    priority: 10
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 20000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 20000000
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 10000001
+    children_log_ids: [10]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 60000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client0.confirmFinished
+    log_id: 8
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [6, 4]
+    post_fence: f3
+    pre_fence_list: [f2]
+    priority: 10
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 50000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 50000000
+  schedule: null
+  soc: default
+- !CompiledClient
+  framesync_epoch: epoch0
+  framesync_hyperepoch: hyperepoch0
+  id_: framesync_default_hyperepoch0_epoch0
+  is_deadlock_resolver: false
+  log_id: 11
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1
+    children_log_ids: []
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 60000001
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: framesync_default_hyperepoch0_epoch0.framesync_runnable
+    log_id: 10
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [8]
+    post_fence: f4
+    pre_fence_list: [f3]
+    priority: 0
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 60000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 60000000
+  schedule: null
+  soc: default
+hyperepochs:
+- !CompiledHyperepoch
+  epochs:
+  - !CompiledEpoch {frames: 1, hyperepoch: null, id_: hyperepoch0.epoch0, log_id: 1,
+    period: 100000000}
+  id_: hyperepoch0
+  log_id: 2
+  resources: [default.CPU0, default.VPU0, client0.default.PVA_STREAM0]
+  schedule: null
+  schedule_length: 60000001
+id_: vpu_simple
+resource_type_mapping: {client0.default.PVA_STREAM0: client0.default.PVA_STREAM, default.CPU0: default.CPU,
+  default.VPU0: default.VPU}
+schedule_identifier: 10

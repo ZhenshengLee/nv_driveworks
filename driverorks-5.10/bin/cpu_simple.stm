@@ -1,0 +1,154 @@
+VERSION 16.1.0
+
+SCHEDULE 10
+
+HYPEREPOCH{
+7: [7];
+}
+
+SYNC{
+s0(1,{client:CPU()},{framesync_default_hyperepoch0_epoch0:CPU()});
+s1(1,{framesync_default_hyperepoch0_epoch0:CPU()},{client:CPU()});
+}
+
+FENCE{
+f0(s0,1);
+f1(s1,1);
+}
+
+CLIENT(default:client(5)) { 
+RESOURCES{
+}
+CORE(0, 7) {
+WOF f1;
+CALL [7: 0 % 1] test1(3);
+CALL [7: 0 % 1] test2(4);
+SIG  f0;
+}
+}
+CLIENT(default:framesync_default_hyperepoch0_epoch0(7)) { 
+RESOURCES{
+}
+CORE(0, 7) {
+LOG 0(6);
+SIG  f1;
+WOF [7: 0 % 1] f0;
+LOG 1(6);
+WUP 100000000(6);
+}
+}
+
+METADATA
+!CompiledSchedule
+clients:
+- !CompiledClient
+  framesync_epoch: null
+  framesync_hyperepoch: null
+  id_: client
+  is_deadlock_resolver: false
+  log_id: 5
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 20000001
+    children_log_ids: [4]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 10000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client.test1
+    log_id: 3
+    modulo: 0
+    monitoring: false
+    parents_log_ids: []
+    post_fence: ''
+    pre_fence_list: [f1]
+    priority: 10
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 0
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 10000001
+    children_log_ids: [6]
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 20000000
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: client.test2
+    log_id: 4
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [3]
+    post_fence: f0
+    pre_fence_list: []
+    priority: 10
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 10000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 10000000
+  schedule: null
+  soc: default
+- !CompiledClient
+  framesync_epoch: epoch0
+  framesync_hyperepoch: hyperepoch0
+  id_: framesync_default_hyperepoch0_epoch0
+  is_deadlock_resolver: false
+  log_id: 7
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1
+    children_log_ids: []
+    client: null
+    critical_path: true
+    dependencies: null
+    end: 20000001
+    epoch: null
+    epoch_id: hyperepoch0.epoch0
+    frame_id: 0
+    id_: framesync_default_hyperepoch0_epoch0.framesync_runnable
+    log_id: 6
+    modulo: 0
+    monitoring: false
+    parents_log_ids: [4]
+    post_fence: f1
+    pre_fence_list: [f0]
+    priority: 0
+    resources: [default.CPU0]
+    runnable_type: CPU
+    start: 20000000
+    step: []
+    submittee: null
+    submittee_id: null
+    t_level: 20000000
+  schedule: null
+  soc: default
+hyperepochs:
+- !CompiledHyperepoch
+  epochs:
+  - !CompiledEpoch {frames: 1, hyperepoch: null, id_: hyperepoch0.epoch0, log_id: 1,
+    period: 100000000}
+  id_: hyperepoch0
+  log_id: 2
+  resources: [default.CPU0, default.CPU1]
+  schedule: null
+  schedule_length: 20000001
+id_: cpu_simple
+resource_type_mapping: {default.CPU0: default.CPU, default.CPU1: default.CPU}
+schedule_identifier: 10

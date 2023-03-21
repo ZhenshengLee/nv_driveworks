@@ -1,0 +1,46 @@
+{
+    "camera:front:wide:120fov": {
+        "typeIndex": 0
+    },
+    "synthesizedCameraFC60": {
+        "typeIndex": 1
+    },
+    "camera:front:tele:30fov": {
+        "typeIndex": 2
+    },
+    "camera:rear:left:70fov": {
+        "typeIndex": 3
+    },
+    "camera:rear:right:70fov": {
+        "typeIndex": 4
+    },
+    "camera:left:fisheye:200fov": {
+        "typeIndex": 5
+    },
+    "camera:right:fisheye:200fov": {
+        "typeIndex": 6
+    },
+    "camera:front:fisheye:200fov": {
+        "typeIndex": 7
+    },
+    "camera:rear:fisheye:200fov": {
+        "typeIndex": 8
+    },
+    "radar:front:center": {
+        "typeIndex": 0
+    },
+    "radar:corner:front:left": {
+        "typeIndex": 1
+    },
+    "radar:corner:front:right": {
+        "typeIndex": 2
+    },
+    "radar:corner:rear:left": {
+        "typeIndex": 3
+    },
+    "radar:corner:rear:right": {
+        "typeIndex": 4
+    },
+    "vehicleSensor0": {},
+    "imu0": {}
+}

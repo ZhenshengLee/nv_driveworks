@@ -1,0 +1,134 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA CORPORATION & AFFILIATES. No third party distribution is allowed unless
+// expressly authorized by NVIDIA. Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA CORPORATION & AFFILIATES products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA CORPORATION & AFFILIATES.
+//
+// SPDX-FileCopyright 2022 Copyright (c) 2022 {{ datetime.date.today().year }} NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+//
+// NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+// property and proprietary rights in and to this material, related
+// documentation and any modifications thereto. Any use, reproduction,
+// disclosure or distribution of this material and related documentation
+// without an express license agreement from NVIDIA CORPORATION or
+// its affiliates is strictly prohibited.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+{% set class_name = json["name"].split("::")[-1] %}
+#include "./{{ class_name }}Impl.hpp"
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+
+#include "./{{ class_name }}.hpp"
+{% endif %}
+
+{% for ns in json["name"].split("::")[:-1] %}
+namespace {{ ns }}
+{
+{% endfor %}
+
+constexpr char {{ class_name }}Impl::LOG_TAG[];
+
+{% if base_class == "dw::framework::dwSensorNodeImplTemplate" %}
+{{ class_name }}Impl::{{ class_name }}Impl(const char* sensorName, dwConstRigHandle_t rigHandle,
+                                           const dwSALHandle_t sal, const dwContextHandle_t ctx)
+    : Base(sensorName, rigHandle, sal, ctx)
+{
+    initInputPorts();
+    initOutputPorts();
+    registerPasses();
+}
+
+{{ class_name }}Impl::{{ class_name }}Impl(const dwSensorParams& params,
+                                           const dwSALHandle_t sal, const dwContextHandle_t ctx)
+    : Base(params, sal, ctx)
+{
+    initInputPorts();
+    initOutputPorts();
+    registerPasses();
+}
+{% else %}
+{{ class_name }}Impl::{{ class_name }}Impl(const dwContextHandle_t ctx)
+{
+    initInputPorts();
+    initOutputPorts();
+    registerPasses();
+}
+{% endif %}
+
+{{ class_name }}Impl::~{{ class_name }}Impl()
+{
+}
+
+void {{ class_name }}Impl::initInputPorts()
+{
+{% if json["inputPorts"] %}
+    using dw::core::operator""_sv;
+{%     for name, attributes in json["inputPorts"].items() %}
+{%         if "array" in attributes %}
+    NODE_INIT_INPUT_ARRAY_PORT("{{ name }}"_sv);
+{%         else %}
+    NODE_INIT_INPUT_PORT("{{ name }}"_sv);
+{%         endif %}
+{%     endfor %}
+{% endif %}
+}
+
+void {{ class_name }}Impl::initOutputPorts()
+{
+{% if json["outputPorts"] %}
+    using dw::core::operator""_sv;
+{%     for name, attributes in json["outputPorts"].items() %}
+    {
+        dw::framework::parameter_traits<{{ attributes["type"] }}>::SpecimenT ref{};
+{%         if "array" in attributes %}
+        NODE_INIT_OUTPUT_ARRAY_PORT("{{ name }}"_sv, ref);
+{%         else %}
+        NODE_INIT_OUTPUT_PORT("{{ name }}"_sv, ref);
+{%         endif %}
+    }
+{%     endfor %}
+{% endif %}
+}
+
+void {{ class_name }}Impl::registerPasses()
+{
+{% if json["passes"] %}
+    using dw::core::operator""_sv;
+{%     for p in json["passes"] %}
+{%         if p["name"] not in ("SETUP", "TEARDOWN") %}
+    NODE_REGISTER_PASS("{{ p["name"] }}"_sv,
+        [this]() -> dwStatus {
+            return {{ toLowerCamelCase(p["name"]) }}Pass();
+        });
+{%         endif %}
+{%     endfor %}
+{% endif %}
+}
+
+{% for p in json["passes"] %}
+{%     if p["name"] not in ("SETUP", "TEARDOWN") %}
+dwStatus {{ class_name }}Impl::{{ toLowerCamelCase(p["name"]) }}Pass()
+{
+    return DW_SUCCESS;
+}
+
+{%     endif %}
+{% endfor %}
+{% for ns in json["name"].split("::")[:-1] | reverse %}
+} // namespace {{ ns }}
+{% endfor %}
+

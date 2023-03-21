@@ -1,0 +1,31 @@
+{
+    "target": "BaseSystem",
+    "targetType": "app",
+    "actions": [
+        {
+            "action": "insert-process",
+            "attributes": {
+                "processName": "processB",
+                "runOn": "machine1",
+                "executable": "Loader1",
+                "subcomponents": [
+                    "top.graphletA0"
+                ]
+            }
+        },
+        {
+            "action": "update-process-name-customer-defined",
+            "attributes": {
+                "processName": "processA",
+                "newName": "processC"
+            }
+        },
+        {
+            "action": "update-process-name-customer-defined",
+            "attributes": {
+                "processName": "processB",
+                "newName": "processD"
+            }
+        }
+    ]
+}

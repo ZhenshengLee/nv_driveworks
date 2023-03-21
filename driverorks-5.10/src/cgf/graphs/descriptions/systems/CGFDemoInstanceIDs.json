@@ -1,0 +1,12 @@
+{
+    "CGFDemo.cameraSensorFront0": 1,
+    "CGFDemo.fisheyeCameraSensor2": 2,
+    "CGFDemo.fisheyeCameraSensor0": 3,
+    "CGFDemo.fisheyeCameraSensor1": 4,
+    "CGFDemo.fisheyeCameraSensor3": 5,
+    "CGFDemo.radarSensor0": 1,
+    "CGFDemo.radarSensor1": 2,
+    "CGFDemo.radarSensor2": 3,
+    "CGFDemo.radarSensor3": 4,
+    "CGFDemo.radarSensor4": 5
+}

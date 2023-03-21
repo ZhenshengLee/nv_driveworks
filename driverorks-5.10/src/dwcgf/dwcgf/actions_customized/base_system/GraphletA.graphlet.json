@@ -1,0 +1,78 @@
+{
+    "name": "GraphletA",
+    "parameters": {
+        "moduleAParameter": {
+            "type": "uint32_t",
+            "default": 3
+        }
+    },
+    "subcomponents": {
+        "nodeA": {
+            "componentType": "dwANode.node.json",
+            "parameters": {
+                "*": "$*"
+            }
+        },
+        "nodeB": {
+            "componentType": "dwBNode.node.json",
+            "parameters": {
+                "*": "$*"
+            }
+        }
+    },
+    "inputPorts": {
+        "INPUT_0": {
+            "type": "void*"
+        },
+        "INPUT_1": {
+            "type": "void*"
+        },
+        "INPUT_2": {
+            "type": "void*"
+        }
+    },
+    "outputPorts": {
+        "OUTPUT_0": {
+            "type": "void*"
+        },
+        "OUTPUT_1": {
+            "type": "void*"
+        },
+        "OUTPUT_2": {
+            "type": "void*"
+        }
+    },
+    "connections": [
+        {
+            "src": "INPUT_0",
+            "dests": {
+                "nodeA.INPUT_0": {},
+                "nodeB.INPUT_0": {}
+            }
+        },
+        {
+            "src": "INPUT_1",
+            "dests": {
+                "nodeA.INPUT_1": {}
+            }
+        },
+        {
+            "src": "nodeA.OUTPUT_0",
+            "dests": {
+                "OUTPUT_0": {}
+            }
+        },
+        {
+            "src": "nodeB.OUTPUT_0",
+            "dests": {
+                "OUTPUT_1": {}
+            }
+        },
+        {
+            "src": "nodeB.OUTPUT_1",
+            "dests": {
+                "OUTPUT_2": {}
+            }
+        }
+    ]
+}

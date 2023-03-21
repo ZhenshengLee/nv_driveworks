@@ -1,0 +1,155 @@
+/////////////////////////////////////////////////////////////////////////////////////////
+//
+// Notice
+// ALL NVIDIA DESIGN SPECIFICATIONS AND CODE ("MATERIALS") ARE PROVIDED "AS IS" NVIDIA MAKES
+// NO REPRESENTATIONS, WARRANTIES, EXPRESSED, IMPLIED, STATUTORY, OR OTHERWISE WITH RESPECT TO
+// THE MATERIALS, AND EXPRESSLY DISCLAIMS ANY IMPLIED WARRANTIES OF NONINFRINGEMENT,
+// MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+//
+// NVIDIA CORPORATION & AFFILIATES assumes no responsibility for the consequences of use of such
+// information or for any infringement of patents or other rights of third parties that may
+// result from its use. No license is granted by implication or otherwise under any patent
+// or patent rights of NVIDIA CORPORATION & AFFILIATES. No third party distribution is allowed unless
+// expressly authorized by NVIDIA. Details are subject to change without notice.
+// This code supersedes and replaces all information previously supplied.
+// NVIDIA CORPORATION & AFFILIATES products are not authorized for use as critical
+// components in life support devices or systems without express written approval of
+// NVIDIA CORPORATION & AFFILIATES.
+//
+// SPDX-FileCopyrightText: Copyright (c) {{ datetime.date.today().year }} NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+// SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+//
+// NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
+// property and proprietary rights in and to this material, related
+// documentation and any modifications thereto. Any use, reproduction,
+// disclosure or distribution of this material and related documentation
+// without an express license agreement from NVIDIA CORPORATION or
+// its affiliates is strictly prohibited.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+{% set header_guard = json["name"].upper().replace("::", "_") + "_HPP_" %}
+#ifndef {{ header_guard }}
+#define {{ header_guard }}
+
+#include <dwcgf/node/Node.hpp>
+#include <dwcgf/node/impl/ExceptionSafeNode.hpp>
+#include <dwcgf/parameter/ParameterDescriptor.hpp>
+{% if base_class == "dw::framework::ExceptionSafeSensorNode" %}
+#include <dwcgf/parameter/SemanticParameterTypes.hpp>
+{% endif %}
+#include <dwcgf/pass/Pass.hpp>
+#include <dwcgf/pass/PassDescriptor.hpp>
+#include <dwcgf/port/Port.hpp>
+#include <dwcgf/port/PortDescriptor.hpp>
+
+{% if base_class == "dw::framework::ExceptionSafeSensorNode" %}
+#include <dw/sensors/Sensors.h>
+
+{% endif %}
+{% for datatype_include in datatype_includes | sort %}
+#include <{{ datatype_include }}>
+{% endfor %}
+
+{% for ns in json["name"].split("::")[:-1] %}
+namespace {{ ns }}
+{
+{% endfor %}
+
+{% set class_name = json["name"].split("::")[-1] %}
+class {{ class_name }}Impl;
+
+class {{ class_name }} : public {{ base_class }}
+{
+public:
+    static constexpr char LOG_TAG[] = "{{ class_name }}";
+
+    static constexpr auto describeInputPorts()
+    {
+{% if json["inputPorts"] %}
+        using dw::core::operator""_sv;
+{% endif %}
+        return dw::framework::describePortCollection(
+{% for name, attributes in json["inputPorts"].items() %}
+{%     if "array" in attributes %}
+            DW_DESCRIBE_PORT_ARRAY({{ attributes["type"] }}, {{ attributes["array"] }}, "{{ name }}"_sv){{ "" if loop.last else "," }}
+{%     else %}
+            DW_DESCRIBE_PORT({{ attributes["type"] }}, "{{ name }}"_sv){{ "" if loop.last else "," }}
+{%     endif %}
+{% endfor %}
+        );
+    }
+
+    static constexpr auto describeOutputPorts()
+    {
+{% if json["outputPorts"] %}
+        using dw::core::operator""_sv;
+{% endif %}
+        return dw::framework::describePortCollection(
+{% for name, attributes in json["outputPorts"].items() %}
+{%     if "array" in attributes %}
+            DW_DESCRIBE_PORT_ARRAY({{ attributes["type"] }}, {{ attributes["array"] }}, "{{ name }}"_sv){{ "" if loop.last else "," }}
+{%     else %}
+            DW_DESCRIBE_PORT({{ attributes["type"] }}, "{{ name }}"_sv){{ "" if loop.last else "," }}
+{%     endif %}
+{% endfor %}
+        );
+    }
+
+    static constexpr auto describePasses()
+    {
+{% if json["passes"] %}
+        using dw::core::operator""_sv;
+{% endif %}
+        return dw::framework::describePassCollection(
+{% set processor_types = {"CPU": "DW_PROCESSOR_TYPE_CPU", "GPU": "DW_PROCESSOR_TYPE_GPU"} %}
+{% for p in json["passes"] %}
+            dw::framework::describePass("{{ p["name"] }}"_sv, {{ processor_types[p["processorTypes"][0]] }}){{ "" if loop.last else "," }}
+{% endfor %}
+        );
+    }
+
+    static constexpr auto describeParameters()
+    {
+        using dw::core::operator""_sv;
+{% if base_class == "dw::framework::ExceptionSafeSensorNode" %}
+        return dw::framework::describeConstructorArguments<const char*, dwRigHandle_t, dwSALHandle_t, dwContextHandle_t>(
+            dw::framework::describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER_WITH_SEMANTIC(
+                    const char*,
+                    dw::framework::semantic_parameter_types::VehicleSensorName)),
+            dw::framework::describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwRigHandle_t)),
+            dw::framework::describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwSALHandle_t)),
+            dw::framework::describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwContextHandle_t)));
+{% else %}
+        return dw::framework::describeConstructorArguments<dwContextHandle_t>(
+            dw::framework::describeConstructorArgument(
+                DW_DESCRIBE_UNNAMED_PARAMETER(
+                    dwContextHandle_t)));
+{% endif %}
+    }
+
+    static std::unique_ptr<{{ class_name }}> create(dw::framework::ParameterProvider& provider);
+
+{% if base_class == "dw::framework::ExceptionSafeSensorNode" %}
+    {{ class_name }}(const char* sensorName, dwConstRigHandle_t rigHandle,
+                     const dwSALHandle_t sal, const dwContextHandle_t ctx);
+    {{ class_name }}(const dwSensorParams& params,
+                     const dwSALHandle_t sal, const dwContextHandle_t ctx);
+{% else %}
+    {{ class_name }}(const dwContextHandle_t ctx);
+{% endif %}
+};
+
+{% for ns in json["name"].split("::")[:-1] | reverse %}
+} // namespace {{ ns }}
+{% endfor %}
+
+#endif // {{ header_guard }}
+

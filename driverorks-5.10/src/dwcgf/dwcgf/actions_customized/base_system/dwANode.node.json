@@ -1,0 +1,62 @@
+{
+    "name": "dw::framework::dwANode",
+    "library": "static",
+    "parameters": {
+        "imageWidth": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "imageHeight": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "nodeAParameter0": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "nodeAParameter1": {
+            "type": "uint32_t",
+            "default": 1
+        },
+        "nodeAParameter2": {
+            "type": "bool",
+            "default": true
+        }
+    },
+    "inputPorts": {
+        "INPUT_0": {
+            "type": "void*"
+        },
+        "INPUT_1": {
+            "type": "void*"
+        }
+    },
+    "outputPorts": {
+        "OUTPUT_0": {
+            "type": "void*"
+        },
+        "OUTPUT_1": {
+            "type": "void*"
+        }
+    },
+    "passes": [
+        {
+            "name": "SETUP",
+            "processorTypes": [
+                "CPU"
+            ]
+        },
+        {
+            "name": "PASS_1",
+            "processorTypes": [
+                "CPU"
+            ]
+        },
+        {
+            "name": "TEARDOWN",
+            "processorTypes": [
+                "CPU"
+            ]
+        }
+    ]
+}

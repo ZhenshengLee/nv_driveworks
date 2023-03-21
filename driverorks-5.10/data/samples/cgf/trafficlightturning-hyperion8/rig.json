@@ -1,0 +1,970 @@
+{
+    "rig": {
+        "properties": {
+            "layout": "hyperion_8"
+        },
+        "recorder_storage_map": {
+            "camera:front:fisheye:200fov": "2",
+            "camera:left:fisheye:200fov": "2",
+            "camera:rear:fisheye:200fov": "2",
+            "camera:rear:left:70fov": "0",
+            "camera:rear:right:70fov": "1",
+            "camera:right:fisheye:200fov": "2",
+            "can:0": "0",
+            "can:1": "0",
+            "gps:novatel": "0",
+            "gps:ublox:f9k": "0",
+            "imu:continental": "0",
+            "imu:novatel": "0",
+            "lidar:parking:gt:front:p128": "0",
+            "radar:corner:front:left": "0",
+            "radar:corner:front:right": "0",
+            "radar:corner:rear:left": "0",
+            "radar:corner:rear:right": "0",
+            "radar:front:center": "0"
+        },
+        "recorder_storage_paths": [
+            "/mnt/SSD1",
+            "/mnt/SSD2",
+            "/mnt/SSD3"
+        ],
+        "sensors": [
+            {
+                "car-mask": {
+                    "data/rle16-base64": "OacBAQAA4AEBAgAA3wEBAwAA3gEBBAAA3QEBBQAA3AEBBgAA2wEBBgAA2wEBBwAA2gEBCAAA2QEBCQAA2AEBCQAA2AEBCgAA1wEBCwAA1gEBCwAA1gEBDAAA1QEBDQAA1AEBDQAA1AEBDgAA0wEBDgAA0wEBDwAA0gEBDwAA0gEBDwAA0gEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEwAAzgEBEwAAzgEBEwAAzgEBFAAAzQEBFAAAzQEBFQAAzAEBFQAAzAEBFgAAywEBFgAAywEBFwAAygEBFwAAygEBFwAAygEBGAAAyQEBGAAAyQEBGQAAyAEBGQAAyAEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBIAAAwQEBIAAAwQEBIAAAwQEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBJAAAvQEBJAAAvQEBJAAAvQEBJAAAvQEB",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:rear:left:70fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -2.1656250953674316,
+                        2.852843999862671,
+                        150.91815185546875
+                    ],
+                    "t": [
+                        1.9234564304351807,
+                        1.054464340209961,
+                        0.8967514634132385
+                    ]
+                },
+                "parameter": "video=camera_rear_left_70fov.mp4,timestamp=camera_rear_left_70fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 3.27004934661090e-4 5.06977404501896e-10 -2.62374974177582e-12 1.17178908500074e-15 ",
+                    "cx": "1952.859619",
+                    "cy": "1134.541016",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "can:0",
+                "parameter": "file=can_0.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "can.virtual"
+            },
+            {
+                "name": "can:1",
+                "parameter": "file=can_1.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "can.virtual"
+            },
+            {
+                "name": "gps:novatel",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        0.09600000083446503,
+                        -0.1451999992132187,
+                        0.885699987411499
+                    ]
+                },
+                "parameter": "file=gps_novatel.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "gps.virtual"
+            },
+            {
+                "name": "gps:ublox:f9k",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.8633999824523926,
+                        0.04749999940395355,
+                        0.15950000286102295
+                    ]
+                },
+                "parameter": "file=gps_ublox_f9k.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "gps.virtual"
+            },
+            {
+                "name": "imu:continental",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.0,
+                        0.25999999046325684,
+                        0.8550000190734863
+                    ]
+                },
+                "parameter": "file=imu_continental.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "imu.virtual"
+            },
+            {
+                "name": "imu:novatel",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        0.09600000083446503,
+                        -0.1451999992132187,
+                        0.885699987411499
+                    ]
+                },
+                "parameter": "file=imu_novatel.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "imu.virtual"
+            },
+            {
+                "name": "lidar:parking:gt:front:p128",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        65.0,
+                        0.0
+                    ],
+                    "t": [
+                        3.815000057220459,
+                        0.0,
+                        0.824999988079071
+                    ]
+                },
+                "parameter": "file=lidar_parking_gt_front_p128.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "lidar.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.7250012159347534
+                    ]
+                },
+                "name": "radar:corner:front:left",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        60.000003814697266
+                    ],
+                    "t": [
+                        3.6110000610351563,
+                        0.733299970626831,
+                        0.5356000065803528
+                    ]
+                },
+                "parameter": "file=radar_corner_front_left.bin,output-timestamp=raw",
+                "properties": {
+                    "self-calibration": "accepted"
+                },
+                "protocol": "radar.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        1.3393951503459789e-09,
+                        1.1582501713292004e-07,
+                        1.3249988555908203
+                    ]
+                },
+                "name": "radar:corner:front:right",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        -9.999761808258522e-15,
+                        -60.000003814697266
+                    ],
+                    "t": [
+                        3.6110000610351563,
+                        -0.733299970626831,
+                        0.5356000065803528
+                    ]
+                },
+                "parameter": "file=radar_corner_front_right.bin,output-timestamp=raw",
+                "properties": {
+                    "self-calibration": "accepted"
+                },
+                "protocol": "radar.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -0.5249961614608765
+                    ]
+                },
+                "name": "radar:corner:rear:left",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        135.0
+                    ],
+                    "t": [
+                        -0.9366000294685364,
+                        0.7010999917984009,
+                        0.49889999628067017
+                    ]
+                },
+                "parameter": "file=radar_corner_rear_left.bin,output-timestamp=raw",
+                "properties": {
+                    "self-calibration": "accepted"
+                },
+                "protocol": "radar.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        6.086715131914389e-09,
+                        -2.468698596658214e-07,
+                        -2.825000524520874
+                    ]
+                },
+                "name": "radar:corner:rear:right",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        1.8970880029107844e-14,
+                        -135.0
+                    ],
+                    "t": [
+                        -0.9366000294685364,
+                        -0.7010999917984009,
+                        0.49889999628067017
+                    ]
+                },
+                "parameter": "file=radar_corner_rear_right.bin,output-timestamp=raw",
+                "properties": {
+                    "self-calibration": "accepted"
+                },
+                "protocol": "radar.virtual"
+            },
+            {
+                "correction_sensor_R_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -1.4250000715255737
+                    ]
+                },
+                "name": "radar:front:center",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        3.75219988822937,
+                        0.0,
+                        0.32100000977516174
+                    ]
+                },
+                "parameter": "file=radar_front_center.bin,output-timestamp=raw",
+                "properties": {
+                    "self-calibration": "accepted"
+                },
+                "protocol": "radar.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "T9QBAgAA3wEBAgAA3gEBAwAA3gEBAwAA3QEBBAAA3QEBBAAA3AEBBQAA3AEBBQAA2wEBBgAA0wEBAgAABQABBwAA0wEBDgAA0wEBDgAA0wEBDgAA0wEBDgAA0wEBDgAA0wEBDgAA0wEBDgAA0gEBDwAA0wEBDgAA1QEBDAAA1QEBDAAA1QEBDAAA1QEBDAAA1QEBDAAA1AEBDQAA1AEBDQAA1AEBDQAA0wEBDgAA0wEBDgAA0wEBDgAA0gEBDwAA0gEBDwAA0QEBEAAA0QEBEAAA0QEBEAAA0AEBEQAA0AEBEQAAzwEBEgAAzwEBEgAAzgEBEwAAzgEBEwAAzgEBEwAAzQEBFAAAzQEBFAAAzAEBFQAAzAEBFQAAywEBFgAAywEBFgAAywEBFgAAygEBFwAAygEBFwAAygEBFwAAygEBFwAAyQEBGAAAyQEBGAAAyQEBGAAAyQEBGAAAyAEBGQAAyAEBGQAAyAEBGQAAxwEBGgAAxwEBGgAAxwEBGgAAxgEBGwAAxgEBGwAAxgEBGwAAxQEBHAAAxQEBHAAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwQEBIAAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAA",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:rear:right:70fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -0.023196151480078697,
+                        0.6716797947883606,
+                        -150.15255737304688
+                    ],
+                    "t": [
+                        1.9191155433654785,
+                        -1.0294017791748047,
+                        0.9225340485572815
+                    ]
+                },
+                "parameter": "video=camera_rear_right_70fov.mp4,timestamp=camera_rear_right_70fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029. fifo-size=5 from http://nvbugs/200742850",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 3.24610853567719e-4 1.94506566408847e-9 -3.21394625323046e-12 1.22822572560599e-15 ",
+                    "cx": "1911.460815",
+                    "cy": "1054.206543",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "VQAAPAEBpwAAPQEBpwAAPgEBpQAAQAEBowAAQQEBowAAQgEBoQAARAEBnwAARQEBngAARwEBnAAASQEBmwAASQEBmgAASwEBmAAATQEBlgAATgEBlgAATwEBlAAAUQEBkgAAUgEBkQAAVAEBkAAAVAEBjwAAVgEBjQAAWAEBiwAAWQEBiwAAWgEBiQAAXAEBhwAAXQEBhgAAXwEBhQAAYAEBgwAAYQEBggAAYwEBgAAAZAEBfwAAZgEBfgAAZwEBfAAAaAEBewAAagEBegAAawEBeAAAbAEBeAAAbQEBdgAAbwEBdQAAbwEBdAAAcQEBcwAAcQEBcgAAcwEBcQAAdAEBbwAAdQEBbwAAdgEBbQAAeAEBbAAAeAEBawAAegEBagAAegEBaQAAfAEBaAAAfAEBZwAAfQEBZgAAfwEBZQAAfwEBZAAAgQEBYwAAgQEBYgAAgwEBYQAAgwEBYAAAhQEBXwAAhQEBXgAAhwEBXQAAhwEBXQAAiAEBWwAAiQEBWwAAigEBWgAAigEBWQAAjAEBWAAAjAEBWAAAjQEBVgAAjgEBVgAAjwEBVQAAjwEBVAAAkQEBUwAAkQEBUwAAkgEBUQAAkwEBUQAAlAEBUAAAlAEBTwAAlQEBTwAAlgEBTgAAlgEBTQAAlwEBTQAAlwEBTQAAmAEBSwAAmQEBSwAAmQEBSwAAmQEBSwAAmQEBTAAAmQEBSwAAmQEBSwAAmQEBSwAAmQEBSwAAmgEBSgAAmgEBSgAAmgEBSgAAmgEBSgAAmgEBSgAAmwEBSQAAmwEBSQAAmwEBSgAAmgEBSgAAmwEBSQAAmwEBSQAAmwEBSQAAmwEBSQAAmwEBSQAAnAEBSAAAnAEBSAAAnAEBSAAAnAEBSAAAnQEBRwAAnQEBRwAAnQEBRwAAnQEBRwAAnQEBRwAAngEBRgAAngEBRQAAnwEBRQAAnwEBRQAAoAEBRAAAoAEBRAAAoAEBRAAAoAEBRAAAoAEBRAAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQgAAogEBQgAAogEBQgAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQgAAogEBQgAAogEBQQAAowEBQQAAowEBQAAAowEBQQAAowEBQAAApAEBQAAApAEBPwAApQEBPwAApQEBPgAApgEBPgAApgEBPwAApAEBQAAApAEBQAAApAEBQAAApAEBQAAApAEBQQAAowEBQQAAowEBQQAAogEBQgAAogEBQgAAogEBQgAAogEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoQEBQwAAoAEBRQAAnwEBRQAAnwEBRgAAngEBRgAAngEBRwAAnQEBRwAAnQEBSAAAnAEBSAAAmwEBSgAAmgEBSwAAmQEBSwAAmQEBTAAAmAEBTAAAmAEBTQAAlgEBTgAAlgEBTgAAlgEBTgAAlQEBTwAAlQEBTwAAlQEBTwAAlAEBUAAAlAEBUAAAkwEBUQAAkwEBUQAAkwEBUQAAkgEBUgAAkgEBUgAAkgEBUgAAkQEBUwAAkQEBUwAAkAEBVAAAkAEBVAAAkAEBVAAAjwEBVQAAjwEBVQAAjgEBVgAAjgEBVgAAjgEBVwAAjAEBWwAAfAEBBQAACAABXgAAdgEBDAAABAABYQAAcAEBdwAAawEBewAAaAEBfgAAZgEBfwAAZAEBggAAYgEBgwAAYAEBhgAAXgEBhwAAXQEBhwAAXAEBiQAAWwEBiQAAWwEBiQAAWwEBigAAWgEBigAAWgEBigAAWgEBigAAWQEBjAAAWAEBjAAAWAEBjQAAVwEBjQAAVwEBjQAAVwEBjgAAVQEBjwAAVQEBjwAAVQEBkAAAUwEBkQAAUwEBkgAAUQEBkwAAUAEBlAAAUAEBlQAATgEBlgAATQEBlwAATQEBmAAASwEBmQAASwEBmgAASQEBmwAASAEBnAAASAEBnQAARgEBngAARQEBnwAARQEBoAAAQwEBoQAAQwEBogAAQQEBowAAQAEBpAAAQAEBpQAAPgEBpwAAPAEBqQAAOgEBqwAAOAEBrQAANgEBrgAANQEBsAAAMwEBsgAAMQEBtAAALwEBtgAALQEBuAAAKwEBugAAKQEBuwAAKAEBvQAAJgEBvwAAJAEBwQAAIgEBwwAAIAEBxQAAHgEBxwAAHAEByAAAGwEBygAAGQEBzAAAFwEBzgAAFQEB0AAAEwEB0gAAEQEB1AAADwEB1QAADgEB2AAACwEB2gAACQEB3AAABwEB3wAABAEB4QAAAgEB4wAAAAEB5gAA/QAB6AAA+wAB6gAA+QAB7QAA9gAB7wAA9AAB8QAA8gAB9AAA7wAB9gAA7QAB+AAA6wAB+wAA6AAB/QAA5gAB/wAA5AABAgEA4QABBQEA3gABCQEA2gABDAEA1wABEAEA0wABhgAA",
+                    "resolution": [
+                        484,
+                        304
+                    ]
+                },
+                "name": "camera:front:fisheye:200fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        1.171915888786316,
+                        12.120391845703125,
+                        -0.8530130982398987
+                    ],
+                    "t": [
+                        3.799222946166992,
+                        -0.003941304516047239,
+                        0.4104715585708618
+                    ]
+                },
+                "parameter": "video=camera_front_fisheye_200fov.mp4,timestamp=camera_front_fisheye_200fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 2.49706231988966e-3 -1.66305525794996e-7 -9.38988997667423e-10 5.61799521833772e-13 ",
+                    "cx": "965.977661",
+                    "cy": "606.655396",
+                    "height": "1216",
+                    "width": "1936"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "VgAAPAEBpQAAQAEBowAAQgEBogAAQwEBoAAARQEBngAARwEBnAAASQEBmgAASwEBmAAATQEBlgAATwEBlQAAUAEBkwAAUgEBkQAAVAEBjwAAVgEBjQAAVwEBjAAAWQEBigAAWgEBigAAWwEBiAAAXQEBhwAAXQEBhgAAXwEBhAAAYQEBgwAAYQEBggAAYwEBgQAAYwEBgAAAZQEBfgAAZwEBfQAAZwEBfAAAaQEBewAAagEBeQAAawEBeAAAbQEBdwAAbQEBdgAAbwEBdQAAcAEBcwAAcQEBcgAAcwEBcQAAdAEBbwAAdQEBbwAAdgEBbQAAdwEBbQAAeAEBawAAeQEBagAAegEBagAAewEBaAAAfAEBaAAAfQEBZgAAfgEBZQAAgAEBZAAAgAEBYwAAggEBYgAAggEBYQAAhAEBXwAAhQEBXwAAhgEBXQAAhwEBXQAAiAEBWwAAiQEBWwAAigEBWQAAiwEBWQAAjAEBWAAAjAEBVwAAjgEBVgAAjgEBVQAAjwEBVQAAkAEBUwAAkQEBUwAAkgEBUQAAkwEBUQAAkwEBUAAAlQEBTgAAlgEBTgAAlgEBTgAAlwEBTAAAmAEBTAAAmAEBTAAAmQEBSwAAmQEBSwAAmgEBSgAAmgEBSQAAmwEBSQAAnAEBSAAAnAEBSAAAnAEBSAAAnQEBRwAAnQEBRgAAnwEBRQAAnwEBRQAAnwEBRQAAoAEBRAAAoAEBRAAAoAEBQwAAoQEBQwAAogEBQgAAogEBQgAAogEBQgAAowEBQQAAowEBQQAAowEBQAAApQEBPwAApQEBPwAApQEBPwAApgEBPgAApgEBPgAApgEBPgAApwEBPQAApwEBPQAApwEBPQAApwEBPQAAqAEBPAAAqAEBPAAAqAEBPAAAqAEBPAAAqAEBOwAAqQEBOwAAqQEBOgAAqwEBOQAAqwEBOAAArAEBOAAArAEBNwAArQEBNwAArQEBNgAArwEBNQAArwEBNgAArgEBNgAArgEBNwAArQEBNwAArQEBNwAArQEBOAAArQEBNwAArQEBOAAArAEBOAAArAEBOAAArAEBOQAAqwEBOQAArAEBOAAArAEBOAAArAEBOQAAqwEBOQAAqgEBOgAAqgEBOwAAqQEBOwAAqQEBOwAAqQEBPAAAqAEBPAAApwEBPQAApwEBPQAApwEBPQAApwEBPQAApwEBPQAApwEBPQAApgEBPgAApgEBPgAApgEBPgAApgEBPgAApgEBPgAApgEBPgAApQEBQAAApAEBQAAApAEBQAAApAEBQAAApAEBQAAApAEBQAAAowEBQQAAowEBQQAAowEBQQAAowEBQQAAowEBQwAAoQEBRgAAnQEBSgAAmgEBSwAAmQEBTAAAmAEBTQAAlQEBUAAAkQEBVQAAjQEBWAAAiQEBXAAAhgEBXwAAhAEBYQAAggEBZAAAfwEBZQAAfgEBZwAAfAEBaAAAegEBawAAeAEBbAAAdwEBbQAAdgEBbwAAdAEBcAAAcwEBcgAAcQEBcwAAcAEBdAAAbwEBdgAAbQEBdwAAbAEBeQAAagEBewAAaAEBfQAAZgEBfwAAZAEBgQAAYgEBggAAYAEBhQAAXgEBhwAAXAEBiQAAWgEBiwAAVwEBjgAAVQEBkAAAUwEBkgAAUAEBlQAATgEBlwAASwEBmgAASQEBnQAARgEBnwAAQwEBowAAQQEBpAAAPwEBpgAAPQEBqAAAPAEBqQAAOgEBqwAAOAEBrQAANgEBrwAANQEBsAAAMwEBsQAAMQEBswAAMAEBtQAALgEBtgAALAEBuAAAKwEBuQAAKQEBuwAAKAEBvAAAJwEBvQAAJQEBvwAAJAEBwAAAIgEBwgAAIQEBxAAAHwEBxgAAHAEByQAAGgEBywAAGAEBzQAAFQEB0AAAEwEB0gAAEQEB1AAADgEB1gAADQEB2AAACwEB2gAACAEB3QAABgEB3wAAAwEB4gAAAQEB5AAA/gAB5wAA+wAB6wAA9wAB7gAA8wAB8gAA8AAB9QAA7QAB+AAA6gAB+wAA5wAB/gAA5QABAAEA4gABAwEA4AABBQEA3gABCAEA2gABCwEA2AABDQEA1gABDwEA0wABEgEA0QABFAEAzwABFgEAzgABFwEAzAABGgEAygABGwEAyAABHgEAxgABHwEAxQABIQEAwgABJAEAwAABJQEAvgABKAEAvAABKQEAuwABKwEAugABKwEAuQABLQEAuAABLQEAtQABMQEAsgABNAEArwABNwEAqwABPAEApwABPwEAogABRQEAnQABSQEAmAABTwEAkwABUwEAjwABWAEAiQABXQEAhAABYwEAfgABaAEAeQABbgEAcwABeQEAaAABhQEAXAABkgEATwABmgEARgABoQEAPgABqgEANAABswEAKwABvAEAIgABqAQA",
+                    "resolution": [
+                        484,
+                        304
+                    ]
+                },
+                "name": "camera:left:fisheye:200fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        2.935177803039551,
+                        30.64177894592285,
+                        90.55429077148438
+                    ],
+                    "t": [
+                        2.0770742893218994,
+                        1.0676664113998413,
+                        0.8951371312141418
+                    ]
+                },
+                "parameter": "video=camera_left_fisheye_200fov.mp4,timestamp=camera_left_fisheye_200fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 2.46876315213740e-3 -1.53058465457434e-7 -8.90842399847713e-10 5.23163923207143e-13 ",
+                    "cx": "964.127686",
+                    "cy": "604.539246",
+                    "height": "1216",
+                    "width": "1936"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "VAAAPQEBpgAAPwEBpAAAQAEBpAAAQQEBogAAQwEBoAAARQEBngAARwEBnAAASQEBmgAASwEBmAAATQEBlgAATgEBlgAATwEBlAAAUQEBkgAAUwEBkAAAVQEBjgAAVwEBjAAAWAEBiwAAWgEBigAAWwEBiAAAXQEBhgAAXgEBhQAAYAEBgwAAYgEBgQAAZAEBgAAAZQEBfgAAZgEBfgAAZwEBfAAAaQEBewAAagEBeQAAbAEBdwAAbQEBdwAAbgEBdQAAcAEBdAAAcQEBcgAAcwEBcQAAdAEBbwAAdgEBbgAAdgEBbQAAeAEBawAAegEBagAAewEBaAAAfQEBZwAAfgEBZQAAgAEBZAAAgQEBYgAAggEBYgAAgwEBYAAAhQEBXwAAhgEBXQAAiAEBXAAAiAEBWwAAigEBWgAAigEBWQAAjAEBWAAAjAEBVwAAjQEBVwAAjgEBVQAAjwEBVQAAkAEBUwAAkQEBUwAAkQEBUgAAkwEBUQAAkwEBUAAAlQEBTwAAlQEBTgAAlwEBTQAAlwEBTAAAmAEBTAAAmQEBSgAAmgEBSgAAmwEBSAAAnAEBSAAAnAEBRwAAngEBRgAAngEBRgAAnwEBRQAAnwEBRAAAoAEBRAAAoAEBRAAAoQEBQgAAogEBQgAAogEBQgAAogEBQgAAogEBQQAAowEBQQAAowEBQQAAowEBQQAApAEBPwAApQEBPwAApQEBPwAApQEBPgAApgEBPgAApgEBPgAApgEBPgAApgEBPQAAqAEBPAAAqAEBPAAAqAEBPAAAqAEBOwAAqQEBOwAAqQEBOwAAqQEBOwAAqgEBOQAAqwEBOQAAqwEBOQAAqwEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBNwAArQEBNwAArQEBNwAArQEBNwAArQEBNwAArQEBNwAArQEBNwAArQEBNwAArQEBNwAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOAAArAEBOQAAqwEBOQAAqwEBOQAAqwEBOQAAqwEBOgAAqgEBOgAAqgEBOgAAqgEBOwAAqQEBOwAAqQEBOwAAqAEBPQAApgEBPgAApgEBPgAApQEBQAAApAEBQAAAowEBQQAAowEBQgAAoQEBQwAAoQEBRAAAnwEBRQAAnwEBRQAAngEBRwAAnAEBSAAAnAEBSAAAmwEBSgAAmgEBSgAAmQEBTAAAmAEBTAAAlwEBTQAAlwEBTgAAlQEBTwAAlAEBUAAAlAEBUQAAkgEBUgAAkgEBUwAAkAEBVAAAkAEBVAAAjwEBVgAAjgEBVgAAjQEBVwAAjQEBWAAAiwEBWQAAiwEBWgAAiQEBXAAAiAEBXQAAhgEBXgAAhgEBXwAAhAEBYQAAgwEBYgAAgQEBYwAAgAEBZQAAfwEBZgAAfQEBZwAAfQEBaAAAewEBagAAeQEBbAAAeAEBbAAAdwEBbgAAdgEBbwAAdAEBcAAAdAEBcQAAcgEBcgAAcgEBcwAAcQEBcwAAcAEBdQAAbwEBdQAAbwEBdgAAbgEBdgAAbQEBeAAAbAEBeAAAbAEBeQAAawEBeQAAagEBewAAaQEBewAAaQEBfAAAZwEBfQAAZwEBfgAAZgEBfgAAZgEBfwAAZAEBgAAAZAEBgQAAYwEBgQAAYgEBgwAAYQEBgwAAYQEBhAAAYAEBhAAAXwEBhgAAXgEBhwAAXAEBiAAAWwEBigAAWgEBigAAWQEBjAAAWAEBjAAAVwEBjgAAVgEBjgAAVQEBkAAAVAEBkAAAUwEBkgAAUgEBkgAAUQEBlAAAUAEBlAAATwEBlgAATgEBlgAATQEBmAAASwEBmQAASwEBmgAASQEBmwAASQEBnAAARwEBnQAARwEBngAARQEBnwAARQEBoAAAQwEBoQAAQwEBogAAQQEBowAAQQEBpAAAPwEBpgAAPQEBqAAAOwEBqQAAOwEBqgAAOQEBrAAANwEBrgAANQEBsAAAMwEBsQAAMgEBswAAMAEBtQAALgEBtwAALAEBuQAAKgEBugAAKgEBuwAAKAEBvQAAJgEBvwAAJAEBwQAAIgEBwgAAIQEBxAAAHwEBxgAAHQEByAAAGwEBygAAGQEBywAAGAEBzQAAFwEBzgAAFQEB0AAAEwEB0QAAEgEB0wAAEAEB1QAADgEB1wAADAEB2QAACgEB2wAACAEB3QAABgEB3wAAAwEB4gAAAQEB5AAA/wAB5gAA/QAB6AAA+wAB6gAA+QAB7AAA9wAB7gAA9QAB8AAA8wAB8gAA8QAB9AAA7wAB9gAA7QAB+AAA7AABewAA",
+                    "resolution": [
+                        484,
+                        304
+                    ]
+                },
+                "name": "camera:rear:fisheye:200fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -0.12604254484176636,
+                        19.511377334594727,
+                        179.8472442626953
+                    ],
+                    "t": [
+                        -1.030599594116211,
+                        0.00016574365145061165,
+                        0.9664827585220337
+                    ]
+                },
+                "parameter": "video=camera_rear_fisheye_200fov.mp4,timestamp=camera_rear_fisheye_200fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 2.45557911694050e-3 -9.97600437813162e-8 -9.64817559179210e-10 5.44962837877028e-13 ",
+                    "cx": "967.885681",
+                    "cy": "601.615112",
+                    "height": "1216",
+                    "width": "1936"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "TAAASgEBmQAASwEBmAAATQEBlgAATgEBlgAATwEBlAAAUAEBkwAAUgEBkQAAUwEBkQAAVAEBjwAAVQEBjgAAVwEBjAAAWQEBiwAAWQEBigAAWwEBiAAAXAEBhwAAXgEBhQAAXwEBhQAAYAEBgwAAYQEBggAAYwEBgAAAZAEBgAAAZQEBfgAAZgEBfgAAZwEBfAAAaAEBfAAAaQEBegAAagEBegAAawEBeAAAbQEBdwAAbQEBdgAAbwEBdQAAbwEBdAAAcQEBcwAAcQEBcgAAcwEBcQAAcwEBcAAAdQEBbwAAdgEBbQAAdwEBbAAAeQEBawAAeQEBagAAewEBaQAAewEBaAAAfQEBZwAAfQEBZgAAfwEBZQAAgAEBYwAAgQEBYwAAggEBYQAAgwEBYQAAhAEBXwAAhQEBXwAAhgEBXQAAhwEBXQAAiAEBWwAAigEBWgAAigEBWQAAiwEBWQAAjAEBVwAAjQEBVwAAjgEBVQAAjwEBVQAAkAEBUwAAkQEBUwAAkQEBUwAAkgEBUQAAkwEBUQAAlAEBUAAAlAEBTwAAlQEBTwAAlgEBTgAAlgEBTgAAlwEBTAAAmAEBTAAAmAEBTAAAmQEBSgAAmgEBSgAAmwEBSQAAmwEBSAAAnQEBRwAAnQEBRwAAnQEBRwAAngEBRQAAnwEBRQAAnwEBRQAAoAEBQwAAoQEBQwAAoQEBQwAAogEBQgAAogEBQQAAowEBQQAApAEBQAAApAEBPwAApQEBPwAApgEBPgAApgEBPQAApwEBPQAAqAEBPAAAqAEBPAAAqAEBOwAAqgEBOgAAqgEBOgAAqgEBOgAAqwEBOAAArAEBOAAArAEBOAAArAEBOAAArQEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArgEBNgAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNQAArwEBNAAAsAEBNAAAsAEBNAAArwEBNQAArwEBNQAArwEBNQAArgEBNgAArgEBNgAArgEBNgAArQEBOAAArAEBOAAArAEBOAAAqwEBOQAAqwEBOQAAqgEBOwAAqAEBPAAAqAEBPAAApwEBPQAApgEBPgAApgEBPwAApAEBQAAAowEBQQAAogEBQgAAogEBQgAAoQEBRAAAnwEBRQAAngEBRgAAngEBRgAAnQEBRwAAnAEBSQAAmwEBSQAAmgEBSgAAmQEBSwAAmQEBSwAAmAEBTQAAlwEBTQAAlgEBTwAAlQEBTwAAlAEBUQAAkgEBUgAAkgEBUwAAkAEBVAAAkAEBVQAAjgEBVgAAjgEBVwAAjAEBWAAAjAEBWQAAigEBWwAAiAEBXAAAiAEBXQAAhgEBYAAAhAEBYQAAggEBYwAAgQEBZAAAfwEBZgAAfgEBZwAAfAEBaQAAewEBagAAeQEBbAAAeAEBbQAAdgEBcAAAcwEBcgAAcgEBcwAAcAEBdQAAbwEBdgAAbQEBeAAAbAEBeQAAagEBewAAaQEBfAAAZwEBfwAAZQEBgAAAYwEBggAAYQEBhAAAYAEBhQAAXgEBhwAAXQEBiAAAWwEBigAAWQEBjAAAWAEBjgAAVQEBkAAAVAEBkAAAVAEBkQAAUgEBkwAAUQEBkwAAUAEBlQAATwEBlgAATQEBlwAATQEBmAAATAEBmQAASgEBmgAASgEBmwAASAEBnAAASAEBnQAARwEBngAARgEBngAARgEBnwAARQEBoAAARAEBoAAARAEBoQAAQgEBowAAQQEBowAAQAEBpQAAPwEBpwAAPAEBqgAAOgEBrAAANwEBrwAANQEBsgAAMQEBtAAALwEBtgAALgEBtwAALAEBuQAAKwEBugAAKQEBvAAAKAEBvQAAJgEBvwAAJQEBwAAAIwEBwgAAIgEBxAAAHwEBxgAAHgEBxwAAHAEByQAAGwEBygAAGQEBzAAAFwEBzgAAFQEB0AAAEwEB0gAAEQEB1AAADgEB1wAADAEB2gAACQEB3AAABwEB3gAABQEB4QAAAgEB5AAA/wAB6AAA+wAB6wAA+AAB7gAA9QAB7wAA9AAB8QAA8gAB8wAA8AAB9AAA7wAB9gAA7QAB+AAA6gAB+wAA6AAB/AAA5wAB/gAA5QABAAEA4wABAgEA4QABAwEA4AABBQEA3gABBwEA3AABCQEA2gABCwEA2AABDQEA1QABEAEA0wABEgEA0QABFAEAzwABFgEAzAABGQEAygABGwEAxwABHwEAwwABIgEAwQABJAEAvgABJwEAuwABKgEAuQABLAEAtgABLwEAswABMgEAsQABNAEArgABNwEAqwABOgEAqQABPAEApgABPwEApAABQQEAowABQgEAogABmQAA",
+                    "resolution": [
+                        484,
+                        304
+                    ]
+                },
+                "name": "camera:right:fisheye:200fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        1.4398720264434814,
+                        21.00415802001953,
+                        -87.81473541259766
+                    ],
+                    "t": [
+                        2.032057762145996,
+                        -1.0595533847808838,
+                        0.8958954811096191
+                    ]
+                },
+                "parameter": "video=camera_right_fisheye_200fov.mp4,timestamp=camera_right_fisheye_200fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029. fifo-size=5 from http://nvbugs/200742850",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 2.48399376869202e-3 -3.62144270127374e-8 -1.18568466156432e-9 6.98426993323009e-13 ",
+                    "cx": "966.256042",
+                    "cy": "604.463562",
+                    "height": "1216",
+                    "width": "1936"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8Br4cBIAAAtAEBNgAApAEBSAAAiwEBhAAASwEBmwAALwEBtgAAKAEBvgAAHwEBxwAAFgEB0AAADAEB2QAABAEB4gAA/AAB6AAA9wAB7QAA8gAB8gAA7AAB+QAA5QAB/wAA3wABBQEA2QABCwEA0wABEQEAzAABGAEAxgABHgEAWwABBgAAXwABIwEAUwABDgAAWgABKQEASwABGAAAUQABLwEAQwABIgAASgABNQEAOgABLQAAQgABOgEAMgABNwAAOwABQAEAKQABQgAAMwABRQEAIQABTQAAKwABSgEAGAABWAAAIwABUQEADgABZQAAGgABVgEABQABcwAAEAAB2AEABgABAzoA",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:front:wide:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.04386262595653534,
+                        0.26237043738365173,
+                        -0.4714582562446594
+                    ],
+                    "t": [
+                        1.7494261264801025,
+                        0.002694224938750267,
+                        1.4474546909332275
+                    ]
+                },
+                "parameter": "video=camera_front_wide_120fov.mp4,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029. fifo-size=5 from http://nvbugs/200742850",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 5.39158645551652e-4 -1.86381798883417e-9 5.39678458172377e-12 -7.74941020201421e-16 ",
+                    "cx": "1909.240723",
+                    "cy": "1101.091431",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "lidar:gt:top:p128:v4p5",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        1.1885000467300415,
+                        0.0,
+                        1.8853000402450562
+                    ]
+                },
+                "parameter": "file=lidar_gt_top_p128_v4p5.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "lidar.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BMP0B",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:front:tele:30fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -0.13276146352291107,
+                        -0.18869683146476746,
+                        0.3179708421230316
+                    ],
+                    "t": [
+                        1.7104203701019287,
+                        -0.002148940460756421,
+                        1.45402193069458
+                    ]
+                },
+                "parameter": "video=camera_front_tele_30fov.mp4,timestamp=camera_front_tele_30fov.mp4.timestamps,fifo-size=5,frames-pool=4",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 1.35387454065494e-4 -1.03735055267951e-10 1.16279314193828e-13 -3.59356804984516e-17 ",
+                    "cx": "1917.714966",
+                    "cy": "1117.167725",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "uss:valeo",
+                "parameter": "file=uss_valeo.bin,output-timestamp=smoothed",
+                "properties": {
+                    "nominalSensorToRig_1": "0 1.7 83 3.215 1.175 0.142",
+                    "nominalSensorToRig_10": "-0.3 0.4 173.5 -1.090 0.250 0.217",
+                    "nominalSensorToRig_11": "2.8 0 154 -975 0.690 0.216",
+                    "nominalSensorToRig_12": "-15.8 0.9 107 -0.735 0.980 0.178",
+                    "nominalSensorToRig_2": "0 -1.7 62 3.525 0.890 0.136",
+                    "nominalSensorToRig_3": "-4.5 17 10.5 3.750 0.335 0.080",
+                    "nominalSensorToRig_4": "-1.7 17.4 -13 3.750 -0.335 0.080",
+                    "nominalSensorToRig_5": "0 -3.1 -64 3.525 -0.890 0.144",
+                    "nominalSensorToRig_6": "0 1.9 -81.5 3.215 -1.175 0.147",
+                    "nominalSensorToRig_7": "0.8 1.8 -109 -0.735 -0.980 0.177",
+                    "nominalSensorToRig_8": "-3.4 3.8 -153 -0.975 -0.690 0.217",
+                    "nominalSensorToRig_9": "-1.2 -1.5 -174 -1.090 -0.250 0.217"
+                },
+                "protocol": "ultrasonic.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BMP0B",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:cross:left:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -0.6191926002502441,
+                        0.15203340351581573,
+                        66.01687622070313
+                    ],
+                    "t": [
+                        2.5091114044189453,
+                        0.9575514197349548,
+                        0.9000847339630127
+                    ]
+                },
+                "parameter": "video=camera_cross_left_120fov.mp4,timestamp=camera_cross_left_120fov.mp4.timestamps",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 5.43369678780437e-4 9.79128861322565e-11 2.57652037725931e-12 -3.26491099450436e-17 ",
+                    "cx": "1923.296753",
+                    "cy": "1105.448364",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "imu:continental:safety",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        0.0
+                    ],
+                    "t": [
+                        0.0,
+                        -0.3400000035762787,
+                        0.8550000190734863
+                    ]
+                },
+                "parameter": "file=imu_continental_safety.bin,output-timestamp=smoothed",
+                "properties": null,
+                "protocol": "imu.virtual"
+            },
+            {
+                "name": "lidar:parking:gt:rear:p128",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        65.0,
+                        -180.0
+                    ],
+                    "t": [
+                        -1.0714999437332153,
+                        0.0,
+                        1.136199951171875
+                    ]
+                },
+                "parameter": "file=lidar_parking_gt_rear_p128.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "lidar.virtual"
+            },
+            {
+                "name": "radar:cross:left",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        90.0
+                    ],
+                    "t": [
+                        3.344399929046631,
+                        0.8399999737739563,
+                        0.5235999822616577
+                    ]
+                },
+                "parameter": "file=radar_cross_left.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:cross:right",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        -0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        3.344399929046631,
+                        -0.8399999737739563,
+                        0.5235999822616577
+                    ]
+                },
+                "parameter": "file=radar_cross_right.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:rear:left",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -180.0
+                    ],
+                    "t": [
+                        -1.0533000230789185,
+                        0.38659998774528503,
+                        0.44609999656677246
+                    ]
+                },
+                "parameter": "file=radar_rear_left.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:rear:right",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        -180.0
+                    ],
+                    "t": [
+                        -1.0533000230789185,
+                        -0.3481000065803528,
+                        0.44609999656677246
+                    ]
+                },
+                "parameter": "file=radar_rear_right.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:side:left",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        -0.0,
+                        90.0
+                    ],
+                    "t": [
+                        1.2489999532699585,
+                        0.881600022315979,
+                        0.2013999968767166
+                    ]
+                },
+                "parameter": "file=radar_side_left.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "name": "radar:side:right",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -180.0,
+                        -0.0,
+                        -90.0
+                    ],
+                    "t": [
+                        1.2489999532699585,
+                        -0.881600022315979,
+                        0.2013999968767166
+                    ]
+                },
+                "parameter": "file=radar_side_right.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "radar.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BMP0B",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:cross:right:120fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.6856313943862915,
+                        -1.3285918235778809,
+                        -66.69998168945313
+                    ],
+                    "t": [
+                        2.523528575897217,
+                        -0.9436262845993042,
+                        0.899930477142334
+                    ]
+                },
+                "parameter": "video=camera_cross_right_120fov.mp4,timestamp=camera_cross_right_120fov.mp4.timestamps",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 5.42367808520794e-4 -1.61576851898104e-9 5.05327810845779e-12 -5.58463486382660e-16 ",
+                    "cx": "1928.131470",
+                    "cy": "1098.704346",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "name": "lidar:parking:gt:left:p128",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        1.5027172689832953e-21,
+                        65.0,
+                        90.0
+                    ],
+                    "t": [
+                        0.6991999745368958,
+                        0.9717000126838684,
+                        1.5233999490737915
+                    ]
+                },
+                "parameter": "file=lidar_parking_gt_left_p128.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "lidar.virtual"
+            },
+            {
+                "name": "lidar:parking:gt:right:p128",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -1.5027172689832953e-21,
+                        65.0,
+                        -90.0
+                    ],
+                    "t": [
+                        0.6991999745368958,
+                        -0.9717000126838684,
+                        1.5233999490737915
+                    ]
+                },
+                "parameter": "file=lidar_parking_gt_right_p128.bin,output-timestamp=raw",
+                "properties": null,
+                "protocol": "lidar.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BMP0B",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:front:tele:sat:30fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.2806817293167114,
+                        0.15509746968746185,
+                        -1.2078911066055298
+                    ],
+                    "t": [
+                        1.6984491348266602,
+                        -0.12776127457618713,
+                        1.4527764320373535
+                    ]
+                },
+                "parameter": "video=camera_front_tele_sat_30fov.mp4,timestamp=camera_front_tele_sat_30fov.mp4.timestamps",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 1.35530557599850e-4 1.80444548192327e-10 -3.25163832491648e-13 8.34086578051110e-17 ",
+                    "cx": "1941.313965",
+                    "cy": "1114.822876",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            },
+            {
+                "car-mask": {
+                    "data/rle16-base64": "//8BMP0B",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:rear:tele:30fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        -0.8198466897010803,
+                        -1.964902400970459,
+                        -179.968017578125
+                    ],
+                    "t": [
+                        0.4805319309234619,
+                        0.3240332305431366,
+                        1.3606162071228027
+                    ]
+                },
+                "parameter": "video=camera_rear_tele_30fov.mp4,timestamp=camera_rear_tele_30fov.mp4.timestamps",
+                "properties": {
+                    "COMMENT": "Nominals estimated for car25/ VIN=313178 sourced from https://nvbugs/3250029",
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 1.35311274789274e-4 1.63705035638451e-10 -1.28057395416825e-13 2.31885096216542e-17 ",
+                    "cx": "1947.040527",
+                    "cy": "1122.112793",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.virtual"
+            }
+        ],
+        "vehicle": {
+            "valid": true,
+            "value": {
+                "actuation": {
+                    "brakeActuatorTimeConstant": 0.05000000074505806,
+                    "brakeActuatorTimeDelay": 0.0,
+                    "driveByWireTimeConstant": 0.25999999046325684,
+                    "driveByWireTimeDelay": 0.10999999940395355,
+                    "effectiveMass": 389.8653869628906,
+                    "maxSteeringWheelAngle": 8.290313720703125,
+                    "steeringWheelToSteeringMap": [
+                        0.0,
+                        0.06459085643291473,
+                        -2.557147672632709e-05,
+                        1.8859604097087868e-05,
+                        1.3523515463020885e-07,
+                        4.7676653025519045e-07
+                    ],
+                    "throttleActuatorTimeConstant": 0.30000001192092896,
+                    "throttleActuatorTimeDelay": 0.0,
+                    "torqueLUT": {
+                        "brakePedalInput": "0.15000, 0.16000, 0.17000, 0.19000, 0.20000, 0.22000, 0.23000, 0.25000, 0.26000, 0.27000, 0.29000, 0.30000, 0.32000, 0.33000, 0.35000",
+                        "brakeTorqueOutput": "0.000000, 49.09000, 98.18000, 166.20000, 360.97000, 555.75000, 937.50000, 1327.03003, 1754.48999, 2195.60010, 2653.02002, 3313.10010, 4377.47998, 6691.14990, 7438.68994",
+                        "throttlePedalInput": "0.17000, 0.20000, 0.23000, 0.27000, 0.30000, 0.34000, 0.37000, 0.41000, 0.44000, 0.48000, 0.51000, 0.55000, 0.58000, 0.61000, 0.65000",
+                        "throttleSpeedInput": "5.000000, 6.79000, 8.57000, 10.36000, 12.14000, 13.93000, 15.71000, 17.50000, 19.29000, 21.07000, 22.86000, 24.64000, 26.43000, 28.21000, 30.000000",
+                        "throttleTorqueOutput": [
+                            "-41.05, -80.89, -120.72, -157.24, -193.75, -213.56, -233.37, -256.42, -279.48, -253.83, -228.19, -235.32, -242.47, -236.56, -230.64",
+                            "361.80, 236.27, 110.76, 29.17, -52.41, -85.24, -118.07, -151.21, -184.34, -175.49, -166.63, -169.19, -171.75, -164.31, -156.87",
+                            "763.28, 552.65, 342.06, 215.61, 89.18, 43.28, -2.62, -45.84, -89.05, -96.97, -104.88, -102.96, -101.05, -92.19, -83.33",
+                            "1100.34, 832.63, 564.97, 403.81, 242.68, 181.33, 119.98, 66.76, 13.54, -10.30, -34.14, -32.77, -31.40, -25.79, -20.17",
+                            "1436.57, 1112.15, 787.77, 592.04, 396.34, 319.51, 242.68, 179.46, 116.24, 76.47, 36.72, 37.47, 38.23, 40.55, 42.87",
+                            "1707.83, 1354.95, 1002.12, 782.05, 562.01, 467.30, 372.59, 299.44, 226.30, 171.47, 116.64, 111.71, 106.79, 101.11, 95.43",
+                            "1978.81, 1597.59, 1216.43, 972.06, 727.73, 615.13, 502.53, 419.46, 336.39, 266.49, 196.60, 185.97, 175.35, 161.65, 147.95",
+                            "2184.27, 1803.21, 1422.21, 1163.87, 905.56, 772.65, 639.75, 546.83, 453.92, 369.81, 285.70, 264.26, 242.84, 216.37, 189.91",
+                            "2389.73, 2008.84, 1627.99, 1355.68, 1083.40, 930.18, 776.96, 674.20, 571.44, 473.12, 374.80, 342.55, 310.32, 271.10, 231.87",
+                            "2529.67, 2177.44, 1825.24, 1549.28, 1273.35, 1097.40, 921.46, 808.93, 696.40, 584.72, 473.04, 424.88, 376.74, 320.01, 263.27",
+                            "2669.33, 2345.88, 2022.45, 1742.89, 1463.35, 1264.66, 1065.98, 943.69, 821.39, 696.36, 571.33, 507.23, 443.14, 368.89, 294.63",
+                            "2744.01, 2477.61, 2211.20, 1938.28, 1665.37, 1441.54, 1217.72, 1085.74, 953.75, 816.22, 678.68, 593.58, 508.49, 412.01, 315.53",
+                            "2817.88, 2608.88, 2399.85, 2133.69, 1867.54, 1618.54, 1369.55, 1227.88, 1086.21, 936.18, 786.14, 679.97, 573.82, 455.05, 336.28",
+                            "2827.31, 2703.73, 2580.11, 2330.87, 2081.62, 1805.07, 1528.53, 1377.25, 1225.97, 1064.29, 902.60, 770.34, 638.09, 492.38, 346.66",
+                            "2835.38, 2797.82, 2760.19, 2528.08, 2295.96, 1991.81, 1687.67, 1526.78, 1365.89, 1192.57, 1019.24, 860.79, 702.34, 529.58, 356.82"
+                        ]
+                    }
+                },
+                "axleFront": {
+                    "corneringStiffness": 93534.5234375,
+                    "position": 2.8499999046325684,
+                    "track": 1.5820000171661377,
+                    "wheelRadiusLeft": 0.3295999765396118,
+                    "wheelRadiusRight": 0.3295999765396118
+                },
+                "axleRear": {
+                    "corneringStiffness": 176162.140625,
+                    "position": 0.0,
+                    "track": 1.5750000476837158,
+                    "wheelRadiusLeft": 0.3295999765396118,
+                    "wheelRadiusRight": 0.3295999765396118
+                },
+                "body": {
+                    "boundingBoxPosition": [
+                        -1.1089999675750732,
+                        0.0,
+                        0.0
+                    ],
+                    "centerOfMass": [
+                        1.5946999788284302,
+                        0.0,
+                        0.550000011920929
+                    ],
+                    "height": 1.4730000495910645,
+                    "inertia": [
+                        750.0,
+                        3200.0,
+                        3414.201171875
+                    ],
+                    "length": 4.872000217437744,
+                    "mass": 2014.4000244140625,
+                    "width": 2.121000051498413,
+                    "widthWithoutMirrors": 1.8519999980926514
+                },
+                "hasCabin": false,
+                "numTrailers": 0
+            }
+        },
+        "vehicleio": []
+    },
+    "version": 7
+}
