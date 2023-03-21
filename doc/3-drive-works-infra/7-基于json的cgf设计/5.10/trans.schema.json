@@ -1,0 +1,80 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/trans.schema.json",
+    "title": "DW CGF Transformation Descriptor",
+    "description": "The descriptor of a CGF transformation. The keys in JSON should appear in the same order as the properties are documented in the schema.",
+    "type": "object",
+    "required": [
+        "target",
+        "targetType",
+        "actions"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "comment": {
+            "description": "An optional description of the transformation descriptor",
+            "type": "string"
+        },
+        "target": {
+            "description": "The target type name of the transformation. Current this field only serves as a hint, not enforced so far.",
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+        },
+        "targetType": {
+            "description": "Specify if the target is an application or graphlet.",
+            "type": "string",
+            "enum": [
+                "app",
+                "graphlet"
+            ]
+        },
+        "actions": {
+            "description": "A sequence of actions defines the transformation",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "Definition of each action. Each kind of action only allow its own properties appear in the object.",
+                "additionalProperties": false,
+                "required": [
+                    "action"
+                ],
+                "properties": {
+                    "comment": {
+                        "description": "An optional description of the action",
+                        "type": "string"
+                    },
+                    "action": {
+                        "description": "The action name. The action name has to be registered into ActionFactory.",
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9\\-]*[a-z0-9]$"
+                    },
+                    "instances": {
+                        "description": "The names of the DAG component to which the action is going to be applied.",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*$"
+                        },
+                        "uniqueItems": true
+                    },
+                    "attributes": {
+                        "description": "The attributes for the action.",
+                        "type": "object",
+                        "patternProperties": {
+                            "^[a-z][a-zA-Z0-9_-]*$": {
+                                "description": "Value for the action attribute.",
+                                "type": [
+                                    "boolean",
+                                    "number",
+                                    "string",
+                                    "array",
+                                    "object"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
