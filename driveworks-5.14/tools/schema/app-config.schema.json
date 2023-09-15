@@ -1,0 +1,264 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/app-config.schema.json",
+    "title": "DW Application Config Descriptor",
+    "description": "The descriptor to override the configuration of a DriveWorks application. The keys in JSON should appear in the same order as the properties are documented in the schema.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "comment": {
+            "description": "In a manually written JSON file this field can contain an arbitrary text. When the JSON file is generated, the tool should include its own name and optionally reference the authoritive source of information.",
+            "type": "string"
+        },
+        "componentParameters": {
+            "description": "The component parameters to override. The order should be alphabetical.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^([a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*)?$": {
+                    "description": "The key is the fully qualified name of the subcomponent (in the form of 1 or multiple 'subcomponentInstanceName' separated by dots). The order should be alphabetical. The value contains a mapping from parameter names to parameter values.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^[a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?$": {
+                            "description": "The key is the parameter name from the component. The value is the parameter value which must match the type of the parameter defined in the component descriptor. The order should be alphabetical.",
+                            "type": [
+                                "array",
+                                "boolean",
+                                "number",
+                                "string"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "skipNodes": {
+            "description": "The nodes to skip from being scheduled. The order should be alphabetical.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*$": {
+                    "description": "The key is the fully qualified name of the node. Refering to a graphlet implicitly refers to all recursive nodes. The value identifies the 'stmSchedules' the skip applies to (and empty list means skipping the node in all schedules).",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "[a-z][a-zA-Z0-9_]*$"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "connections": {
+            "description": "The connections. The order should be alphabetical based on the source port (considering an array index as a numeric) and the connection parameter names.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/connection"
+            }
+        },
+        "stmSchedules": {
+            "description": "The key is a STM schedule identifier, value is the STM schedule. Only hyperepoch and epoch periods can be modified.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_]*": {
+                    "description": "The information needed to modify the STM schedule.",
+                    "type": "object",
+                    "required": [
+                        "hyperepochs"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "hyperepochs": {
+                            "description": "The hyperepochs. The order should be alphabetical.",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-z][a-zA-Z0-9_]*$": {
+                                    "description": "The key is the name of the hyperepoch (in camelCase) which must be unique within the collection of hyperepochs in this schedule. The value describes the hyperepoch itself.",
+                                    "type": "object",
+                                    "required": [
+                                        "epochs"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "period": {
+                                            "description": "The period length of the hyperepoch (in nanoseconds).",
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "monitoringPeriod": {
+                                            "description": "The pfm monitoring threshold of the hyperepoch (in nanoseconds).",
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
+                                        "epochs": {
+                                            "description": "The epochs. The order should be alphabetical.",
+                                            "type": "object",
+                                            "additionalProperties": false,
+                                            "patternProperties": {
+                                                "^[a-z][a-zA-Z0-9_]*$": {
+                                                    "description": "The key is the name of the epoch (in camelCase) which must be unique within the hyperepoch. The value describes the epoch itself.",
+                                                    "type": "object",
+                                                    "required": [
+                                                        "period"
+                                                    ],
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "period": {
+                                                            "description": "The period length of the epoch (in nanoseconds)",
+                                                            "type": "integer",
+                                                            "minimum": 0
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "processes": {
+            "description": "The process attributes to override (atm only 'argv' can be modified). The order should be alphabetical.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9_]*$": {
+                    "description": "The key is the name of the process (in snake_case). The value describes the process itself.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "argv": {
+                            "description": "The command line arguments passed to the executable",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-zA-Z0-9_-]+$": {
+                                    "description": "The key is one command line argument. The value is not used (if it is the boolean value true), a second argument (if it is a string), multiple additional arguments (if it is an array of strings). If the value is 'null' value the key is removed and not passed to the process.",
+                                    "anyOf": [
+                                        {
+                                            "type": "boolean",
+                                            "const": true
+                                        },
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": [
+                                                    "string"
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "requiredSensors": {
+            "description": "The required sensors to remove or update. The order is user defined.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9 .:_-]*$": {
+                    "description": "The key is the required sensor name which could be either rig sensor name or a key of sensor mappings. The value is either a json null to remove this required sensor or an object to update this required sensor attributes.",
+                    "anyOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "description": "Attributes for each required sensor. Only support \"typeIndex\" attribute currently. For those sensor types of which sensor is unique in the app, \"typeIndex\" can be ignored.",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "typeIndex": {
+                                    "description": "The sensor index of certain sensor type, applied in the app.",
+                                    "type": "integer",
+                                    "minimum": 0
+                                },
+                                "connectedTo": {
+                                    "description": "An array containing the machine names this sensor is connected to (machine0, machine1 ... machineN).",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "extraInfo": {
+            "description": "DEPRECATED! Override key-value pairs from the extraInfo JSON file",
+            "type": "object"
+        },
+        "Recorder": {
+            "description": "Parameters for the Recorder",
+            "type": "object"
+        },
+        "RoadCastService": {
+            "description": "Parameters for the RoadCast service",
+            "type": "object"
+        }
+    },
+    "$defs": {
+        "connection": {
+            "type": "object",
+            "required": [
+                "src",
+                "dests"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "src": {
+                    "description": "The name of an output port of a node (in the form 'fully.qualified.instanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an INBOUND connection and the producer is outside of the DAG.",
+                    "type": "string",
+                    "pattern": "^([a-z][a-zA-Z0-9]*\\.)+[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$"
+                },
+                "dests": {
+                    "description": "The collection of ports receiving the data",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^([a-z][a-zA-Z0-9]*\\.)+[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$": {
+                            "description": "The key is the name of an input port of a node (in the form 'fully.qualified.InstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an OUTBOUND connection and the consumer is outside of the DAG. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical.",
+                            "type": [
+                                "object"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "disableConsumer": {
+                                    "description": "The flag to disable or enable a connection",
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "params": {
+                    "description": "Parameters for multicast connections. The order should be alphabetical.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "disableProducer": {
+                            "description": "The flag to disable or enable a multicast connection",
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

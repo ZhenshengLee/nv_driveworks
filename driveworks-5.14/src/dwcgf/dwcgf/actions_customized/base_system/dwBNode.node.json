@@ -1,0 +1,59 @@
+{
+    "name": "dw::framework::dwBNode",
+    "library": "static",
+    "parameters": {
+        "imageWidth": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "imageHeight": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "nodeBParameter0": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "nodeBParameter1": {
+            "type": "uint32_t",
+            "default": 1
+        },
+        "nodeBParameter2": {
+            "type": "bool",
+            "default": true
+        }
+    },
+    "inputPorts": {
+        "INPUT_0": {
+            "type": "void*"
+        }
+    },
+    "outputPorts": {
+        "OUTPUT_0": {
+            "type": "void*"
+        },
+        "OUTPUT_1": {
+            "type": "void*"
+        }
+    },
+    "passes": [
+        {
+            "name": "SETUP",
+            "processorTypes": [
+                "CPU"
+            ]
+        },
+        {
+            "name": "PASS_1",
+            "processorTypes": [
+                "GPU"
+            ]
+        },
+        {
+            "name": "TEARDOWN",
+            "processorTypes": [
+                "CPU"
+            ]
+        }
+    ]
+}
