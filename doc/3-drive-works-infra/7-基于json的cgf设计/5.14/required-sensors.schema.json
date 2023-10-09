@@ -15,6 +15,14 @@
                     "description": "The sensor index of certain sensor type, applied in the app.",
                     "type": "integer",
                     "minimum": 0
+                },
+                "connectedTo": {
+                    "description": "An array containing the machine names this sensor is connected to (machine0, machine1 ... machineN).",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+                    }
                 }
             }
         }

@@ -157,8 +157,8 @@
                     "items": {
                         "enum": [
                             "CPU",
+                            "CUDLA",
                             "GPU",
-                            "DLA",
                             "PVA"
                         ]
                     }

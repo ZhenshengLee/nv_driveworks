@@ -22,7 +22,7 @@
             "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
         },
         "logSpec": {
-            "description": "The log specification for the application. For details about the possible values and their format see apps/roadrunner-2.0/logger/README.",
+            "description": "The log specification for the application. For details about the possible values and their format see src/dwndf/logger/README.",
             "type": "string"
         },
         "parameters": {
@@ -78,7 +78,7 @@
             }
         },
         "connections": {
-            "description": "The connections. The order should be alphabetical based on the source and the connection parameter names.",
+            "description": "The connections. The order should be alphabetical based on the source port (considering an array index as a numeric) and the connection parameter names.",
             "type": "array",
             "items": {
                 "$ref": "#/$defs/connection"
@@ -175,6 +175,11 @@
                                             "type": "integer",
                                             "minimum": 0
                                         },
+                                        "monitoringPeriod": {
+                                            "description": "The pfm monitoring threshold of the hyperepoch (in nanoseconds).",
+                                            "type": "integer",
+                                            "minimum": 0
+                                        },
                                         "epochs": {
                                             "description": "The epochs. The order should be alphabetical.",
                                             "type": "object",
@@ -203,11 +208,11 @@
                                                             "description": "2-Dimension array of passes. Position in array determines the Phase when pipeline execution is enabled. (0 - Unchanged, 1 - Phase1, 2 - Phase2 and so on) If user specifies Phase1 and Phase2 passes, then list of 0-Unchanged should be empty.",
                                                             "type": "array",
                                                             "items": {
-                                                                "description": "The fully qualified names of passes. Refering to a component implicitly refers to all recursive passes. The order should be alphabetical.",
+                                                                "description": "The fully qualified names of passes. Refering to a component implicitly refers to all recursive passes. Alternatively a service pass can be referenced (in thre form 'ServiceName.process_name.PASS_NAME').The order should be alphabetical.",
                                                                 "type": "array",
                                                                 "items": {
                                                                     "type": "string",
-                                                                    "pattern": "^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*(\\.[A-Z][A-Z0-9_]*)?$"
+                                                                    "pattern": "^([a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)*(\\.[A-Z][A-Z0-9_]*)?|[A-Z][a-zA-Z0-9]*\\.[a-zA-Z][a-zA-Z0-9_]*\\.[A-Z][A-Z0-9_]*)$"
                                                                 },
                                                                 "uniqueItems": true
                                                             }
@@ -287,16 +292,19 @@
                     "additionalProperties": false,
                     "properties": {
                         "processorTypes": {
-                            "description": "The processor types used by the pass (support is limited to a single processor type atm)",
+                            "description": "The processor types used by the external pass. The order should be alphabetical.",
                             "type": "array",
                             "minItems": 1,
                             "maxItems": 1,
                             "items": {
                                 "enum": [
                                     "CPU",
+                                    "CUDA_MUTEX_LOCK",
+                                    "CUDA_STREAM",
                                     "GPU"
                                 ]
-                            }
+                            },
+                            "uniqueItems": true
                         },
                         "wcet": {
                             "description": "The WCET in nanoseconds",
@@ -369,6 +377,17 @@
                         "logSpec": {
                             "description": "The log specification for this process (if supported by the executable). If not specified, the logSpec specified for the application is used as a default (in that case the application should not use 'file:' with a hard coded path)",
                             "type": "string"
+                        },
+                        "services": {
+                            "description": "DEPRECATED! The services should be replaced with nodes inserted by transformations.",
+                            "type": "object",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[A-Z][a-zA-Z0-9]*$": {
+                                    "description": "The key is the name of the service. The parameter value can either be of primitive type or an homongeneous array of a primitive type. A string value as well as string values in an array are subject to substition. The string can be either the literal value or a placeholder referencing a parameter of this application. The placeholder must have the form of '$paramName' or if the application parameter is an array and only a single value should be passed '$paramName[N]' where N is an index within the array. To pass a literal '$' character it needs to be escaped using another '$' character. As a wildcard the key can be the string '*'. The corresponding value must be '$*'. If it is present all parameters of the application are passed to the component if it has a parameter with a matching name. Additional explicit parameter can be present beside the wildcard and override the application parameter values.",
+                                    "$ref": "#/$defs/service"
+                                }
+                            }
                         },
                         "subcomponents": {
                             "description": "The subcomponent names which should be run in this process (if supported by the executable). This can be either a fully quallified node name or a fully qualified graphlet name which implies that all nodes recursively under that graphlet should be selected.",
@@ -470,24 +489,24 @@
             "additionalProperties": false,
             "properties": {
                 "src": {
-                    "description": "The name of an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an empty string is provided, it means the connection is an INBOUND connection and the src comes outside of the DAG.",
+                    "description": "The name of an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an INBOUND connection and the producer is outside of the DAG.",
                     "type": "string",
-                    "pattern": "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$"
+                    "pattern": "^[a-z][a-zA-Z0-9]*\\.[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$"
                 },
                 "dests": {
                     "description": "The collection of ports receiving the data",
                     "type": "object",
                     "additionalProperties": false,
                     "patternProperties": {
-                        "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$": {
-                            "description": "The key is the name of an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical. If an empty string is provided, it means the connection is an OUTBOUND connection and the dest goes outside of the DAG.",
+                        "^[a-z][a-zA-Z0-9]*\\.[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$": {
+                            "description": "The key is the name of an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an OUTBOUND connection and the consumer is outside of the DAG. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical.",
                             "type": [
                                 "object"
                             ],
                             "additionalProperties": false,
                             "patternProperties": {
                                 "^[a-z][a-zA-Z0-9_-]*$": {
-                                    "description": "The key is the name of the parameter and the value can either be any primitive type",
+                                    "description": "The key is the name of the parameter and the value can be any primitive type",
                                     "type": [
                                         "boolean",
                                         "number",
@@ -512,6 +531,28 @@
                             ]
                         }
                     }
+                }
+            }
+        },
+        "service": {
+            "type": "object",
+            "required": [
+                "passes"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "parameters": {
+                    "description": "The service parameters",
+                    "type": "object"
+                },
+                "passes": {
+                    "description": "The names of the passes. The order of the passes should be alphabetical.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[A-Z][A-Z0-9_]*$"
+                    },
+                    "uniqueItems": true
                 }
             }
         }

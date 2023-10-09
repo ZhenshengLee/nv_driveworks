@@ -1,0 +1,337 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/launcher.schema.json",
+    "title": "Launcher Command Line Arugments Schema",
+    "description": "The descriptor of Command Line Arguments passed to the launcher application. Arguments can alternatively be provided via command-line options. If updating this file, you must also update Launcher.cpp (Launcher::initArguments())",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "spec",
+        "logPath",
+        "schedule",
+        "path",
+        "datapath",
+        "dwdatapath",
+        "binPath"
+    ],
+    "properties": {
+        "spec": {
+            "description": "launch spec file",
+            "type": "string"
+        },
+        "logPath": {
+            "description": "log path",
+            "type": "string"
+        },
+        "schedule": {
+            "description": "scheduler table file",
+            "type": "string"
+        },
+        "path": {
+            "description": "SWC path",
+            "type": "string"
+        },
+        "datapath": {
+            "description": "SWC data path",
+            "type": "string"
+        },
+        "dwdatapath": {
+            "description": "dwdatapath",
+            "type": "string"
+        },
+        "binPath": {
+            "description": "Commands path",
+            "type": "string"
+        },
+        "mapPath": {
+            "description": "Map path",
+            "type": "string",
+            "default": ""
+        },
+        "shadow": {
+            "description": "Shadow app file",
+            "type": "string",
+            "default": ""
+        },
+        "logSpec": {
+            "description": "logSpec",
+            "type": "string",
+            "default": "console"
+        },
+        "gdb_debug": {
+            "description": "Turn on gdb debugging",
+            "type": "string",
+            "default": "0"
+        },
+        "checkMemLeak": {
+            "description": "Turn on memory leak checks",
+            "type": "string",
+            "default": "0"
+        },
+        "amend": {
+            "description": "Path to amend file to override parameters",
+            "type": "string",
+            "default": ""
+        },
+        "service-framework": {
+            "description": "service-framework",
+            "type": "string",
+            "default": "0"
+        },
+        "sm_init_timeout": {
+            "description": "stateMachineInitTimeout in secs. 0 for using default value set in SSM framework.",
+            "type": "number",
+            "default": 0
+        },
+        "memwatch_frames": {
+            "description": "from-to. Start/stop memwatch only for specified frames during runtime.",
+            "type": "string",
+            "default": ""
+        },
+        "navRoute": {
+            "description": "The path for nav route file, either the relative path to 'ndas/apps/roadrunner-2.0/' or absolute path",
+            "type": "string",
+            "default": ""
+        },
+        "useDynamicMap": {
+            "description": "Set to 1 to use MapManager map. Overrides <mapPath>.",
+            "type": "string",
+            "default": "0"
+        },
+        "rig": {
+            "description": "rig",
+            "type": "string",
+            "default": ""
+        },
+        "fullscreen": {
+            "description": "Whether to run in fullscreen or no",
+            "type": "string",
+            "default": "1"
+        },
+        "winSizeW": {
+            "description": "window size width",
+            "type": "string",
+            "default": "1280"
+        },
+        "winSizeH": {
+            "description": "window size height",
+            "type": "string",
+            "default": "800"
+        },
+        "offscreen": {
+            "description": "offscreen",
+            "type": "string",
+            "default": "0"
+        },
+        "autolanechange": {
+            "description": "Enables automatic lane changes. Only allowed for DriveSIM",
+            "type": "string",
+            "default": "0"
+        },
+        "start_timestamp": {
+            "description": "start_timestamp",
+            "type": "string",
+            "default": "0"
+        },
+        "end_timestamp": {
+            "description": "end_timestamp",
+            "type": "string",
+            "default": "0"
+        },
+        "enable_max_time_diff_check": {
+            "description": "Enable checking sensor timestamp in RoadCast",
+            "type": "string",
+            "default": "0"
+        },
+        "frame": {
+            "description": "Specify the end camera frame number",
+            "type": "string",
+            "default": ""
+        },
+        "loop": {
+            "description": "Set to 1 to play dataset in loop",
+            "type": "string",
+            "default": "0"
+        },
+        "rc2f": {
+            "description": "File path to save roadcast log file",
+            "type": "string",
+            "default": "0"
+        },
+        "preInitSerialize": {
+            "description": "Set to 1 to initialize subcomponents serially in PRE_INIT phase",
+            "type": "string",
+            "default": "0"
+        },
+        "useNominalTransform": {
+            "description": "Set to 1 to use nominal transformation",
+            "type": "string",
+            "default": "0"
+        },
+        "loglevel": {
+            "description": "Choices are: DW_LOG_ERROR, DW_LOG_WARN, DW_LOG_INFO",
+            "type": "string",
+            "default": "DW_LOG_ERROR"
+        },
+        "traceLevel": {
+            "description": "Disables DWTrace with 0 or set different DWTrace level, default 10,  could be 0|10|20|30|50|70|100",
+            "type": "string",
+            "default": "10"
+        },
+        "traceChannelMask": {
+            "description": "DWTrace channel mask, default 0x0001",
+            "type": "string",
+            "default": "0x0001"
+        },
+        "memTraceEnabled": {
+            "description": "Run DWTrace with memtrace enabled, default 0",
+            "type": "string",
+            "default": "0"
+        },
+        "nvtxBackendEnabled": {
+            "description": "Run DWTrace with nvtxBackend enabled, default 0",
+            "type": "string",
+            "default": "0"
+        },
+        "fileBackendEnabled": {
+            "description": "Run DWTrace with fileBackendEnabled enabled, default 1",
+            "type": "string",
+            "default": "1"
+        },
+        "networkBackendEnabled": {
+            "description": "Run DWTrace with networkBackendEnabled enabled, default 0",
+            "type": "string",
+            "default": "0"
+        },
+        "ftraceBackendEnabled": {
+            "description": "Run DWTrace with with ftrace enabled, default 0",
+            "type": "string",
+            "default": "0"
+        },
+        "stmControlTracing": {
+            "description": "Run DWTrace with with stm control, default 1",
+            "type": "string",
+            "default": "1"
+        },
+        "traceFilePath": {
+            "description": "DWTrace log path",
+            "type": "string",
+            "default": ""
+        },
+        "ncuProfileFrames": {
+            "description": "Start/stop the CUDA profiler only for specified frame(s). Pattern: from[-to]",
+            "type": "string",
+            "default": ""
+        },
+        "region": {
+            "description": "Region code for different countries",
+            "type": "string",
+            "default": ""
+        },
+        "configOverlayFile": {
+            "description": "Path of the Rig2.0 application config overlay .json file. This file contains all the supported configs (M1/M2/...) for RoadRunner-2.0 on each platform variant. It can be either an absolute file path or a path that is relative to recording dataset",
+            "type": "string",
+            "default": ""
+        },
+        "configOverlayName": {
+            "description": "The configuration name to use from application config overlay file",
+            "type": "string",
+            "default": ""
+        },
+        "calibrationOverlayFile": {
+            "description": "absolute path or relative path to datapath",
+            "type": "string",
+            "default": ""
+        },
+        "vinOverlayFile": {
+            "description": "The vin-based static calibration overlay file",
+            "type": "string",
+            "default": ""
+        },
+        "virtual": {
+            "description": "0 for live sensors, 1 for virtual vehicle (without live sensors)",
+            "type": "string",
+            "default": "0"
+        },
+        "virtual_time": {
+            "description": "Set to use the dw virtual time source",
+            "type": "string",
+            "default": ""
+        },
+        "time_multiplier": {
+            "description": "Set to indicate that RR2 is running with DriveSIM with a time multiplier",
+            "type": "string",
+            "default": ""
+        },
+        "ds2_control": {
+            "description": "Host and port of the DS2 control server",
+            "type": "string",
+            "default": ""
+        },
+        "lockstep": {
+            "description": "Set to indicate that RR2 is running with DriveSIM with lockstep",
+            "type": "string",
+            "default": ""
+        },
+        "stm_discriminator": {
+            "description": "Multiple instances of RR: Unique discriminator to launch STM",
+            "type": "string",
+            "default": ""
+        },
+        "base_port": {
+            "description": "Base port for running multiple RR instances",
+            "type": "string",
+            "default": ""
+        },
+        "disableStmControlLogger": {
+            "description": "1 to disable stm constrol logger",
+            "type": "string",
+            "default": "0"
+        },
+        "disablefaulthandler": {
+            "description": "1 for disabling Loader's faultHandler",
+            "type": "string",
+            "default": "0"
+        },
+        "instantiate_rig_sensors": {
+            "description": "Set to support RWD recording on DAG disabled sensors",
+            "type": "string",
+            "default": ""
+        },
+        "disableParamServiceThread": {
+            "description": "Set to disable param service thread",
+            "type": "string",
+            "default": ""
+        },
+        "app_parameter": {
+            "description": "Runtime parameters for CGF product. Json string. Sample: \"{\"maxFrameCount\":50,\"fileName\":\"/tmp/test.log\"}",
+            "type": "string",
+            "default": ""
+        },
+        "enable-ssm-degradation": {
+            "description": "Desired degradation mode",
+            "type": "string",
+            "default": "0"
+        },
+        "augreplay": {
+            "description": "#ifdef RESIMULATOR_ENABLED - configuration file for augmented data replay",
+            "type": "string",
+            "default": ""
+        },
+        "useLCM": {
+            "description": "#ifdef DW_SDK_BUILD_EXPERIMENTAL - true for running RR2 with LCM",
+            "type": "string",
+            "default": "0"
+        },
+        "sehFailureMask": {
+            "description": "Absolute path of a json file containing failures to not to report to SEH",
+            "type": "string",
+            "default": ""
+        },
+        "lockstep_deterministic_replay": {
+            "description": "Enables the new channel based deterministic mode. Currently not supported",
+            "type": "string",
+            "default": "0"
+        }
+    }
+}

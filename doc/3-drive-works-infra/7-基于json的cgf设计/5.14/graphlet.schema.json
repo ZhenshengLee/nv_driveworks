@@ -68,7 +68,7 @@
             }
         },
         "connections": {
-            "description": "The connections. The order should be alphabetical based on the source and the connection parameter names.",
+            "description": "The connections. The order should be alphabetical based on the source port (considering an array index as a numeric) and the connection parameter names.",
             "type": "array",
             "items": {
                 "$ref": "#/$defs/connection"
@@ -192,24 +192,24 @@
             "additionalProperties": false,
             "properties": {
                 "src": {
-                    "description": "The name of the input port of the graphlet or an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an empty string is provided, it means the connection is an INBOUND connection and the src comes outside of the DAG.",
+                    "description": "The name of the input port of the graphlet (in the form 'INPUT_PORT_NAME') or an output port of a subcomponent (in the form 'subcomponentInstanceName.OUTPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an INBOUND connection and the producer is outside of the DAG.",
                     "type": "string",
-                    "pattern": "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$"
+                    "pattern": "^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$"
                 },
                 "dests": {
                     "description": "The collection of ports receiving the data",
                     "type": "object",
                     "additionalProperties": false,
                     "patternProperties": {
-                        "^$|^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$": {
-                            "description": "The key is the name of the output port of the graphlet or an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical. If an empty string is provided, it means the connection is an OUTBOUND connection and the dest goes outside of the DAG.",
+                        "^([a-z][a-zA-Z0-9]*\\.)?[A-Z][A-Z0-9_]*(\\[[0-9]+\\])?$|^EXTERNAL:[A-Z][A-Z0-9_]*$": {
+                            "description": "The key is the name of the output port of the graphlet (in the form 'OUTPUT_PORT_NAME') or an input port of a subcomponent (in the form 'subcomponentInstanceName.INPUT_PORT_NAME') optionally followed by a non-negative array index wrapped in brackets. If an identifier with the prefix 'EXTERNAL:' is provided, it means the connection is an OUTBOUND connection and the consumer is outside of the DAG. The value contains parameters specific to this destination port. The order of the parameters should be alphabetical.",
                             "type": [
                                 "object"
                             ],
                             "additionalProperties": false,
                             "patternProperties": {
                                 "^[a-z][a-zA-Z0-9_-]*$": {
-                                    "description": "The key is the name of the parameter and the value can either be any primitive type",
+                                    "description": "The key is the name of the parameter and the value can be any primitive type",
                                     "type": [
                                         "boolean",
                                         "number",
