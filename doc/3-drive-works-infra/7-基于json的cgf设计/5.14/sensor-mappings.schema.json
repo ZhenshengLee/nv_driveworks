@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/sensor-mappings.schema.json",
+    "title": "DW Sensor Mapping Descriptor",
+    "description": "The descriptor of DriveWorks sensor mappings. The order of sensor mapping names is user defined.",
+    "type": "object",
+    "additionalProperties": false,
+    "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9 ._-]*$": {
+            "description": "The key is the layout name of the sensor mapping which must be unique within the collection of sensor mappings. The value is the object mapping a new generic sensor name to an existing sensor name in rig.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-zA-Z][a-zA-Z0-9 .:_-]*$": {
+                    "type": "string",
+                    "pattern": "^([a-z0-9]+:)*[a-z0-9]+$"
+                }
+            }
+        }
+    }
+}
