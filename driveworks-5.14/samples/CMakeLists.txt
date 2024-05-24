@@ -109,6 +109,8 @@ endif()
 #-------------------------------------------------------------------------------
 get_filename_component(DRIVEWORKS_DIR ${CMAKE_CURRENT_LIST_DIR} REALPATH)
 get_filename_component(DRIVEWORKS_DIR ${DRIVEWORKS_DIR} DIRECTORY)
+# zs: add this line to make the sample out of box
+set(DRIVEWORKS_DIR /usr/local/driveworks)
 
 find_package(driveworks REQUIRED CONFIG PATHS "${DRIVEWORKS_DIR}/cmake" NO_DEFAULT_PATH)
 find_package(driveworks-visualization REQUIRED CONFIG PATHS "${DRIVEWORKS_DIR}/cmake" NO_DEFAULT_PATH)
