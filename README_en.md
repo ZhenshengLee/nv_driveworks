@@ -51,9 +51,40 @@ rsync -avzhlce ssh ./target/dw514/install nvidia@192.168.137.113:~/zhensheng/ori
 cd ~/zhensheng/orin_ws/nv_driveworks/target/dw514/usr/local/driveworks/samples
 sudo ./bin/cgf_custom_nodes/example/runHelloworld.sh
 # config the ip stack if it prompts
-# check the logFolder log, remove the log before next running app
+# check the logFolder log
+
+# to see launcher exit status with 0 if the app succeeds.
+# =======================================================================
+# launcher exit status: 0
+
+# remove the log before next running app
 sudo rm -rf ./LogFolder/
 ```
 
 ### modify the graph and run again (nvsci bug)
 
+```json
+        {
+            "src": "helloWorldNode.VALUE_1",
+            "dests": {
+                "sumNode.VALUE_1": {
+                    "mailbox": true,
+                    "reuse": true
+                },
+                "multipleNode.VALUE_1": {
+                    "mailbox": true,
+                    "reuse": true
+                }
+            },
+            "params": {
+                "type": "nvsci",
+                "limits": -1,
+                "srcEndpoint": "nvscistream_4:nvscistream_6",
+                "destEndpoint": "nvscistream_5:nvscistream_7"
+            }
+        }
+```
+
+```sh
+# rerun the app and to see the error log
+```
