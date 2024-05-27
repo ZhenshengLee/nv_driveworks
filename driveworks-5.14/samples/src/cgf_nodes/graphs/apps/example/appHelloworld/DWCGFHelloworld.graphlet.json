@@ -44,6 +44,12 @@
                     "mailbox": true,
                     "reuse": true
                 }
+            },
+            "params": {
+                "type": "nvsci",
+                "limits": -1,
+                "srcEndpoint": "nvscistream_4:nvscistream_6",
+                "destEndpoint": "nvscistream_5:nvscistream_7"
             }
         }
     ]
