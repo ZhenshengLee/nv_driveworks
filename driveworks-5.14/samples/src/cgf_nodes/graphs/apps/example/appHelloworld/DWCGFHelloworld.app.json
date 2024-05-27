@@ -1,0 +1,123 @@
+{
+    "name": "DWCGFHelloworldApp",
+    "logSpec": "file/rfc5424:{{logpath}}/{{appname}}.log",
+    "parameters": {},
+    "requiredSensors": "../../../extra/appCommon/DWCGFImagePipe.required-sensors.json",
+    "sensorMappingLookups": [
+        "../../../extra/sensor_mappings"
+    ],
+    "subcomponents": {
+        "top": {
+            "componentType": "./DWCGFHelloworld.graphlet.json",
+            "parameters": {}
+        }
+    },
+    "connections": [],
+    "states": {
+        "STANDARD": {
+            "stmScheduleKey": "standardSchedule",
+            "default": true
+        }
+    },
+    "stmSchedules": {
+        "standardSchedule": {
+            "wcet": "./DWCGFHelloworld_wcet.yaml",
+            "hyperepochs": {
+                "helloworldHyperepoch": {
+                    "period": 50000000,
+                    "epochs": {
+                        "helloworldEpoch": {
+                            "period": 50000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "top.helloWorldNode"
+                                ]
+                            ]
+                        },
+                        "sumEpoch": {
+                            "period": 50000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "top.sumNode"
+                                ]
+                            ]
+                        },
+                        "multipleEpoch": {
+                            "period": 50000000,
+                            "frames": 1,
+                            "passes": [
+                                [
+                                    "top.multipleNode"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU0": [],
+                        "machine0.CPU1": [],
+                        "machine0.CPU2": ["top.helloWorldNode"],
+                        "machine0.CPU3": ["top.sumNode"]
+                    }
+                }
+            }
+        }
+    },
+    "processes": {
+        "ssm": {
+            "runOn": "machine0",
+            "executable": "vanillassm",
+            "logSpec": "file:{{logpath}}/{{appname}}.log"
+        },
+        "schedule_manager": {
+            "runOn": "machine0",
+            "executable": "ScheduleManager",
+            "argv": {
+                "--enableScheduleSwitching": "false",
+                "--scheduleManagerHostIP": "127.0.0.1",
+                "--scheduleManagerHostPort": "40100",
+                "--scheduleManagerNumClients": "1"
+            }
+        },
+        "stm_master": {
+            "runOn": "machine0",
+            "executable": "stm_master",
+            "logSpec": "file:{{logpath}}/{{appname}}.log",
+            "argv": {
+                "--allow-unregistered-runnables": true,
+                "--timeout-us": "60000000",
+                "--soc": "TegraA",
+                "--core": "0",
+                "--enable-memlock": true,
+                "-m": true,
+                "--log": "./LogFolder/cgf_custom_nodes/Helloworld/stm.log",
+                "--master-forked-log-path": "./LogFolder/cgf_custom_nodes/Helloworld",
+                "--epochs": "10"
+            }
+        },
+        "helloworld_process0": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "top.helloWorldNode"
+            ]
+        },
+        "sum_process0": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "top.sumNode"
+            ]
+        },
+        "multiple_process0": {
+            "runOn": "machine0",
+            "executable": "LoaderLite",
+            "subcomponents": [
+                "top.multipleNode"
+            ]
+        }
+
+    },
+    "extraInfo": "../../../extra/appCommon/DWCGFImagePipeExtraInfo.json"
+}

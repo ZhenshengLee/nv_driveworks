@@ -1,0 +1,127 @@
+{
+    "rig": {
+        "properties": {
+            "layout": "pilot"
+        },
+        "sensors": [
+            {
+                "car-mask": {
+                    "data/rle16-base64": "OacBAQAA4AEBAgAA3wEBAwAA3gEBBAAA3QEBBQAA3AEBBgAA2wEBBgAA2wEBBwAA2gEBCAAA2QEBCQAA2AEBCQAA2AEBCgAA1wEBCwAA1gEBCwAA1gEBDAAA1QEBDQAA1AEBDQAA1AEBDgAA0wEBDgAA0wEBDwAA0gEBDwAA0gEBDwAA0gEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEAAA0QEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEQAA0AEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEgAAzwEBEwAAzgEBEwAAzgEBEwAAzgEBFAAAzQEBFAAAzQEBFQAAzAEBFQAAzAEBFgAAywEBFgAAywEBFwAAygEBFwAAygEBFwAAygEBGAAAyQEBGAAAyQEBGQAAyAEBGQAAyAEBGgAAxwEBGgAAxwEBGgAAxwEBGgAAxwEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBGwAAxgEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHAAAxQEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHQAAxAEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHgAAwwEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBHwAAwgEBIAAAwQEBIAAAwQEBIAAAwQEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIQAAwAEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIgAAvwEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBIwAAvgEBJAAAvQEBJAAAvQEBJAAAvQEBJAAAvQEB",
+                    "resolution": [
+                        481,
+                        271
+                    ]
+                },
+                "name": "camera:rear:left:70fov",
+                "nominalSensor2Rig_FLU": {
+                    "roll-pitch-yaw": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "t": [
+                        1.8621,
+                        -0.1939,
+                        1.3165
+                    ]
+                },
+                "parameter": "video=./video/",
+                "properties": {
+                    "Model": "ftheta",
+                    "bw-poly": "0.000000000000000 5.35356812179089e-4 4.99266072928606e-10 4.27370422037554e-12 -6.68245573791717e-16",
+                    "cx": "1927.764404",
+                    "cy": "1096.686646",
+                    "height": "2168",
+                    "width": "3848"
+                },
+                "protocol": "camera.gmsl"
+            }
+        ],
+        "vehicle": {
+            "valid": true,
+            "value": {
+                "actuation": {
+                    "brakeActuatorTimeConstant": 0.05000000074505806,
+                    "brakeActuatorTimeDelay": 0.0,
+                    "driveByWireTimeConstant": 0.25999999046325684,
+                    "driveByWireTimeDelay": 0.10999999940395355,
+                    "effectiveMass": 389.8653869628906,
+                    "maxSteeringWheelAngle": 8.290313720703125,
+                    "steeringWheelToSteeringMap": [
+                        0.0,
+                        0.06459085643291473,
+                        -2.557147672632709e-05,
+                        1.8859604097087868e-05,
+                        1.3523515463020885e-07,
+                        4.7676653025519045e-07
+                    ],
+                    "throttleActuatorTimeConstant": 0.30000001192092896,
+                    "throttleActuatorTimeDelay": 0.0,
+                    "torqueLUT": {
+                        "brakePedalInput": "0.15000, 0.16000, 0.17000, 0.19000, 0.20000, 0.22000, 0.23000, 0.25000, 0.26000, 0.27000, 0.29000, 0.30000, 0.32000, 0.33000, 0.35000",
+                        "brakeTorqueOutput": "0.000000, 49.09000, 98.18000, 166.20000, 360.97000, 555.75000, 937.50000, 1327.03003, 1754.48999, 2195.60010, 2653.02002, 3313.10010, 4377.47998, 6691.14990, 7438.68994",
+                        "throttlePedalInput": "0.17000, 0.20000, 0.23000, 0.27000, 0.30000, 0.34000, 0.37000, 0.41000, 0.44000, 0.48000, 0.51000, 0.55000, 0.58000, 0.61000, 0.65000",
+                        "throttleSpeedInput": "5.000000, 6.79000, 8.57000, 10.36000, 12.14000, 13.93000, 15.71000, 17.50000, 19.29000, 21.07000, 22.86000, 24.64000, 26.43000, 28.21000, 30.000000",
+                        "throttleTorqueOutput": [
+                            "-41.05, -80.89, -120.72, -157.24, -193.75, -213.56, -233.37, -256.42, -279.48, -253.83, -228.19, -235.32, -242.47, -236.56, -230.64",
+                            "361.80, 236.27, 110.76, 29.17, -52.41, -85.24, -118.07, -151.21, -184.34, -175.49, -166.63, -169.19, -171.75, -164.31, -156.87",
+                            "763.28, 552.65, 342.06, 215.61, 89.18, 43.28, -2.62, -45.84, -89.05, -96.97, -104.88, -102.96, -101.05, -92.19, -83.33",
+                            "1100.34, 832.63, 564.97, 403.81, 242.68, 181.33, 119.98, 66.76, 13.54, -10.30, -34.14, -32.77, -31.40, -25.79, -20.17",
+                            "1436.57, 1112.15, 787.77, 592.04, 396.34, 319.51, 242.68, 179.46, 116.24, 76.47, 36.72, 37.47, 38.23, 40.55, 42.87",
+                            "1707.83, 1354.95, 1002.12, 782.05, 562.01, 467.30, 372.59, 299.44, 226.30, 171.47, 116.64, 111.71, 106.79, 101.11, 95.43",
+                            "1978.81, 1597.59, 1216.43, 972.06, 727.73, 615.13, 502.53, 419.46, 336.39, 266.49, 196.60, 185.97, 175.35, 161.65, 147.95",
+                            "2184.27, 1803.21, 1422.21, 1163.87, 905.56, 772.65, 639.75, 546.83, 453.92, 369.81, 285.70, 264.26, 242.84, 216.37, 189.91",
+                            "2389.73, 2008.84, 1627.99, 1355.68, 1083.40, 930.18, 776.96, 674.20, 571.44, 473.12, 374.80, 342.55, 310.32, 271.10, 231.87",
+                            "2529.67, 2177.44, 1825.24, 1549.28, 1273.35, 1097.40, 921.46, 808.93, 696.40, 584.72, 473.04, 424.88, 376.74, 320.01, 263.27",
+                            "2669.33, 2345.88, 2022.45, 1742.89, 1463.35, 1264.66, 1065.98, 943.69, 821.39, 696.36, 571.33, 507.23, 443.14, 368.89, 294.63",
+                            "2744.01, 2477.61, 2211.20, 1938.28, 1665.37, 1441.54, 1217.72, 1085.74, 953.75, 816.22, 678.68, 593.58, 508.49, 412.01, 315.53",
+                            "2817.88, 2608.88, 2399.85, 2133.69, 1867.54, 1618.54, 1369.55, 1227.88, 1086.21, 936.18, 786.14, 679.97, 573.82, 455.05, 336.28",
+                            "2827.31, 2703.73, 2580.11, 2330.87, 2081.62, 1805.07, 1528.53, 1377.25, 1225.97, 1064.29, 902.60, 770.34, 638.09, 492.38, 346.66",
+                            "2835.38, 2797.82, 2760.19, 2528.08, 2295.96, 1991.81, 1687.67, 1526.78, 1365.89, 1192.57, 1019.24, 860.79, 702.34, 529.58, 356.82"
+                        ]
+                    }
+                },
+                "axleFront": {
+                    "corneringStiffness": 93534.5234375,
+                    "position": 2.8499999046325684,
+                    "track": 1.5820000171661377,
+                    "wheelRadiusLeft": 0.3295999765396118,
+                    "wheelRadiusRight": 0.3295999765396118
+                },
+                "axleRear": {
+                    "corneringStiffness": 176162.140625,
+                    "position": 0.0,
+                    "track": 1.5750000476837158,
+                    "wheelRadiusLeft": 0.3295999765396118,
+                    "wheelRadiusRight": 0.3295999765396118
+                },
+                "body": {
+                    "boundingBoxPosition": [
+                        -1.1089999675750732,
+                        0.0,
+                        0.0
+                    ],
+                    "centerOfMass": [
+                        1.5946999788284302,
+                        0.0,
+                        0.550000011920929
+                    ],
+                    "height": 1.4730000495910645,
+                    "inertia": [
+                        750.0,
+                        3200.0,
+                        3414.201171875
+                    ],
+                    "length": 4.872000217437744,
+                    "mass": 2014.4000244140625,
+                    "width": 2.121000051498413,
+                    "widthWithoutMirrors": 1.8519999980926514
+                },
+                "hasCabin": false,
+                "numTrailers": 0
+            }
+        },
+        "vehicleio": []
+    },
+    "version": 7
+}

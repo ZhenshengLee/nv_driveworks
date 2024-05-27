@@ -4,6 +4,7 @@
 *.mp4*
 driveworks-5.8/tools/stm*
 driverorks-5.10/tools/stm*
-.vscode/
+# .vscode/
 docker/
 target/
+.dev_bash_hist

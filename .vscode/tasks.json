@@ -1,0 +1,90 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        // args is not allowed in docker exec
+        {
+            // rsync
+            "label": "pub2orin-dw514-check",
+            "type": "shell",
+            "command": "rsync -avzhlce ssh ./target/dw514/install/usr nvidia@192.168.137.113:~/zhensheng/orin_ws/nv_driveworks/target/dw514/ -Pin --update --inplace --delete-delay --compress-level=3  --safe-links --munge-links --max-delete=5000",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [],
+            "problemMatcher": {
+                "fileLocation": [
+                    "autoDetect",
+                    "${workspaceFolder}"
+                ]
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "group": "setup"
+            },
+        },
+        {
+            // rsync
+            "label": "pub2orin-dw514",
+            "type": "shell",
+            "command": "rsync -avzhlce ssh ./target/dw514/install/usr nvidia@192.168.137.113:~/zhensheng/orin_ws/nv_driveworks/target/dw514/ -Pi --update --inplace --delete-delay --compress-level=3  --safe-links --munge-links --max-delete=5000",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [],
+            "problemMatcher": {
+                "fileLocation": [
+                    "autoDetect",
+                    "${workspaceFolder}"
+                ]
+            },
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true,
+                "group": "setup"
+            },
+        },
+    ],
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "cgfappType",
+            "description": "What type of cgfapp do you want to run?",
+            "options": [
+                "team_node/runHelloworld",
+            ],
+            "default": "team_node/runHelloworld"
+        },
+        {
+            "type": "pickString",
+            "id": "sampleAppType",
+            "description": "What type of sample do you want to run?",
+            "options": [
+                "sample_hello_world",
+                "sample_camera",
+                "sample_renderer",
+            ],
+            "default": "sample_hello_world"
+        },
+        {
+            "type": "promptString",
+            "id": "libName",
+            "description": "What type of lib do you want to search?",
+            "default": "libnvsipl_devblk_campwr_max20087_fusa",
+        },
+    ]
+}

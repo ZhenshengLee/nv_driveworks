@@ -1,0 +1,12 @@
+{
+    "pilot": {
+        "pilot_camera0": "camera:rear:left:70fov"
+    },
+    "pilot_sim": {
+        "synthesizedCameraFC60": "camera:rear:left:70fov",
+        "vehicleSensor0": "can:vehicle",
+        "gps0": "gps:simulator",
+        "imu0": "imu:simulator",
+        "ultrasonic": "uss:valeo"
+    }
+}

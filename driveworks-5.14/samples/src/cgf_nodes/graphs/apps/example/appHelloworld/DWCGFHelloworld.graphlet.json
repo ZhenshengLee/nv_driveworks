@@ -1,0 +1,50 @@
+{
+    "name": "DWCGFHelloworld",
+    "inputPorts": {},
+    "outputPorts": {},
+    "parameters": {
+        "paraName": { "type": "std::string", "default": "helloworld_name" }
+    },
+    "subcomponents": {
+        "helloWorldNode": {
+            "componentType": "../../../nodes/example/helloworld/HelloWorldNode.node.json",
+            "parameters": {
+                "name": "$paraName"
+            }
+        },
+        "multipleNode": {
+            "componentType": "../../../nodes/example/helloworld/MultipleNode.node.json"
+        },
+        "sumNode": {
+            "componentType": "../../../nodes/example/helloworld/SumNode.node.json"
+        }
+    },
+    "connections": [
+        {
+            "src": "helloWorldNode.VALUE_0",
+            "dests": {
+                "sumNode.VALUE_0": {
+                    "mailbox": true,
+                    "reuse": true
+                },
+                "multipleNode.VALUE_0": {
+                    "mailbox": true,
+                    "reuse": true
+                }
+            }
+        },
+        {
+            "src": "helloWorldNode.VALUE_1",
+            "dests": {
+                "sumNode.VALUE_1": {
+                    "mailbox": true,
+                    "reuse": true
+                },
+                "multipleNode.VALUE_1": {
+                    "mailbox": true,
+                    "reuse": true
+                }
+            }
+        }
+    ]
+}
