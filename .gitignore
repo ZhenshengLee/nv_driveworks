@@ -8,3 +8,6 @@ driverorks-5.10/tools/stm*
 docker/
 target/
 .dev_bash_hist
+!libudev*.so
+!libusb*.so
+!libXcursor*.so
