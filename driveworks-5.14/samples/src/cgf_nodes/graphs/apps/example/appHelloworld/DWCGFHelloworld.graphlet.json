@@ -38,18 +38,19 @@
             "dests": {
                 "sumNode.VALUE_1": {
                     "mailbox": true,
-                    "reuse": true
+                    "reuse": true,
+                    "srcEndpoint": "nvscistream_4",
+                    "destEndpoint": "nvscistream_5"
                 },
                 "multipleNode.VALUE_1": {
                     "mailbox": true,
-                    "reuse": true
+                    "reuse": true,
+                    "srcEndpoint": "nvscistream_6",
+                    "destEndpoint": "nvscistream_7"
                 }
             },
             "params": {
-                "type": "nvsci",
-                "limits": -1,
-                "srcEndpoint": "nvscistream_4:nvscistream_6",
-                "destEndpoint": "nvscistream_5:nvscistream_7"
+                "type": "nvsci"
             }
         }
     ]
