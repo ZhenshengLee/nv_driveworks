@@ -1,6 +1,6 @@
 # build cgf app with nv driveworks sdk
 
-## helloworld nvsci bug
+## helloworld cgf app
 
 ### build cgf nodes
 
@@ -61,7 +61,9 @@ sudo ./bin/cgf_custom_nodes/example/runHelloworld.sh
 sudo rm -rf ./LogFolder/
 ```
 
-### modify the graph and run again (nvsci bug)
+## helloworld cgf app bugs
+
+### nvsci bug (fixed)
 
 ```json
         {
@@ -85,6 +87,5 @@ sudo rm -rf ./LogFolder/
         }
 ```
 
-```sh
-# rerun the app and to see the error log
-```
+### socket big data bug
+

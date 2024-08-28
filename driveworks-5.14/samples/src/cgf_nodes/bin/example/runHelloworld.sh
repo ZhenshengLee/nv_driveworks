@@ -114,6 +114,7 @@ XPLATFORM_SSM_PATH=${DW_TOP_PATH}/bin/xplatform_ssm
 XPLATFORM_COMMON_PATH=${DW_TOP_PATH}/bin/common_cgf_channel
 
 RR_RUN_CFG_PATH=${CMD}/RunFolder/${PROJECT}/${APP_TYPE}
+TCP_NODELAY_PRELOAD_SO=${DW_TOP_PATH}/bin/${PROJECT}/libnodelay.so
 
 echo "RR_LOG_PATH=${RR_LOG_PATH}"
 echo "RR_RUN_CFG_PATH=${RR_RUN_CFG_PATH}"
@@ -247,6 +248,10 @@ __checkNvSCI() {
 
 __setEnv() {
 
+    if [ -f "${TCP_NODELAY_PRELOAD_SO}" ]; then
+        export LD_PRELOAD=${TCP_NODELAY_PRELOAD_SO}
+        echo "export LD_PRELOAD=${TCP_NODELAY_PRELOAD_SO}"
+    fi
     export LD_LIBRARY_PATH=${RR_TOP_PATH}/lib:$LD_LIBRARY_PATH
 
     local sandbox_lib_path=$(find ${DW_TOP_PATH} -name '_solib*')

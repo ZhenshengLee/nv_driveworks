@@ -64,6 +64,7 @@ dwStatus HelloWorldNodeImpl::reset()
 {
     m_port0Value = 0;
     m_port1Value = 10000;
+    m_port0Str.clear();
     return Base::reset();
 }
 
@@ -72,17 +73,37 @@ dwStatus HelloWorldNodeImpl::process()
 {
     auto& outPort0 = NODE_GET_OUTPUT_PORT("VALUE_0"_sv);
     auto& outPort1 = NODE_GET_OUTPUT_PORT("VALUE_1"_sv);
-    if (outPort0.isBufferAvailable() && outPort1.isBufferAvailable())
+    if (outPort0.isBufferAvailable())
     {
-        *outPort0.getBuffer() = m_port0Value++;
-        DW_LOGD << "[Epoch " << m_epochCount << "] Sent value0 = " << *outPort0.getBuffer() << Logger::State::endl;
-        outPort0.send();
+        // getbuffer only once
+        auto outPort0Buffer = outPort0.getBuffer();
+        m_port0Str.clear();
+        m_port0Str = "helloworld";
+        m_port0Str+=m_port0Value++;
 
-        *outPort1.getBuffer() = m_port1Value--;
+        *outPort0Buffer = m_port0Str;
+        DW_LOGD << "[Epoch " << m_epochCount << "] Sent value0 = " << m_port0Value << Logger::State::endl;
+        DW_LOGD << "[Epoch " << m_epochCount << "] Sent Str0 = " << *outPort0Buffer << Logger::State::endl;
+        DW_LOGD << "[Epoch " << m_epochCount << "] Str0.size = " << outPort0Buffer->size() << Logger::State::endl;
+        DW_LOGD << "[Epoch " << m_epochCount << "] Str0.capacity = " << outPort0Buffer->capacity() << Logger::State::endl;
+        outPort0.send();
+    }
+    else
+    {
+        DW_LOGD << "[Epoch " << m_epochCount << "] outPort0.buffer not available!" << Logger::State::endl;
+    }
+    if (outPort1.isBufferAvailable())
+    {
+        // getbuffer only once
+        auto outPort1Buffer = outPort1.getBuffer();
+        *outPort1Buffer = m_port1Value--;
         DW_LOGD << "[Epoch " << m_epochCount << "] Sent value1 = " << *outPort1.getBuffer() << Logger::State::endl;
         outPort1.send();
     }
-    DW_LOGD << "[Epoch " << m_epochCount++ << "] Greetings from HelloWorldNodeImpl: Hello " << m_params.name.c_str() << "!" << Logger::State::endl;
+    else
+    {
+        DW_LOGD << "[Epoch " << m_epochCount << "] outPort1.buffer not available!" << Logger::State::endl;
+    }
     return DW_SUCCESS;
 }
 

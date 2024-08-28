@@ -41,6 +41,11 @@
 #include <dwcgf/port/PortDescriptor.hpp>
 #include <dwcgf/parameter/ParameterDescriptor.hpp>
 
+// custom packet types
+#include <channel/std_msgs/String.hpp>
+
+#define DW_STRING_TYPE string32_t
+
 namespace dw
 {
 namespace framework
@@ -63,7 +68,7 @@ public:
     {
         using namespace dw::framework;
         return describePortCollection(
-            DW_DESCRIBE_PORT(int, "VALUE_0"_sv, PortBinding::REQUIRED),
+            DW_DESCRIBE_PORT(DW_STRING_TYPE, "VALUE_0"_sv, PortBinding::REQUIRED),
             DW_DESCRIBE_PORT(int, "VALUE_1"_sv, PortBinding::REQUIRED));
     };
 

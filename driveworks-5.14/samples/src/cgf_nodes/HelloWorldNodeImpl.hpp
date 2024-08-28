@@ -55,12 +55,19 @@ private:
     // Passes functions
     dwStatus process();
 
-    // Internal states of node
+    // node internal from cgf
+    HelloWorldNodeParams m_params{};
+
+    // node internal from loaderlite-stm
+    dwContextHandle_t m_ctx{DW_NULL_HANDLE};
+
+    // workload: config
+
+    // workload: memory
     int m_port0Value{0};
     int m_port1Value{10000};
+    DW_STRING_TYPE m_port0Str{};
     size_t m_epochCount{0};
-    HelloWorldNodeParams m_params{};
-    dwContextHandle_t m_ctx{DW_NULL_HANDLE};
 };
 
 } // namespace framework

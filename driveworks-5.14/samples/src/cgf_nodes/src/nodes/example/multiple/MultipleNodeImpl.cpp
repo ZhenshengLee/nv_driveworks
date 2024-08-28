@@ -69,7 +69,7 @@ dwStatus MultipleNodeImpl::setState(const char* state)
     std::string _state(state);
     DW_LOGD << "multipleNode change state: " << _state
             << Logger::State::endl;
-            
+
     return DW_SUCCESS;
 }
 
@@ -86,18 +86,27 @@ dwStatus MultipleNodeImpl::process()
     auto& inPort1 = NODE_GET_INPUT_PORT("VALUE_1"_sv);
 
     // underrun
-    usleep(18000);
+    // usleep(18000);
     // overrun
     // usleep(58000);
 
     if (inPort0.isBufferAvailable() && inPort1.isBufferAvailable())
     {
-        auto inputValue0 = *inPort0.getBuffer();
+        auto inputStr0 = *inPort0.getBuffer();
+        // cut the "helloworld"
+        auto inputValue0 = dw::core::stol(inputStr0.substr(10).c_str());
         auto inputValue1 = *inPort1.getBuffer();
         DW_LOGD << "[Epoch " << m_epochCount << "]"
-                << " Received " << inputValue0 << " from input VALUE_0"
+                << " ReceivedStr " << inputStr0 << " from input VALUE_0"
+                << ", ReceivedVal " << inputValue0.value() << " from input VALUE_0"
                 << ", received " << inputValue1 << " from input VALUE_1."
-                << " Multiple together: " << (inputValue0 * inputValue1) << "!" << Logger::State::endl;
+                << " Multi together: " << (inputValue0.value() * inputValue1) << "!" << Logger::State::endl;
+        if( m_lastValue0 == inputValue0.value())
+        {
+            DW_LOGD << "int32_t is identical with the last one" << Logger::State::endl;
+        }
+        m_lastValue0 = inputValue0.value();
+        m_lastValue1 = inputValue1;
     }
     else
     {
