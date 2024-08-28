@@ -44,7 +44,7 @@
 // custom packet types
 #include <channel/std_msgs/String.hpp>
 
-#define DW_STRING_TYPE string32_t
+#define DW_STRING_TYPE string1m_t
 
 namespace dw
 {
