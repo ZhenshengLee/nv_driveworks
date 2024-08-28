@@ -62,7 +62,12 @@ private:
     // node internal from loaderlite-stm
     dwContextHandle_t m_ctx{DW_NULL_HANDLE};
 
+    // workload: config
+
+    // workload: memory
     size_t m_epochCount{0};
+    int32_t m_lastValue0{0};
+    int32_t m_lastValue1{10000};
 };
 
 } // namespace framework

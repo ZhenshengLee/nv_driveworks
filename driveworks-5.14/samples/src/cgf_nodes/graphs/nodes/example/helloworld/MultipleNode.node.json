@@ -5,7 +5,7 @@
     "name": "dw::framework::MultipleNode",
     "inputPorts": {
         "VALUE_0": {
-            "type": "int32_t",
+            "type": "string32_t",
             "bindingRequired": true
         },
         "VALUE_1": {

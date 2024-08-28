@@ -11,3 +11,4 @@ target/
 !libudev*.so
 !libusb*.so
 !libXcursor*.so
+!libnodelay*.so

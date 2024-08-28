@@ -36,9 +36,11 @@ set(DRIVEWORKS_PATH "/usr/local/driveworks")
 set(NSIGHT_SYS_PATH "/opt/nvidia/nsight-systems/2023.1.3/")
 set(DWCGF_RUNNER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(DWCGF_NODES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/nodes)
+set(DWCGF_CHANNEL_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/channel)
 set(DWCGF_GRAPHS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/graphs)
 set(DWCGF_APPS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/graphs/apps)
 set(DWCGF_NVSCI_RST ${CMAKE_CURRENT_SOURCE_DIR}/bin/nvsciipc_reset)
+set(TCP_NODELAY_PRELOAD_SO ${CMAKE_CURRENT_SOURCE_DIR}/bin/libnodelay.so)
 
 set(DWCGF_SCHE_DIR ${SDK_BINARY_DIR}/schedule/${PROJECT_NAME})
 file(MAKE_DIRECTORY ${DWCGF_SCHE_DIR})
@@ -103,17 +105,30 @@ endif()
 #-------------------------------------------------------------------------------
 # Custom nodes shared library
 #-------------------------------------------------------------------------------
+# zs: bug: must be compiled with channel src files
+file(GLOB_RECURSE DWCGF_CHANNEL_FILES
+    ${DWCGF_CHANNEL_SRC_DIR}/*.cpp
+)
 add_library(${PROJECT_NAME} SHARED ${SOURCES} ${DWCGF_NODES_FILES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARIES})
 target_include_directories(${PROJECT_NAME}
                            PUBLIC
                            include
+                           src
                            ${CUDA_DIR}/include
                            ${DW_ROOT}/include
                            ${DW_ROOT}/include/3rdparty
                            ${DW_ROOT}/include/dwshared/dwfoundation
                            ${DW_ROOT}/include/dwshared/dwtrace
                            ${NSIGHT_SYS_PATH}/target-linux-tegra-armv8/nvtx/include)
+
+#-------------------------------------------------------------------------------
+# tools
+#-------------------------------------------------------------------------------
+add_executable(tcp_nodelay_preload_test
+    ./tools/tcp_nodelay_preload_test.cpp
+)
+sdk_add_sample(tcp_nodelay_preload_test)
 
 # cgf generation
 set(GW_MODULE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
@@ -201,3 +216,4 @@ sdk_add_sample(${PROJECT_NAME})
 install(DIRECTORY ${DWCGF_GRAPHS_DIR}/ DESTINATION ${GW_MODULE_GRAPHS_DESTINATION})
 install(DIRECTORY ${DWCGF_DATA_DIR}/ DESTINATION ${GW_MODULE_DATA_DESTINATION})
 install(PROGRAMS ${DWCGF_NVSCI_RST} DESTINATION ${GW_MODULE_BINARY_DESTINATION})
+install(PROGRAMS ${TCP_NODELAY_PRELOAD_SO} DESTINATION ${GW_MODULE_BINARY_DESTINATION})
