@@ -42,7 +42,7 @@ driveworks-stm_5.10.87-323457480_amd64.deb
 sudo apt install pigz
 
 cd /gw_demo
-tar --use-compress-program=pigz -h -cvpf  driveworks-5.10.tar.gz /usr/local/driveworks/*
+tar --use-compress-program=pigz -h --exclude=*/data/* -cvpf  driveworks-520.tgz /usr/local/driveworks/*
 
-tar --use-compress-program=pigz -xvpf driveworks-5.10.tar.gz
+tar --use-compress-program=pigz -xvpf driveworks-520.tgz
 ```

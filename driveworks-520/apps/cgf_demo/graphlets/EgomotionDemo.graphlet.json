@@ -1,0 +1,1138 @@
+{
+    "name": "EgomotionDemo",
+    "inputPorts": {
+        "IMU_FRAME": {
+            "type": "dwIMUFrame"
+        },
+        "VEHICLE_IO_ASIL_STATE": {
+            "type": "dwVehicleIOASILStateE2EWrapper"
+        },
+        "VEHICLE_IO_QM_STATE": {
+            "type": "dwVehicleIOQMState"
+        },
+        "WHEEL_RADII": {
+            "type": "dwCalibratedWheelRadii"
+        },
+        "IMU_EXTRINSICS": {
+            "type": "dwCalibratedExtrinsics"
+        }
+    },
+    "outputPorts": {
+        "EGOMOTION_STATE": {
+            "type": "dwEgomotionStateHandle_t"
+        },
+        "VAL_EGOMOTION_DATA": {
+            "type": "dwValEgomotion"
+        },
+        "VAL_EGOMOTION_DATA_SECONDARY": {
+            "type": "dwValEgomotion"
+        }
+    },
+    "parameters": {
+        "imuIndex": {
+            "type": "size_t",
+            "default": 0
+        },
+        "groundSpeedType": {
+            "type": "dwEgomotionGroundSpeedMeasurementTypes",
+            "default": "DW_EGOMOTION_GROUND_SPEED_COUNT"
+        },
+        "sigPresenceRearWheelAngle": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceRearWheelAngleQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceRearWheelAngleTimestamp": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceRearWheelAngleTimestampQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceSuspensionLevel": {
+            "type": "bool",
+            "array": 4,
+            "default": [
+                false,
+                false,
+                false,
+                false
+            ]
+        },
+        "sigPresenceSuspensionLevelQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceSuspensionLevelTimestamp": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceSuspensionLevelTimestampQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceSuspensionLevelCalibrationState": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelSpeedRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelSpeedQualityRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelTicksRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelTicksDirectionRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelTicksTimestampRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceWheelTicksTimestampQualityRedundant": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceFrontSteeringAngleHigh": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceFrontSteeringAngleControlQualityHigh": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceFrontSteeringTimestampHigh": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceIMUTimestampQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceIMUAccelerometerOffsetZ": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceBrakeTorqueWheelsQuality": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceIMUStatus": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceIMUSequenceCounter": {
+            "type": "bool",
+            "default": false
+        },
+        "sigPresenceIMUTurnrateOffsetQualityStatus": {
+            "type": "bool",
+            "default": false
+        },
+        "timeOffsetSteering": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetSuspension": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetAngularAcceleration": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetProperAcceleration": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetAngularVelocity": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetWheelTicks": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "timeOffsetWheelSpeeds": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "cycleTimeSteering": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "cycleTimeSuspension": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "cycleTimeIMU": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "cycleTimeWheelEncoder": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "suspensionCenterHeight": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                -1,
+                -1
+            ]
+        },
+        "wheelObserverFixedStepSize": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "wheelObserverEnableFixedStep": {
+            "type": "bool",
+            "default": false
+        },
+        "wheelObserverProcessCovariance": {
+            "type": "float32_t",
+            "array": 3,
+            "default": [
+                0,
+                0,
+                0
+            ]
+        },
+        "wheelObserverPositionVarianceLow": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverPositionVarianceHigh": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverSpeedVarianceLow": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverSpeedVarianceHigh": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverPositionFuzzyLow": {
+            "type": "uint32_t",
+            "default": 4294967295
+        },
+        "wheelObserverPositionFuzzyHigh": {
+            "type": "uint32_t",
+            "default": 4294967295
+        },
+        "wheelObserverSpeedFuzzyLow": {
+            "type": "float32_t",
+            "default": -1
+        },
+        "wheelObserverSpeedFuzzyHigh": {
+            "type": "float32_t",
+            "default": -1
+        },
+        "wheelObserverSpeedMax": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverAccelerationMax": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "wheelObserverAccelerationMin": {
+            "type": "float32_t",
+            "default": 0
+        },
+        "directionDetectorDurationNoWheelTick": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "vehicleMotionObserverFixedStepSize": {
+            "type": "dwTime_t",
+            "default": 0
+        },
+        "vehicleMotionObserverEnableFixedStep": {
+            "type": "bool",
+            "default": false
+        },
+        "vehicleMotionObserverProcessCovariance": {
+            "type": "float32_t",
+            "array": 5,
+            "default": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "vehicleMotionObserverInitialProcessCovariance": {
+            "type": "float32_t",
+            "array": 5,
+            "default": [
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "vehicleMotionObserverGroundSpeedCovariance": {
+            "type": "float32_t",
+            "array": 3,
+            "default": [
+                0,
+                0,
+                0
+            ]
+        },
+        "vehicleMotionObserverReferencePoint": {
+            "type": "float32_t",
+            "array": 3,
+            "default": [
+                -1,
+                -1,
+                -1
+            ]
+        },
+        "drivenWheels": {
+            "type": "uint32_t",
+            "default": 4294967295
+        },
+        "errorHandlingVIOWheelSpeedRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOFrontSteeringAngleRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIORearWheelAngleRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOFrontSteeringAngleOffsetRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOWheelTorqueRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOSpeedMinRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOSpeedMaxRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOBrakeTorqueWheelsRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingVIOSuspensionLevelRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUSequenceCounterRangeDeprecated": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUSequenceCounterRange": {
+            "type": "uint32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUTurnrateRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUTurnrateOffsetRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUTurnrateOffsetQualityRange": {
+            "type": "uint32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUTurnrateAccelRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUAccelerationRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUAccelerationOffsetRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingIMUTemperatureRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalAccelerationOffsetRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalAccelerationOffsetDriftSpeed": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalAccelerationOffsetShortTermSpan": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalGyroscopeOffsetRange": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalGyroscopeOffsetDriftSpeed": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingInternalGyroscopeOffsetShortTermSpan": {
+            "type": "float32_t",
+            "array": 2,
+            "default": [
+                0,
+                0
+            ]
+        },
+        "errorHandlingLogLevel": {
+            "type": "dwLoggerVerbosity",
+            "default": "DW_LOG_SILENT"
+        },
+        "errorHandlingCyclesBetweenLogs": {
+            "type": "uint32_t",
+            "default": 0
+        },
+        "strictVIOMapping": {
+            "type": "bool",
+            "default": false
+        },
+        "notifySEH": {
+            "type": "bool",
+            "default": true
+        },
+        "enableDegradations": {
+            "type": "bool",
+            "default": false
+        },
+        "disabledErrorIdsBitfield": {
+            "type": "uint32_t",
+            "array": 32,
+            "default": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "disabledErrorIds": {
+            "type": "dw::core::FixedString<128>",
+            "array": 512,
+            "default": [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "subcomponents": {
+        "relativeEgomotionNode": {
+            "componentType": "../../../src/dwframework/dwnodes/egomotion/dwrelativeegomotionnode/dwRelativeEgomotionNode.node.json",
+            "parameters": {
+                "*": "$*"
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "IMU_EXTRINSICS",
+            "dests": {
+                "relativeEgomotionNode.IMU_EXTRINSICS": {}
+            }
+        },
+        {
+            "src": "IMU_FRAME",
+            "dests": {
+                "relativeEgomotionNode.IMU_FRAME": {}
+            }
+        },
+        {
+            "src": "VEHICLE_IO_ASIL_STATE",
+            "dests": {
+                "relativeEgomotionNode.VEHICLE_IO_ASIL_STATE": {}
+            }
+        },
+        {
+            "src": "VEHICLE_IO_QM_STATE",
+            "dests": {
+                "relativeEgomotionNode.VEHICLE_IO_QM_STATE": {}
+            }
+        },
+        {
+            "src": "WHEEL_RADII",
+            "dests": {
+                "relativeEgomotionNode.WHEEL_RADII": {}
+            }
+        },
+        {
+            "src": "relativeEgomotionNode.EGOMOTION_STATE",
+            "dests": {
+                "EGOMOTION_STATE": {}
+            }
+        },
+        {
+            "src": "relativeEgomotionNode.VAL_EGOMOTION_DATA",
+            "dests": {
+                "VAL_EGOMOTION_DATA": {}
+            }
+        },
+        {
+            "src": "relativeEgomotionNode.VAL_EGOMOTION_DATA_SECONDARY",
+            "dests": {
+                "VAL_EGOMOTION_DATA_SECONDARY": {}
+            }
+        }
+    ]
+}

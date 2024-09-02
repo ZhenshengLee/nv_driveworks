@@ -1,0 +1,1044 @@
+VERSION 22.0.24
+
+SCHEDULE 0
+
+HYPEREPOCH{
+0[0xfec3e596] : [0];
+1[0x132e4715] : [1];
+}
+
+SYNC{
+s0(5,{mainClient:CPU()},{mainClient:CPU(),mainClient:CUDA(0)});
+s1(1,{mainClient:CPU()},{mainClient:CPU(),mainClient:CUDA(0)});
+s2(0,{mainClient:CUDA(0)},{mainClient:CPU()});
+s3(0,{mainClient:CUDA(0)},{mainClient:CPU(),mainClient:CUDA(0)});
+s4(0,{mainClient:CUDA(0)},{mainClient:CPU(),mainClient:CUDA(0)});
+s5(0,{mainClient:CUDA(0)},{mainClient:CPU(),mainClient:CUDA(0)});
+s6(0,{mainClient:CUDA(0)},{mainClient:CPU()});
+s7(0,{mainClient:CUDA(0)},{mainClient:CPU()});
+s8(1,{mainClient:CPU()},{framesync_TegraA_mainHyperepoch_mainEpoch:CPU()});
+s9(1,{mainClient:CPU()},{mainClient:CPU()});
+s10(1,{mainClient:CPU()},{framesync_TegraA_renderHyperepoch_renderEpoch:CPU()});
+s11(1,{mainClient:CPU()},{mainClient:CPU()});
+s12(1,{framesync_TegraA_mainHyperepoch_mainEpoch:CPU()},{mainClient:CPU()});
+s13(1,{framesync_TegraA_renderHyperepoch_renderEpoch:CPU()},{mainClient:CPU()});
+}
+
+FENCE{
+f0(s0,1);
+f1(s0,2);
+f2(s0,3);
+f3(s0,4);
+f4(s0,5);
+f5(s1,1);
+f6(s2,0);
+f7(s3,0);
+f8(s4,0);
+f9(s5,0);
+f10(s6,0);
+f11(s7,0);
+f12(s8,1);
+f13(s9,1);
+f14(s10,1);
+f15(s11,1);
+f16(s12,1);
+f17(s13,1);
+}
+
+RUNNABLE_DEPENDENCIES{
+18: [];
+19: [18];
+20: [19];
+22: [20];
+24: [28];
+26: [30];
+27: [18];
+28: [27,22];
+30: [24];
+32: [30];
+34: [26,32];
+6: [17];
+7: [6];
+8: [7];
+9: [8];
+10: [9];
+11: [10];
+12: [11];
+13: [12];
+14: [];
+15: [14];
+16: [15];
+17: [16];
+35: [34];
+36: [35];
+37: [36];
+38: [37];
+39: [38];
+40: [39];
+42: [13];
+44: [40];
+}
+
+CLIENT(TegraA:mainClient(41)) { 
+RESOURCES{
+CUDA CUDA_STREAM0;
+}
+CORE(0, 0) {
+WOF f16;
+CALL [0: 0 % 1] miniPipeline.radarSensor1.radarNode.SETUP(14);
+CALL [0: 0 % 1] miniPipeline.radarSensor1.radarNode.RAW_OUTPUT(15);
+CALL [0: 0 % 1] miniPipeline.radarSensor1.radarNode.PROCESSED_OUTPUT(16);
+CALL [0: 0 % 1] miniPipeline.radarSensor1.radarNode.TEARDOWN(17);
+CALL [0: 0 % 1] miniPipeline.imuSensor.imuNode.SETUP(6);
+CALL [0: 0 % 1] miniPipeline.imuSensor.imuNode.RAW_OUTPUT(7);
+CALL [0: 0 % 1] miniPipeline.imuSensor.imuNode.PROCESSED_OUTPUT(8);
+CALL [0: 0 % 1] miniPipeline.imuSensor.imuNode.TEARDOWN(9);
+CALL [0: 0 % 1] miniPipeline.radarSensor0.radarNode.SETUP(10);
+CALL [0: 0 % 1] miniPipeline.radarSensor0.radarNode.RAW_OUTPUT(11);
+CALL [0: 0 % 1] miniPipeline.radarSensor0.radarNode.PROCESSED_OUTPUT(12);
+CALL [0: 0 % 1] miniPipeline.radarSensor0.radarNode.TEARDOWN(13);
+SIG  f12;
+}
+CORE(1, 1) {
+WOF f17;
+CALL [1: 0 % 1] mainClient_ssm_pass_0(18);
+SIG  f13;
+CALL [1: 0 % 1] miniPipeline.camera0.cameraNode.SETUP(19);
+CUF  f0, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f6, CUDA_STREAM0, miniPipeline.camera0.cameraNode.RAW_OUTPUT(20);
+SIG  f0;
+WOF [1: 0 % 1] f6;
+CUF  f1, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f7, CUDA_STREAM0, miniPipeline.camera0.cameraNode.PROCESSED_OUTPUT(22);
+SIG  f1;
+WOF [1: 0 % 1] f15;
+CUF  f7, CUDA_STREAM0;
+CUF  f2, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f9, CUDA_STREAM0, miniPipeline.camera1.cameraNode.RAW_OUTPUT(28);
+SIG  f2;
+WOF [1: 0 % 1] f7;
+CUF  f3, CUDA_STREAM0;
+CUF  f9, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f8, CUDA_STREAM0, miniPipeline.camera0.cameraNode.PROCESSED_RGBA_OUTPUT(24);
+SIG  f3;
+WOF [1: 0 % 1] f9;
+CUF  f8, CUDA_STREAM0;
+CUF  f4, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f10, CUDA_STREAM0, miniPipeline.camera1.cameraNode.PROCESSED_OUTPUT(30);
+SIG  f4;
+WOF [1: 0 % 1] f8;
+CALL [1: 0 % 1] miniPipeline.camera0.cameraNode.TEARDOWN(26);
+WOF [1: 0 % 1] f5;
+WOF [1: 0 % 1] f11;
+CALL [1: 0 % 1] miniPipeline.camera1.cameraNode.TEARDOWN(34);
+CALL [1: 0 % 1] miniPipeline.visualization.SETUP(35);
+CALL [1: 0 % 1] miniPipeline.visualization.ACQUIRE_FRAME(36);
+CALL [1: 0 % 1] miniPipeline.visualization.RENDER_FRAME(37);
+CALL [1: 0 % 1] miniPipeline.visualization.RENDER_INFO_BAR(38);
+CALL [1: 0 % 1] miniPipeline.visualization.RENDER_DEBUG(39);
+CALL [1: 0 % 1] miniPipeline.visualization.TEARDOWN(40);
+SIG  f14;
+}
+CORE(2, 1) {
+WOF f13;
+CALL [1: 0 % 1] miniPipeline.camera1.cameraNode.SETUP(27);
+SIG  f15;
+WOF [1: 0 % 1] f4;
+WOF [1: 0 % 1] f10;
+CUF  f5, CUDA_STREAM0;
+CUSUB [1: 0 % 1] f11, CUDA_STREAM0, miniPipeline.camera1.cameraNode.PROCESSED_RGBA_OUTPUT(32);
+SIG  f5;
+}
+}
+CLIENT(TegraA:framesync_TegraA_mainHyperepoch_mainEpoch(0)) { 
+RESOURCES{
+}
+CORE(0, 0) {
+LOG 0(42);
+SIG  f16;
+WOF [0: 0 % 1] f12;
+LOG 1(42);
+WUP 33000000(42);
+}
+}
+CLIENT(TegraA:framesync_TegraA_renderHyperepoch_renderEpoch(1)) { 
+RESOURCES{
+}
+CORE(1, 1) {
+LOG 0(44);
+SIG  f17;
+WOF [1: 0 % 1] f14;
+LOG 1(44);
+WUP 33000000(44);
+}
+}
+
+SCHEDULE_HASH 0xc6069b04
+
+METADATA
+!CompiledSchedule
+clients:
+- !CompiledClient
+  framesync_epoch: null
+  framesync_hyperepoch: null
+  id_: mainClient
+  is_deadlock_resolver: false
+  log_id: 41
+  resources: [mainClient.TegraA.CUDA_STREAM0, mainClient.TegraA.CUDA_MUTEX_LOCK]
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2001478261
+    children_log_ids: [19, 27]
+    critical_path: true
+    end: 9580
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.mainClient_ssm_pass_0
+    log_id: 18
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: []
+    post_fence: f13
+    pre_fence_list: [f17]
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 0
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2001468681
+    children_log_ids: [20]
+    critical_path: true
+    end: 926150
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.SETUP
+    log_id: 19
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [18]
+    post_fence: ''
+    pre_fence_list: [f13]
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 9580
+    step: []
+    submittee_id: null
+    t_level: 9580
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2000552111
+    children_log_ids: [21, 22]
+    critical_path: true
+    end: 935670
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.RAW_OUTPUT
+    log_id: 20
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [19]
+    post_fence: f0
+    pre_fence_list: []
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU1, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 926150
+    step: []
+    submittee_id: mainClient.miniPipeline.camera0.cameraNode.RAW_OUTPUT_submittee
+    t_level: 926150
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2000542591
+    children_log_ids: [22]
+    critical_path: true
+    end: 937720
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.RAW_OUTPUT_submittee
+    log_id: 21
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [20]
+    post_fence: f6
+    pre_fence_list: [f0]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 935670
+    step: []
+    submittee_id: null
+    t_level: 935670
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 2000540541
+    children_log_ids: [23, 24, 28]
+    critical_path: true
+    end: 1000937720
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_OUTPUT
+    log_id: 22
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [21, 20]
+    post_fence: f1
+    pre_fence_list: [f0, f6]
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU1, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 937720
+    step: []
+    submittee_id: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_OUTPUT_submittee
+    t_level: 937720
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000540541
+    children_log_ids: [24, 29]
+    critical_path: true
+    end: 1000959220
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_OUTPUT_submittee
+    log_id: 23
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [22]
+    post_fence: f7
+    pre_fence_list: [f1]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 1000937720
+    step: []
+    submittee_id: null
+    t_level: 1000937720
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000519041
+    children_log_ids: [25, 30, 26]
+    critical_path: true
+    end: 2001118440
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_RGBA_OUTPUT
+    log_id: 24
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [23, 22, 28]
+    post_fence: f3
+    pre_fence_list: [f1, f7, f2]
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU1, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 1001118440
+    step: []
+    submittee_id: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_RGBA_OUTPUT_submittee
+    t_level: 1000959220
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 519041
+    children_log_ids: [26, 31]
+    critical_path: true
+    end: 2001185000
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.PROCESSED_RGBA_OUTPUT_submittee
+    log_id: 25
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [24, 29]
+    post_fence: f8
+    pre_fence_list: [f3, f9]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 2001118440
+    step: []
+    submittee_id: null
+    t_level: 2000959220
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 452481
+    children_log_ids: [34]
+    critical_path: true
+    end: 2001206790
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera0.cameraNode.TEARDOWN
+    log_id: 26
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [25, 30, 24]
+    post_fence: ''
+    pre_fence_list: [f3, f8, f4]
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 2001185000
+    step: []
+    submittee_id: null
+    t_level: 2001025780
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1001698301
+    children_log_ids: [28]
+    critical_path: false
+    end: 976620
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.SETUP
+    log_id: 27
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [18]
+    post_fence: f15
+    pre_fence_list: [f13]
+    priority: 10
+    resources: [TegraA.CPU2]
+    runnable_type: CPU
+    start: 9580
+    step: []
+    submittee_id: null
+    t_level: 9580
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000731261
+    children_log_ids: [29, 30, 24]
+    critical_path: false
+    end: 1001118440
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.RAW_OUTPUT
+    log_id: 28
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [27, 22]
+    post_fence: f2
+    pre_fence_list: [f1, f15]
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU1, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 1000937720
+    step: []
+    submittee_id: mainClient.miniPipeline.camera1.cameraNode.RAW_OUTPUT_submittee
+    t_level: 976620
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000550541
+    children_log_ids: [30, 25]
+    critical_path: false
+    end: 1001120490
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.RAW_OUTPUT_submittee
+    log_id: 29
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [28, 23]
+    post_fence: f9
+    pre_fence_list: [f7, f2]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 1001118440
+    step: []
+    submittee_id: null
+    t_level: 1157340
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000548491
+    children_log_ids: [31, 32, 26]
+    critical_path: false
+    end: 2001133640
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_OUTPUT
+    log_id: 30
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [29, 28, 24]
+    post_fence: f4
+    pre_fence_list: [f3, f2, f9]
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU1, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 2001118440
+    step: []
+    submittee_id: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_OUTPUT_submittee
+    t_level: 1159390
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000533291
+    children_log_ids: [32]
+    critical_path: false
+    end: 2001206500
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_OUTPUT_submittee
+    log_id: 31
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [30, 25]
+    post_fence: f10
+    pre_fence_list: [f8, f4]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 2001185000
+    step: []
+    submittee_id: null
+    t_level: 1174590
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1000511791
+    children_log_ids: [33, 34]
+    critical_path: false
+    end: 3001206500
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_RGBA_OUTPUT
+    log_id: 32
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [31, 30]
+    post_fence: f5
+    pre_fence_list: [f4, f10]
+    priority: 10
+    resources: [mainClient.TegraA.CUDA_STREAM0, TegraA.CPU2, mainClient.TegraA.CUDA_MUTEX_LOCK]
+    runnable_type: CUDASubmitter
+    start: 2001206500
+    step: []
+    submittee_id: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_RGBA_OUTPUT_submittee
+    t_level: 1196090
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 511791
+    children_log_ids: [34]
+    critical_path: false
+    end: 3001273060
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.PROCESSED_RGBA_OUTPUT_submittee
+    log_id: 33
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [32]
+    post_fence: f11
+    pre_fence_list: [f5]
+    priority: 10
+    resources: [TegraA.dGPU]
+    runnable_type: CUDASubmittee
+    start: 3001206500
+    step: []
+    submittee_id: null
+    t_level: 1001196090
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 445231
+    children_log_ids: [35]
+    critical_path: false
+    end: 3001287600
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.camera1.cameraNode.TEARDOWN
+    log_id: 34
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [33, 26, 32]
+    post_fence: ''
+    pre_fence_list: [f5, f11]
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001273060
+    step: []
+    submittee_id: null
+    t_level: 1001262650
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 4001
+    children_log_ids: [7]
+    critical_path: false
+    end: 49750
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.imuSensor.imuNode.SETUP
+    log_id: 6
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [17]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 48750
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 4001
+    children_log_ids: [8]
+    critical_path: false
+    end: 50750
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.imuSensor.imuNode.RAW_OUTPUT
+    log_id: 7
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [6]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 49750
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 4001
+    children_log_ids: [9]
+    critical_path: false
+    end: 51750
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.imuSensor.imuNode.PROCESSED_OUTPUT
+    log_id: 8
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [7]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 50750
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 4001
+    children_log_ids: [10]
+    critical_path: false
+    end: 52750
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.imuSensor.imuNode.TEARDOWN
+    log_id: 9
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [8]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 51750
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 76981
+    children_log_ids: [11]
+    critical_path: true
+    end: 70660
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor0.radarNode.SETUP
+    log_id: 10
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [9]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 52750
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 76981
+    children_log_ids: [12]
+    critical_path: true
+    end: 73190
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor0.radarNode.RAW_OUTPUT
+    log_id: 11
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [10]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 70660
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 76981
+    children_log_ids: [13]
+    critical_path: true
+    end: 123370
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor0.radarNode.PROCESSED_OUTPUT
+    log_id: 12
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [11]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 73190
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 76981
+    children_log_ids: [42]
+    critical_path: true
+    end: 129730
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor0.radarNode.TEARDOWN
+    log_id: 13
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [12]
+    post_fence: f12
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 123370
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 48751
+    children_log_ids: [15]
+    critical_path: false
+    end: 7080
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor1.radarNode.SETUP
+    log_id: 14
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: []
+    post_fence: ''
+    pre_fence_list: [f16]
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 0
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 48751
+    children_log_ids: [16]
+    critical_path: false
+    end: 8840
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor1.radarNode.RAW_OUTPUT
+    log_id: 15
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [14]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 7080
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 48751
+    children_log_ids: [17]
+    critical_path: false
+    end: 44380
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor1.radarNode.PROCESSED_OUTPUT
+    log_id: 16
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [15]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 8840
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 48751
+    children_log_ids: [6]
+    critical_path: false
+    end: 48750
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.radarSensor1.radarNode.TEARDOWN
+    log_id: 17
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [16]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 44380
+    step: []
+    submittee_id: null
+    t_level: 0
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [36]
+    critical_path: true
+    end: 3001292290
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.SETUP
+    log_id: 35
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [34]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001287600
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [37]
+    critical_path: true
+    end: 3001425340
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.ACQUIRE_FRAME
+    log_id: 36
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [35]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001292290
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [38]
+    critical_path: true
+    end: 3001532960
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.RENDER_FRAME
+    log_id: 37
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [36]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001425340
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [39]
+    critical_path: true
+    end: 3001602240
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.RENDER_INFO_BAR
+    log_id: 38
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [37]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001532960
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [40]
+    critical_path: true
+    end: 3001714220
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.RENDER_DEBUG
+    log_id: 39
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [38]
+    post_fence: ''
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001602240
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 430691
+    children_log_ids: [44]
+    critical_path: true
+    end: 3001718290
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: mainClient.miniPipeline.visualization.TEARDOWN
+    log_id: 40
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [39]
+    post_fence: f14
+    pre_fence_list: []
+    priority: 10
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001714220
+    step: []
+    submittee_id: null
+    t_level: 2001047570
+  soc: TegraA
+- !CompiledClient
+  framesync_epoch: mainEpoch
+  framesync_hyperepoch: mainHyperepoch
+  id_: framesync_TegraA_mainHyperepoch_mainEpoch
+  is_deadlock_resolver: false
+  log_id: 0
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1
+    children_log_ids: []
+    critical_path: true
+    end: 129731
+    epoch_id: mainHyperepoch.mainEpoch
+    frame_id: 0
+    id_: framesync_TegraA_mainHyperepoch_mainEpoch.framesync_runnable
+    log_id: 42
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [13]
+    post_fence: f16
+    pre_fence_list: [f12]
+    priority: 0
+    resources: [TegraA.CPU0]
+    runnable_type: CPU
+    start: 129730
+    step: []
+    submittee_id: null
+    t_level: 76980
+  soc: TegraA
+- !CompiledClient
+  framesync_epoch: renderEpoch
+  framesync_hyperepoch: renderHyperepoch
+  id_: framesync_TegraA_renderHyperepoch_renderEpoch
+  is_deadlock_resolver: false
+  log_id: 1
+  resources: []
+  runnables:
+  - !CompiledRunnable
+    alias_group: null
+    b_level: 1
+    children_log_ids: []
+    critical_path: true
+    end: 3001718291
+    epoch_id: renderHyperepoch.renderEpoch
+    frame_id: 0
+    id_: framesync_TegraA_renderHyperepoch_renderEpoch.framesync_runnable
+    log_id: 44
+    modulo: 0
+    monitoring_threshold: 0
+    parents_log_ids: [40]
+    post_fence: f17
+    pre_fence_list: [f14]
+    priority: 0
+    resources: [TegraA.CPU1]
+    runnable_type: CPU
+    start: 3001718290
+    step: []
+    submittee_id: null
+    t_level: 2001478260
+  soc: TegraA
+hyperepochs:
+- !CompiledHyperepoch
+  epochs:
+  - !CompiledEpoch {frames: 1, id_: mainHyperepoch.mainEpoch, log_id: 2, period: 33000000}
+  hash: 4274251158
+  id_: mainHyperepoch
+  log_id: 3
+  resources: [TegraA.CPU0]
+  schedule_length: 129731
+- !CompiledHyperepoch
+  epochs:
+  - !CompiledEpoch {frames: 1, id_: renderHyperepoch.renderEpoch, log_id: 4, period: 33000000}
+  hash: 321799957
+  id_: renderHyperepoch
+  log_id: 5
+  resources: [TegraA.CPU1, TegraA.CPU2, TegraA.CPU3, TegraA.CPU4, TegraA.dGPU, mainClient.TegraA.CUDA_MUTEX_LOCK,
+    mainClient.TegraA.CUDA_STREAM0]
+  schedule_length: 3001718291
+id_: standardSchedule
+resource_type_mapping: {TegraA.CPU0: TegraA.CPU, TegraA.CPU1: TegraA.CPU, TegraA.CPU2: TegraA.CPU,
+  TegraA.CPU3: TegraA.CPU, TegraA.CPU4: TegraA.CPU, TegraA.dGPU: TegraA.GPU, TegraB.CPU0: TegraB.CPU,
+  mainClient.TegraA.CUDA_MUTEX_LOCK: mainClient.TegraA.MUTEX, mainClient.TegraA.CUDA_STREAM0: mainClient.TegraA.CUDA_STREAM}
+schedule_identifier: 0

@@ -1,0 +1,181 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://nvidia.com/dw/node.schema.json",
+    "title": "DW Node Descriptor",
+    "description": "The descriptor of a DriveWorks node. The keys in JSON should appear in the same order as the properties are documented in the schema.",
+    "type": "object",
+    "required": [
+        "name",
+        "inputPorts",
+        "outputPorts",
+        "parameters",
+        "passes"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "comment": {
+            "description": "In a manually written JSON file this field can contain an arbitrary text. When the JSON file is generated, the tool should include its own name and optionally reference the authoritive source of information.",
+            "type": "string"
+        },
+        "generated": {
+            "description": "The flag if the JSON file was generated automatically - derived from an authoritive source - instead of being manually written and maintained.",
+            "type": "boolean"
+        },
+        "library": {
+            "description": "The basename of the shared library containing the node. Omitting this key indicates that the node has no implementation. The value 'static' indicates that the node is part of a statically linked library rather than a dynamically loaded shared library.",
+            "type": "string",
+            "pattern": "^(lib[a-z][a-zA-Z0-9_]*\\.so(\\.[0-9]+)*|static)$"
+        },
+        "name": {
+            "description": "The fully qualified C++ type name of the node class",
+            "type": "string",
+            "pattern": "^([a-z][a-z_]*::)*[a-zA-Z][a-zA-Z0-9_]*$"
+        },
+        "inputPorts": {
+            "description": "The input ports. The order is user defined and matches the order in the C++ code if applicable.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[A-Z][A-Z0-9_]*$": {
+                    "description": "The key is the name of the input port (in MACRO_CASE) which must be unique within the collection of input ports in this node. The value describes the port itself.",
+                    "$ref": "#/$defs/port"
+                }
+            }
+        },
+        "outputPorts": {
+            "description": "The output ports. The order is user defined and matches the order in the C++ code if applicable.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[A-Z][A-Z0-9_]*$": {
+                    "description": "The key is the name of the output port (in MACRO_CASE) which must be unique within the collection of output ports in this node. The value describes the port itself.",
+                    "$ref": "#/$defs/port"
+                }
+            }
+        },
+        "parameters": {
+            "description": "The parameters. The order is user defined and matches the order in the C++ code if applicable.",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z][a-zA-Z0-9_]*(\\.[a-z][a-zA-Z0-9_]*)?$": {
+                    "description": "The key is the name of the parameter (in camelCase) which must be unique within the collection of parameters in this node. The value describes the parameter itself.",
+                    "$ref": "#/$defs/parameter"
+                }
+            }
+        },
+        "passes": {
+            "description": "The passes. The order is user defined and matches the order in the C++ code if applicable. In the default case where all passes are sequential this means the passes must follow topological order.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/pass"
+            },
+            "uniqueItems": true
+        }
+    },
+    "$defs": {
+        "port": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "description": "The C++ type name of the data",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "array": {
+                    "description": "The array size if this is an array of ports (default: a single non-array port)",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "bindingRequired": {
+                    "description": "The flag if the port must be bound (default: false)",
+                    "type": "boolean"
+                },
+                "comment": {
+                    "description": "Any text describing the port. (default: empty string)",
+                    "type": "string"
+                }
+            }
+        },
+        "parameter": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "description": "The C++ type name of the parameter",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "array": {
+                    "description": "The array size if this is an array of parameter values (default: a single-value parameter)",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "default": {
+                    "description": "The default value (default: none)",
+                    "type": [
+                        "array",
+                        "boolean",
+                        "number",
+                        "string"
+                    ],
+                    "items": {
+                        "type": [
+                            "boolean",
+                            "number",
+                            "string"
+                        ]
+                    }
+                }
+            }
+        },
+        "pass": {
+            "type": "object",
+            "required": [
+                "name",
+                "processorTypes"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "The name of the pass which must be unique within the collection of passes in this node",
+                    "type": "string",
+                    "pattern": "^[A-Z][A-Z0-9_]*$"
+                },
+                "processorTypes": {
+                    "description": "The processor types used by the pass (support is limited to a single processor type atm)",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "items": {
+                        "enum": [
+                            "CPU",
+                            "CUDLA",
+                            "GPU",
+                            "PVA",
+                            "VULKAN_QUEUE",
+                            "LDC",
+                            "NV2D"
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "description": "The names of passes in this node dependent upon (default: the name of the previous pass in the array of passes in this node). The order should match the 'passes' array.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[A-Z][A-Z0-9_]*$"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        }
+    }
+}

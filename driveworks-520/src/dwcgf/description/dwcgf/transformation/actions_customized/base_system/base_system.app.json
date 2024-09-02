@@ -1,0 +1,59 @@
+{
+    "logSpec": "file/rfc5424:{{logpath}}/{{appname}}.log",
+    "name": "BaseSystem",
+    "parameters": {
+        "imageHeight": {
+            "type": "uint32_t",
+            "default": 960
+        }
+    },
+    "requiredSensors": "base_system.required-sensors.json",
+    "subcomponents": {
+        "top": {
+            "componentType": "base_system.graphlet.json",
+            "parameters": {
+                "*": "$*"
+            }
+        }
+    },
+    "connections": [],
+    "states": {
+        "STANDARD": {
+            "stmScheduleKey": "standardSchedule",
+            "default": true
+        }
+    },
+    "stmSchedules": {
+        "standardSchedule": {
+            "wcet": "base_system_wcet.yaml",
+            "hyperepochs": {
+                "hyperepoch0": {
+                    "period": 33000000,
+                    "epochs": {
+                        "epoch0": {
+                            "period": 33000000,
+                            "passes": [
+                                [
+                                    "top.graphletA0"
+                                ]
+                            ]
+                        }
+                    },
+                    "resources": {
+                        "machine0.CPU0": []
+                    }
+                }
+            }
+        }
+    },
+    "processes": {
+        "processA": {
+            "runOn": "machine0",
+            "executable": "Loader0",
+            "subcomponents": [
+                "top.graphletA0"
+            ]
+        }
+    },
+    "extraInfo": "base_system_extraInfo.json"
+}

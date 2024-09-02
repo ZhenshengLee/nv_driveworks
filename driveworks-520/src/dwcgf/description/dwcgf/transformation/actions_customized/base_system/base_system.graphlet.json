@@ -1,0 +1,112 @@
+{
+    "name": "BaseSystem",
+    "inputPorts": {
+        "INPUT_0": {
+            "type": "void*"
+        },
+        "INPUT_1": {
+            "type": "void*"
+        }
+    },
+    "outputPorts": {
+        "OUTPUT_0": {
+            "type": "void*"
+        },
+        "OUTPUT_1": {
+            "type": "void*"
+        },
+        "OUTPUT_2": {
+            "type": "void*"
+        }
+    },
+    "parameters": {
+        "imageWidth": {
+            "type": "uint32_t",
+            "default": 1200
+        },
+        "imageHeight": {
+            "type": "uint32_t",
+            "default": 960
+        },
+        "moduleBParameter": {
+            "type": "uint32_t",
+            "default": 2
+        }
+    },
+    "subcomponents": {
+        "graphletA0": {
+            "componentType": "GraphletA.graphlet.json",
+            "parameters": {
+                "*": "$*",
+                "moduleAParameter": 101
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": "INPUT_0",
+            "dests": {
+                "graphletA0.INPUT_0": {}
+            },
+            "params": {
+                "id": "15035",
+                "ip": "10.42.0.28",
+                "mailbox": true,
+                "reuse": true,
+                "type": "socket"
+            }
+        },
+        {
+            "src": "INPUT_1",
+            "dests": {
+                "graphletA0.INPUT_1": {}
+            },
+            "params": {
+                "id": "15036",
+                "ip": "10.42.0.28",
+                "mailbox": true,
+                "reuse": true,
+                "type": "socket"
+            }
+        },
+        {
+            "src": "graphletA0.OUTPUT_0",
+            "dests": {
+                "OUTPUT_0": {}
+            },
+            "params": {
+                "id": "5033",
+                "ip": "10.42.0.29",
+                "mailbox": true,
+                "reuse": true,
+                "type": "socket"
+            }
+        },
+        {
+            "src": "graphletA0.OUTPUT_1",
+            "dests": {
+                "OUTPUT_1": {}
+            },
+            "params": {
+                "id": "5034",
+                "ip": "10.42.0.29",
+                "mailbox": true,
+                "reuse": true,
+                "type": "socket"
+            }
+        },
+        {
+            "src": "graphletA0.OUTPUT_2",
+            "dests": {
+                "OUTPUT_2": {}
+            },
+            "params": {
+                "id": "5035",
+                "ip": "10.42.0.29",
+                "mailbox": true,
+                "reuse": true,
+                "type": "socket"
+            }
+        }
+    ]
+}

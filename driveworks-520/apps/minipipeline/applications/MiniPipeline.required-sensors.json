@@ -1,0 +1,31 @@
+{
+    "camera:front:wide:120fov": {
+        "typeIndex": 0,
+        "connectedTo": [
+            "machine0"
+        ]
+    },
+    "camera:front:tele:30fov": {
+        "typeIndex": 1,
+        "connectedTo": [
+            "machine0"
+        ]
+    },
+    "radar:front:center": {
+        "typeIndex": 0,
+        "connectedTo": [
+            "machine0"
+        ]
+    },
+    "radar:corner:front:left": {
+        "typeIndex": 1,
+        "connectedTo": [
+            "machine0"
+        ]
+    },
+    "imu0": {
+        "connectedTo": [
+            "machine0"
+        ]
+    }
+}
