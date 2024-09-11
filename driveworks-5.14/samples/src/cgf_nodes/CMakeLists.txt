@@ -130,6 +130,17 @@ add_executable(tcp_nodelay_preload_test
 )
 sdk_add_sample(tcp_nodelay_preload_test)
 
+find_package(Boost REQUIRED COMPONENTS system thread )
+add_executable(raw_tcp_client_receiver ./tools/socket/asio/raw_tcp_client_receiver.cpp)
+target_link_libraries(raw_tcp_client_receiver Boost::system Boost::thread)
+target_include_directories(raw_tcp_client_receiver PUBLIC ${BOOST_INCLUDE_DIR} )
+sdk_add_sample(raw_tcp_client_receiver)
+
+add_executable(socket_client ./tools/socket/raw/client.cpp)
+target_link_libraries(socket_client pthread)
+add_executable(socket_server ./tools/socket/raw/server.cpp)
+target_link_libraries(socket_server pthread)
+
 # cgf generation
 set(GW_MODULE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 set(GW_MODULE_BINARY_DESTINATION  ${CMAKE_INSTALL_PREFIX}/bin/${PROJECT_NAME}/)
