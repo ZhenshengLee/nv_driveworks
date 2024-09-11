@@ -93,7 +93,7 @@
                 "-m": true,
                 "--log": "./LogFolder/cgf_custom_nodes/Helloworld/stm.log",
                 "--master-forked-log-path": "./LogFolder/cgf_custom_nodes/Helloworld",
-                "--epochs": "10"
+                "--epochs": "100"
             }
         },
         "helloworld_process0": {

@@ -86,7 +86,10 @@ dwStatus HelloWorldNodeImpl::process()
         DW_LOGD << "[Epoch " << m_epochCount << "] Sent Str0 = " << *outPort0Buffer << Logger::State::endl;
         DW_LOGD << "[Epoch " << m_epochCount << "] Str0.size = " << outPort0Buffer->size() << Logger::State::endl;
         DW_LOGD << "[Epoch " << m_epochCount << "] Str0.capacity = " << outPort0Buffer->capacity() << Logger::State::endl;
+        auto start = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
         outPort0.send();
+        auto end = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+        DW_LOGD << "[Epoch " << m_epochCount << "] outPort0.send cost = " << (end - start) << "ms" << Logger::State::endl;
     }
     else
     {
