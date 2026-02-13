@@ -8,22 +8,22 @@ Driveworks 是 Nvidia 通过DriveAGX边缘算力设备，向主机厂，Tier1等
 
 Driveworks 早期(4.x)提供自驾业务的可复用工具和算法应用库，后期(5.x)则提供了中间件层(包括通信中间件CGF和调度中间件STM), 并提供一套开发API和工具链
 
-本文不讨论Driveworks4.x自驾算法相关的组件库，而是关注Driveworks5.x的新特性：中间件软件，其定位与ROS2核心组件一致。
+本文不讨论Driveworks 4.x自驾算法相关的组件库，而是关注Driveworks 5.x的新特性：中间件软件，其定位与ROS2核心组件一致。
 
-## DriveOS5.x的自驾中间件方案
+## DriveOS 5.x的自驾中间件方案
 
 自驾中间件方案原先由DriveOS团队负责，自驾中间件方案经历两个阶段
 
-- NvROS: DriveOS5.1版本提供的NvROS，即ROS1和nvmedia和eglstream的集成，见文档[NvROS-Integration-nvmedia-and-eglstream-in-ROS-2021.pdf](robotics-middleware/driveworks-ROS-doc/NvROS-Integration-nvmedia-and-eglstream-in-ROS-2021.pdf)
-- OpenDDS: DriveOS5.2版本提供OpenDDS环境，见文档[Nvidia-OpenDDS-in-DriveOS-2021.pdf](robotics-middleware/driveworks-ROS-doc/Nvidia-OpenDDS in DriveOS-2021.pdf)
+- NvROS: DriveOS 5.1版本提供的NvROS，即ROS1和nvmedia和eglstream的集成，见文档[NvROS-Integration-nvmedia-and-eglstream-in-ROS-2021.pdf](robotics-middleware/driveworks-ROS-doc/NvROS-Integration-nvmedia-and-eglstream-in-ROS-2021.pdf)
+- OpenDDS: DriveOS 5.2版本提供OpenDDS环境，见文档[Nvidia-OpenDDS-in-DriveOS-2021.pdf](robotics-middleware/driveworks-ROS-doc/Nvidia-OpenDDS in DriveOS-2021.pdf)
 
-这两个方案在DriveOS6.x中都被废弃，取而代之的是Driveworks5.x提供的中间件层。
+这两个方案在DriveOS 6.x中都被废弃，取而代之的是Driveworks 5.x提供的中间件层。
 
-## Driveworks5.x的自驾中间件方案
+## Driveworks 5.x的自驾中间件方案dwCGF
 
-Driveworks5.x与DriveOS6.x并列，在DriveAGX Orin产品上提供。
+Driveworks 5.x与DriveOS 6.x并列，在DriveAGX Orin产品上提供。
 
-Driveworks5.x推出了通信中间件和调度中间件, 在其发布PPT中号称拥有ROS2的全面优势: 见文档[DRIVE-Platform-For-Developers-2302.pdf](drive-agx-orin-doc/0-overview/DRIVE-Platform-For-Developers-2302.pdf)
+Driveworks 5.x推出了通信中间件和调度中间件, 在其发布PPT中号称拥有ROS2的全面优势: 见文档[DRIVE-Platform-For-Developers-2302.pdf](drive-agx-orin-doc/0-overview/DRIVE-Platform-For-Developers-2302.pdf)
 
 其中间件组件和文档包括:
 
@@ -36,18 +36,30 @@ Driveworks5.x推出了通信中间件和调度中间件, 在其发布PPT中号�
 - [building-reliable-av-app-with-cgf-2308.pdf](drive-agx-orin-doc/3-drive-works/building-reliable-av-app-with-cgf-2308.pdf)
 - [Performance-Oriented-Scheduling-with-STM-2308.pdf](drive-agx-orin-doc/3-drive-works/Performance-Oriented-Scheduling-with-STM-2308.pdf)
 
-## DriveOS SDK7.x的自驾中间件方案
+## 基于Driveworks 5.x的开发demo
 
-Driveworks5.x最终合并到了DriveOS团队，和DriveOS一起统称DriveOS SDK，DriveOS-Driveworks7.x在DriveAGX Thor产品上提供。
+基于docker的完整开发，仿真，部署，调试环境，包含dwcgf helloworld and camera sample
+
+[nv_driveworks_demo](https://github.com/meghdeepj/nv_driveworks_demo)
+
+## Driveworks 5.x的dwCGF的bug report
+
+Nvidia 官方论坛的bug提交，tag: `driveworks-cgf`
+
+[driveworks-cgf-bug](https://forums.developer.nvidia.com/tag/driveworks-cgf)
+
+## DriveOS SDK 7.x的自驾中间件方案
+
+Driveworks 5.x最终合并到了DriveOS团队，和DriveOS一起统称DriveOS SDK，DriveOS-Driveworks 7.x在DriveAGX Thor产品上提供。
 
 该方案与上一代方案的最大差异是，移除了Compute Graph Framework CGF，而调度中间件STM继续保留。具体移除的组件见[Driveworks7.0.3-Upgrades and Migration](https://developer.nvidia.com/docs/drive/drive-os/7.0.3/public/drive-os-linux-sdk/embedded-software-components/DRIVE_AGX_SoC/DriveWorks/DriveWorks_SDK/migration/index.html)
 
 按照论坛人员的说法：
 > [We suggest to use DW APIs directly as CGF framework is removed.](https://forums.developer.nvidia.com/t/drive-os-7-cgf-support-camera-support/345023/6)
 
-关于DriveOS SDK7.x新中间件架构，见文档[nvidia-drive-agx-thor-platform-for-developers-2509.pdf](drive-agx-orin-doc/0-overview/nvidia-drive-agx-thor-platform-for-developers-2509.pdf)
+关于DriveOS SDK 7.x新中间件架构，见文档[nvidia-drive-agx-thor-platform-for-developers-2509.pdf](drive-agx-orin-doc/0-overview/nvidia-drive-agx-thor-platform-for-developers-2509.pdf)
 
-一句话描述：DriveOS SDK7.x移除了CGF，而只保留了STM，而STM的功能和其他业务组件之间没有恰当的集成，而需要开发者自己实现。
+一句话描述：DriveOS SDK 7.x移除了CGF，而只保留了STM，而STM的功能和其他业务组件之间没有恰当的集成，而需要开发者自己实现。
 
 ## 自驾中间件的开源方案
 
